@@ -1,0 +1,137 @@
+{
+    "Systems": {
+        "System": {
+            "iconSize": [24, 24],
+            "iconUrl": "assets/icon/system-sm.png",
+            "className": "system"
+        },
+        "System Large": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/system-lg.png",
+            "className": "system"
+        },
+        "Primary": {
+            "iconSize": [64, 32],
+            "iconUrl": "assets/icon/primary-system.png",
+            "className": "primary"
+        }
+    },
+    "Misc": {
+        "Debug": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/station-hub.png",
+            "className": "station-hub"
+        },
+        "Station Hub": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/station-hub.png",
+            "className": "station-hub"
+        }
+    },
+    "Mines": {
+        "Parsteel": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/parsteel.png",
+            "className": "parsteel"
+        },
+        "Tritanium": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/tritanium.png",
+            "className": "tritanium"
+        },
+        "Dilithium": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/dilithium.png",
+            "className": "dilithium"
+        },
+        "2* Raw Crystal": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/raw-crystal.png",
+            "className": "crystal2"
+        },
+        "3* Raw Crystal": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/raw-crystal.png",
+            "className": "crystal3"
+        },
+        "4* Raw Crystal": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/raw-crystal.png",
+            "className": "crystal4"
+        },
+        "2* Raw Gas": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/raw-gas.png",
+            "className": "gas2"
+        },
+        "3* Raw Gas": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/raw-gas.png",
+            "className": "gas3"
+        },
+        "4* Raw Gas": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/raw-gas.png",
+            "className": "gas4"
+        },
+        "2* Raw Ore": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/raw-ore.png",
+            "className": "ore2"
+        },
+        "3* Raw Ore": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/raw-ore.png",
+            "className": "ore3"
+        },
+        "4* Raw Ore": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/raw-ore.png",
+            "className": "ore4"
+        }
+    },
+    "Factions": {
+        "Federation": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/federation.png",
+            "className": "federation"
+        },
+        "Klingon": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/klingon.png",
+            "className": "klingon"
+        },
+        "Romulan": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/romulan.png",
+            "className": "romulan"
+        },
+        "Independent": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/independent.png",
+            "className": "independent"
+        }
+    },
+    "Ship Types": {
+        "Battleship": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/battleship.png",
+            "className": "battleship"
+        },
+        "Explorer": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/explorer.png",
+            "className": "explorer"
+        },
+        "Interceptor": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/interceptor.png",
+            "className": "interceptor"
+        },
+        "Survey": {
+            "iconSize": [32, 32],
+            "iconUrl": "assets/icon/survey.png",
+            "className": "survey"
+        }
+    }
+}
