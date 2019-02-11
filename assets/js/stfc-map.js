@@ -324,11 +324,12 @@ STFCmap = (function() {
         let divOpen = "<div>";
         let divClose = "</div>";
         let info = `${sys["Name"]} [${sys["System Level"]}]<br>System ${sys["SystemID"]}: ${sys["Coordinates"]}
-    <br>Faction: ${sys["Faction"]}<br>Hostiles: ${sys["Hostiles"]}<br>Hostiles Range: ${sys["Ship Levels"]}
-    <br>Ship Types: ${sys["Ship Type"]}<br>Warp Range: ${sys["Warp Required"]}<br>Mines: ${sys["Mines"]}
-    <br>Station Hubs: ${sys["Station Hub"]}<br>`;
+        <br>Faction: ${sys["Faction"]}<br>Hostiles: ${sys["Hostiles"]}<br>Hostiles Range: ${sys["Ship Levels"]}
+        <br>Ship Types: ${sys["Ship Type"]}<br>Warp Range: ${sys["Warp Required"]}<br>Mines: ${sys["Mines"]}
+        <br>Station Hubs: ${sys["Station Hub"]}<br>`;
         let cleanedName = cleanName(sys["Name"]);
-        let img = "<img src='assets/img/"+cleanedName+".png' width='175px' />";
+        let domain = (window.location.hostname === "joeycrash135.github.io") ? 'https://raw.githubusercontent.com/joeycrash135/stfc-galaxy-map/master/' : '';
+        let img = "<img src='"+domain+"assets/img/"+cleanedName+".png' width='175px' />";
         return divOpen+info+divClose+divOpen+img+divClose;
     };
 
