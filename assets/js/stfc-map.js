@@ -293,7 +293,7 @@ STFCmap = (function() {
                 group[resource].push(makeMarker(yx, options));
             }
         }
-    }
+    };
 
     let makeSystemNode = function(sys) {
         //let sys = systemData;
@@ -328,7 +328,7 @@ STFCmap = (function() {
     <br>Ship Types: ${sys["Ship Type"]}<br>Warp Range: ${sys["Warp Required"]}<br>Mines: ${sys["Mines"]}
     <br>Station Hubs: ${sys["Station Hub"]}<br>`;
         let cleanedName = cleanName(sys["Name"]);
-        let img = "<img src='/assets/img/"+cleanedName+".png' width='175px' />";
+        let img = "<img src='assets/img/"+cleanedName+".png' width='175px' />";
         return divOpen+info+divClose+divOpen+img+divClose;
     };
 
