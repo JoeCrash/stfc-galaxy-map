@@ -1,7 +1,7 @@
 # stfc-galaxy-map
 Star Trek Fleet Command Interactive Map
 
-View the map at https://github.io/stfc-galaxy-map/
+View the map at https://joeycrash135.github.io/stfc-galaxy-map/
 
 A work in progress.
 
