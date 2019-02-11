@@ -246,7 +246,7 @@ STFCmap = (function() {
             if(linked.hasOwnProperty(i)) {
                 let nameA = systemName; //the current system name
                 let nameB = linked[i]; //one of the linked system's name
-                console.log("set Paths", nameA, nameB, galaxy[nameB]);
+                //console.log("set Paths", nameA, nameB, galaxy[nameB]);
                 let A = galaxy[nameA].yx; //get the latLngs made earlier.
                 let B = galaxy[nameB].yx; //get the latLngs made earlier.
                 let key = makePathKey(nameA, nameB); //concat the names into a unique key
