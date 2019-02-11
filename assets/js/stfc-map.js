@@ -84,7 +84,7 @@ STFCmap = (function() {
             zoomDelta: 0.5
         });
 
-        loadFile("assets/json/map.json", initMapData);
+        loadFile("assets/json/galaxy.json", initMapData);
         loadFile("assets/json/icons.json", initIcons);
     };
 
@@ -107,7 +107,7 @@ STFCmap = (function() {
         initGalaxy(data["galaxy"]);
     };
 
-    let initGalaxy = function(g) {
+    /*let initGalaxy = function(g) {
         for (let i in g) {
             let sys = g[i];
             let name = sys.Name;
@@ -120,6 +120,30 @@ STFCmap = (function() {
                 sys["y"] = y;
                 sys["yx"] = xy(x, y);
                 galaxy[name] = sys;
+            } else {
+                skippedSystems.push(name);
+            }
+        }
+        initMap();
+    };*/
+
+    let initGalaxy = function(g) {
+        for (let i in g) {
+            let sys = g[i];
+            let name = sys.Name;
+            let x = sys.X;
+            let y = sys.Y;
+            //let coord = sys.Coordinates.split(",");
+            if(x !== "" && y !== "") {
+                //let x = coord[0].trim();
+                //let y = coord[1].trim();
+                //set the data to the galaxy obj
+                //sys["x"] = x;
+                //sys["y"] = y;
+                sys["yx"] = xy(x, y);
+                sys["Coordinates"] = x+", "+y;
+                galaxy[name] = sys;
+                //console.log("adding:",name, sys);
             } else {
                 skippedSystems.push(name);
             }
@@ -222,11 +246,12 @@ STFCmap = (function() {
             if(linked.hasOwnProperty(i)) {
                 let nameA = systemName; //the current system name
                 let nameB = linked[i]; //one of the linked system's name
+                console.log("set Paths", nameA, nameB, galaxy[nameB]);
                 let A = galaxy[nameA].yx; //get the latLngs made earlier.
                 let B = galaxy[nameB].yx; //get the latLngs made earlier.
                 let key = makePathKey(nameA, nameB); //concat the names into a unique key
                 pathContainer[key] = [A, B]; //store the path latLngs in the container
-                console.log("setting Path", "a:",nameA, "b:",nameB, "key",key);
+                //console.log("setting Path", "a:",nameA, "b:",nameB, "key",key);
             }
         }
     };
@@ -296,10 +321,19 @@ STFCmap = (function() {
     };
 
     let createSystemPopup = function(sys) {
-        return `${sys["Name"]} [${sys["Planet Level"]}]<br>System ${sys["SystemID"]}: ${sys["Coordinates"]}
+        let divOpen = "<div>";
+        let divClose = "</div>";
+        let info = `${sys["Name"]} [${sys["System Level"]}]<br>System ${sys["SystemID"]}: ${sys["Coordinates"]}
     <br>Faction: ${sys["Faction"]}<br>Hostiles: ${sys["Hostiles"]}<br>Hostiles Range: ${sys["Ship Levels"]}
     <br>Ship Types: ${sys["Ship Type"]}<br>Warp Range: ${sys["Warp Required"]}<br>Mines: ${sys["Mines"]}
     <br>Station Hubs: ${sys["Station Hub"]}<br>`;
+        let cleanedName = cleanName(sys["Name"]);
+        let img = "<img src='/assets/img/"+cleanedName+".png' width='175px' />";
+        return divOpen+info+divClose+divOpen+img+divClose;
+    };
+
+    let cleanName = function(name){
+        return name.replace( /[^a-zA-Z]/, "").replace( /\s+/, "").toLowerCase();
     };
 
     let makeGridLines = function(spacing) {
@@ -466,10 +500,14 @@ STFCmap = (function() {
                 setControlLayer();
 
                 //set the json to the clipboard
+
+                if(location.host.split(".")[0] === 'stfc'){
+                    //setup ajax for quick local editing
+                }
                 copyToClipboard(galaxy[draggedSystemName]);
             }
         });
-    }
+    };
 
     let getSystemLinkedPathKeys = function(system, linkedSystems){
         let keys = [];
@@ -485,15 +523,10 @@ STFCmap = (function() {
         return keys;
     };
 
-    let toggle = 0;
-    let lineID;
     let onMapClick = function(e) {
         //console.clear();
         console.log("You clicked the map at x:", e.latlng.lng, "y:", e.latlng.lat);
-
     };
-
-
 
     let loadFile = function(file, callback) {
         $.getJSON(file, function() {
@@ -520,7 +553,14 @@ STFCmap = (function() {
         init: function() {
             init();
         },
-        pathRefs: pathRefs
+        pathRefs: pathRefs,
+        count: function(){
+            let count = 0;
+            $.each(galaxy, function(){
+                count++;
+            })
+            return count;
+        }
     };
 })();
 STFCmap.init();
