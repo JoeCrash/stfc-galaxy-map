@@ -1,3 +1,4 @@
+let env = (window.location.hostname === "joeycrash135.github.io") ? 'live' : 'local';
 let STFCmap;
 STFCmap = (function() {
     //helpers
@@ -41,6 +42,16 @@ STFCmap = (function() {
         copyToClipboard = function(c) {
             let e = JSON.stringify(c), n = $("<input>").val(e).appendTo("body").select();
             document.execCommand("copy"), n.remove()
+        },
+        /**
+         * check if the string has any digits included.
+         * @string s = the string to check.
+         */
+        isNumeric = function(s) {
+            s = s.toString();
+            check = s.match(/\d+/g);
+            //console.log("chk",s, check);
+            return check;
         };
 
     //set the map boundaries, coordinates, zoom, coords
@@ -65,6 +76,7 @@ STFCmap = (function() {
     let layerControl; //the controls group
     let controlLayers; //holds the menu object, update this when removing paths
     let skippedSystems = []; //contains a list of systems without coordinates
+    let systemNames = []; //holds all the systems for easy linking
 
     //draw/edit mode
     let debugMode = true;
@@ -84,8 +96,10 @@ STFCmap = (function() {
             zoomDelta: 0.5
         });
 
-        loadFile("assets/json/galaxy.json", initMapData);
-        loadFile("assets/json/icons.json", initIcons);
+        let galaxyFile = (env === 'live') ? "assets/json/galaxy.json" : 'resources/db-json.php'; //only works for me, for now...
+        console.log("Environment:", env);
+        loadFile(galaxyFile, initMapData); //load the galaxy and extra info
+        loadFile("assets/json/icons.json", initIcons); //load the icons
     };
 
     let initIcons = function(iconsData) {
@@ -133,21 +147,31 @@ STFCmap = (function() {
             let name = sys.Name;
             let x = sys.X;
             let y = sys.Y;
-            //let coord = sys.Coordinates.split(",");
-            if(x !== "" && y !== "") {
-                //let x = coord[0].trim();
-                //let y = coord[1].trim();
-                //set the data to the galaxy obj
-                //sys["x"] = x;
-                //sys["y"] = y;
+            let adjX = sys.AdjX;
+            let adjY = sys.AdjY;
+            let gotCoords = false;
+
+            if(isNumeric(x) && isNumeric(y)) {
                 sys["yx"] = xy(x, y);
-                sys["Coordinates"] = x+", "+y;
-                galaxy[name] = sys;
-                //console.log("adding:",name, sys);
-            } else {
-                skippedSystems.push(name);
+                sys["Coordinates"] = x + ", " + y;
+                gotCoords = true;
             }
+            if(isNumeric(adjX) && isNumeric(adjY)) {
+                sys["yx"] = xy(adjX, adjY);
+                gotCoords = true;
+                console.log("has ADJ", name, adjX, adjY);
+            }
+
+            if(!gotCoords) {
+                skippedSystems.push(sys);
+            } else {
+                galaxy[name] = sys;
+                let linkedSysObject = { "id":sys.id , "name": name, "faction": sys.Zone};
+                systemNames.push(linkedSysObject);
+            }
+
         }
+
         initMap();
     };
 
@@ -186,7 +210,7 @@ STFCmap = (function() {
         layers["Grid"] = makeGridLines(); //grid lines are 100 spaced until I figure out the correct spacing. think in coordinates, not pixels
         layers["System"] = L.layerGroup(systemsGroup); //group the systems
         layers["Mines"] = {}; //start this empty to add in the groups later
-        for(let resource in minesGroup) {
+        for (let resource in minesGroup) {
             layers.Mines[resource] = L.layerGroup(minesGroup[resource]); //group the mines by key
         }
 
@@ -200,30 +224,31 @@ STFCmap = (function() {
         layers.System.addTo(map);
 
         setControlLayer();
-
+        initLinkedSystemsTags();
+        //addLegend(); //maybe later, try icons in controllayer 1st.
         //set events
         map.on('click', onMapClick);
 
     };
 
-    let setGroups = function(layers){
+    let setGroups = function(layers) {
         //let resourceNames = Object.keys(layers);
         let groups = {};
-        for(let name in layers){
+        for (let name in layers) {
             groups[name] = layers[name];
         }
         return groups;
     };
 
-    let setControlLayer = function(){
+    let setControlLayer = function() {
         if(layerControl) layerControl.remove();
 
         baseMaps = {
-            "Map": layers.Grid
+            "Map": layers.Grid,
+            "System": layers.System
         };
         controlLayers = {
-            "System": {
-                "System": layers.System,
+            "Paths": {
                 "Travel Paths": layers.Paths
             },
             "Debug": {
@@ -239,14 +264,15 @@ STFCmap = (function() {
     };
 
 
-
     let setTravelPathsToGroup = function(systemName, linkedSystems, pathContainer) {
+        //console.log("linkedSystems are", linkedSystems);
         let linked = strToArray(linkedSystems); //make array of linked systems
         for (let i in linked) {
             if(linked.hasOwnProperty(i)) {
                 let nameA = systemName; //the current system name
                 let nameB = linked[i]; //one of the linked system's name
-                //console.log("set Paths", nameA, nameB, galaxy[nameB]);
+                //console.log("check A", nameA, galaxy[nameA], galaxy[nameA] !== undefined);
+                //console.log("check B", nameB, galaxy[nameB], galaxy[nameB] !== undefined);
                 let A = galaxy[nameA].yx; //get the latLngs made earlier.
                 let B = galaxy[nameB].yx; //get the latLngs made earlier.
                 let key = makePathKey(nameA, nameB); //concat the names into a unique key
@@ -256,36 +282,36 @@ STFCmap = (function() {
         }
     };
 
-    let addPathsWithKey = function(paths, pathsGroup, options){
-        for(let label in paths){
-            if(paths.hasOwnProperty(label)){
-                pathRefs[label] = makeLine(paths[label], options || {color:"blue", className:"line "+label, id:label});
+    let addPathsWithKey = function(paths, pathsGroup, options) {
+        for (let label in paths) {
+            if(paths.hasOwnProperty(label)) {
+                pathRefs[label] = makeLine(paths[label], options || {color: "blue", className: "line " + label, id: label});
                 pathsGroup.push(pathRefs[label]);
             }
         }
     };
 
-    let createPath = function(paths, opts){
+    let createPath = function(paths, opts) {
         let arr = [];
-        for(let pathKey in paths){
-            if(paths.hasOwnProperty(pathKey)){
+        for (let pathKey in paths) {
+            if(paths.hasOwnProperty(pathKey)) {
                 arr.push(paths[pathKey]);
             }
         }
-        if(opts === undefined) opts = {className:'line', weight:1, opacity: 0.5};
+        if(opts === undefined) opts = {className: 'line', weight: 1, opacity: 0.5};
         console.log("createPath", paths, opts, opts === undefined);
         return L.polyline(arr, opts);//return the new path
 
     };
 
-    let setMines = function(yx, mines, group){
+    let setMines = function(yx, mines, group) {
         if(mines === "None") return false;
-        if(group === undefined || group.length > 1){
+        if(group === undefined || group.length > 1) {
             console.warn("setMines expects the group to be defined, but empty. Make sure you are passing in a container object");
         }
         mines = strToArray(mines);
-        for(let resourceKey in mines){
-            if(mines.hasOwnProperty(resourceKey)){
+        for (let resourceKey in mines) {
+            if(mines.hasOwnProperty(resourceKey)) {
                 let resource = mines[resourceKey];
                 let iconObj = icons.Mines[resource];
                 let options = {icon: iconObj};
@@ -316,25 +342,52 @@ STFCmap = (function() {
     let makeLine = function(yx, options) {
         return L.polyline(yx, options);
     };
-    let makeGroup = function(group){
+    let makeGroup = function(group) {
         return L.layerGroup(group);
     };
 
+    /*let addLegend = function() {
+        var legend = L.control({position: 'bottomright'});
+        legend.onAdd = function(map) {
+
+            var div = L.DomUtil.create('div', 'Legend');
+            div.innerHTML =
+                '<i style="background:#72B2FF";></i><span style="font-weight: 600;">90 Minuten Kurzparkzone</span><br>' +
+                '<i style="background:#BEE7FF";></i><span style="font-weight: 600;">180 Minuten Kurzparkzone</span><br>' +
+                '<i style="background:#A3FF72";></i><span style="font-weight: 600;">Werktags Parkstraße</span><br>' +
+                '<i style="background:#D8D0F4";></i><span style="font-weight: 600;">Parkstraße</span><br>';
+
+            return div;
+        };
+        legend.addTo(map);
+    };*/
+
     let createSystemPopup = function(sys) {
+        let adjustedCoords = '';
         let divOpen = "<div>";
         let divClose = "</div>";
+
+        if(isNumeric(sys["AdjX"]) && isNumeric(sys["AdjY"])) {
+            adjustedCoords = `Override Coords: ${sys["AdjX"]}, ${sys["AdjY"]}`;
+        }
+
         let info = `${sys["Name"]} [${sys["System Level"]}]<br>System ${sys["SystemID"]}: ${sys["Coordinates"]}
         <br>Faction: ${sys["Faction"]}<br>Hostiles: ${sys["Hostiles"]}<br>Hostiles Range: ${sys["Ship Levels"]}
         <br>Ship Types: ${sys["Ship Type"]}<br>Warp Range: ${sys["Warp Required"]}<br>Mines: ${sys["Mines"]}
-        <br>Station Hubs: ${sys["Station Hub"]}<br>`;
+        <br>Station Hubs: ${sys["Station Hub"]}<br>` + adjustedCoords;
         let cleanedName = cleanName(sys["Name"]);
-        let domain = (window.location.hostname === "joeycrash135.github.io") ? 'https://raw.githubusercontent.com/joeycrash135/stfc-galaxy-map/master/' : '';
-        let img = "<img src='"+domain+"assets/img/"+cleanedName+".png' width='175px' />";
-        return divOpen+info+divClose+divOpen+img+divClose;
+        let editButton = debugMode ? createEditButton() : '';
+        let domain = (env === 'live') ? 'https://raw.githubusercontent.com/joeycrash135/stfc-galaxy-map/master/' : '';
+        let img = "<img src='" + domain + "assets/img/" + cleanedName + ".png' width='175px' />";
+        return divOpen + img + divClose + divOpen + info + divClose + divOpen + editButton + divClose;
     };
 
-    let cleanName = function(name){
-        return name.replace( /[^a-zA-Z]/, "").replace( /\s+/, "").toLowerCase();
+    let createEditButton = function() {
+        return '<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit-system-data">Edit</button>'
+    };
+
+    let cleanName = function(name) {
+        return name.replace(/[^a-zA-Z]/, "").replace(/\s+/, "").toLowerCase();
     };
 
     let makeGridLines = function(spacing) {
@@ -492,17 +545,15 @@ STFCmap = (function() {
 
                 //remove all the paths
                 layers.Paths.remove();
-
                 let newPathsGroup = [];
                 addPathsWithKey(paths, newPathsGroup);
-                let groupLayer = makeGroup(newPathsGroup);
-                layers.Paths = groupLayer;
+                layers.Paths = makeGroup(newPathsGroup);
                 layers.Paths.addTo(map);
                 setControlLayer();
 
                 //set the json to the clipboard
 
-                if(location.host.split(".")[0] === 'stfc'){
+                if(location.host.split(".")[0] === 'stfc') {
                     //setup ajax for quick local editing
                 }
                 copyToClipboard(galaxy[draggedSystemName]);
@@ -510,11 +561,11 @@ STFCmap = (function() {
         });
     };
 
-    let getSystemLinkedPathKeys = function(system, linkedSystems){
+    let getSystemLinkedPathKeys = function(system, linkedSystems) {
         let keys = [];
         let linked = (!Array.isArray(linkedSystems)) ? strToArray(linkedSystems) : linkedSystems;
-        for(let i in linked){
-            if(linked.hasOwnProperty(i)){
+        for (let i in linked) {
+            if(linked.hasOwnProperty(i)) {
                 let nameA = system;
                 let nameB = linked[i];
                 let line = makePathKey(nameA, nameB);
@@ -531,7 +582,7 @@ STFCmap = (function() {
 
     let loadFile = function(file, callback) {
         $.getJSON(file, function() {
-            console.log("loading " + file);
+            //console.log("loading " + file);
         }).done(function(d) {
             callback(d);
         }).fail(function(d) {
@@ -546,20 +597,78 @@ STFCmap = (function() {
         let authLink = "<a href='https://github.com/joeycrash135/' title='joeycrash135 @ Github'>";
         let shoutoutMyAlliance = "Viper Elite [VIP]";
         let close = "</a>";
-        let attribs = mapLink + data.name + close + " v" + data.version + "<br>" + "By: " + authLink + data.author + close + " Alliance:" + shoutoutMyAlliance;
-        return attribs;
+        return mapLink + data.name + close + " v" + data.version + "<br>" + "By: " + authLink + data.author + close + " Alliance:" + shoutoutMyAlliance;
     };
+
+    /////////////////// LOCAL LAZY ENTRIES //////////////////////
+    //Systems Debugger
+    $('#local-update-submit').on("click", function(e) {
+        let data = {};
+        $.ajax({
+            url: "resources/update-system-data.php",
+            type: "POST",
+            data: data,
+            dataType: "html",
+            cache: false,
+            success: function(data) {
+                let r = $.parseJSON(data);
+                console.log(e, r);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                console.warn("#local-update-submit click event", xhr.status + " -- " + thrownError);
+            }
+        });
+    });
+
+    //override multiselect chooser
+    $('option').mousedown(function(e) {
+        e.preventDefault();
+        $(this).toggleClass('selected');
+        $(this).prop('selected', !$(this).prop('selected'));
+        return false;
+    });
+
+
+    let initLinkedSystemsTags = function() {
+        var systemTokens = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            local: systemNames
+        });
+        systemTokens.initialize();
+        var elt = $('#LinkedSystems');
+        elt.tagsinput({
+            tagClass: function(item) {
+                switch (item.faction) {
+                    case 'INDEPENDENT'   : return 'badge badge-secondary';
+                    case 'FEDERATION'  : return 'badge badge-primary';
+                    case 'KLINGON': return 'badge badge-danger';
+                    case 'ROMULAN'   : return 'badge badge-success';
+                }
+            },
+            itemValue: 'id',
+            itemText: 'name',
+            typeaheadjs: {
+                name: 'name',
+                displayKey: 'name',
+                source: systemTokens.ttAdapter()
+            }
+        });
+
+        $(".twitter-typeahead").css('display', 'inline');
+    };
+
 
     return { // public interface
         init: function() {
             init();
         },
         pathRefs: pathRefs,
-        count: function(){
+        count: function() {
             let count = 0;
-            $.each(galaxy, function(){
+            $.each(galaxy, function() {
                 count++;
-            })
+            });
             return count;
         }
     };
