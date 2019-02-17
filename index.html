@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap-reboot.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap-theme.min.css">
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap-theme.min.css">-->
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.css">
@@ -31,96 +31,102 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="form-row">
-                        <div class="col">
-                            <label for="Name">Name</label>
-                            <input type="text" name="Name" id="Name" class="form-control" placeholder="Name">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col">
-                            <label for="SystemID">Name</label>
-                            <input type="text" name="SystemID" id="SystemID" class="form-control" placeholder="System ID">
-                        </div>
-                        <div class="col">
-                            <label for="SystemLevel">Name</label>
-                            <input type="text" name="SystemLevel" id="SystemLevel" class="form-control" placeholder="System Level">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="Faction">Zone/Faction</label>
-                                <select class="form-control" id="Faction" name="Faction">
-                                    <option>Independent/Neutral</option>
-                                    <option>Federation</option>
-                                    <option>Klingon</option>
-                                    <option>Romulan</option>
-                                </select>
+                <div class="row">
+                    <form>
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="Name">Name</label>
+                                <input type="text" name="Name" id="Name" class="form-control" placeholder="Name">
                             </div>
                         </div>
-                        <div class="col">
-                            <label for="WarpRequired">Warp Required</label>
-                            <input type="text" class="form-control" id="WarpRequired" name="WarpRequired" placeholder="Warp Required">
+                        <div class="form-row">
+                            <div class="col">
+                                <label for="SystemID">Name</label>
+                                <input type="text" name="SystemID" id="SystemID" class="form-control" placeholder="System ID">
+                            </div>
+                            <div class="col">
+                                <label for="SystemLevel">Name</label>
+                                <input type="text" name="SystemLevel" id="SystemLevel" class="form-control" placeholder="System Level">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Station Hub: &nbsp;</label>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="StationHub1" name="StationHub" class="custom-control-input">
-                            <label class="custom-control-label" for="StationHub1">Yes</label>
+                        <div class="form-row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="Faction">Zone/Faction</label>
+                                    <select class="form-control" id="Faction" name="Faction">
+                                        <option>Independent/Neutral</option>
+                                        <option>Federation</option>
+                                        <option>Klingon</option>
+                                        <option>Romulan</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <label for="WarpRequired">Warp Required</label>
+                                <input type="text" class="form-control" id="WarpRequired" name="WarpRequired" placeholder="Warp Required">
+                            </div>
                         </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="StationHub2" name="StationHub" class="custom-control-input">
-                            <label class="custom-control-label" for="StationHub2">No</label>
+                        <div class="form-group">
+                            <label>Station Hub: &nbsp;</label>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="StationHub1" name="StationHub" class="custom-control-input">
+                                <label class="custom-control-label" for="StationHub1">Yes</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="StationHub2" name="StationHub" class="custom-control-input">
+                                <label class="custom-control-label" for="StationHub2">No</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="StationHub3" name="StationHub" class="custom-control-input">
+                                <label class="custom-control-label" for="StationHub3">Unknown</label>
+                            </div>
                         </div>
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="StationHub3" name="StationHub" class="custom-control-input">
-                            <label class="custom-control-label" for="StationHub3">Unknown</label>
+
+                        <div class="form-group">
+                            <label for="Mines">Mines</label>
+                            <select multiple class="form-control" id="Mines">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
                         </div>
-                    </div>
+
+                        <div class="form-group">
+                            <label>Enemy Ship Types</label>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" name="ShipTypes[]" id="ShipTypes1" value="Battleship">
+                                <label class="custom-control-label" for="ShipTypes1">Battleship</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" name="ShipTypes[]" id="ShipTypes2" value="Explorer">
+                                <label class="custom-control-label" for="ShipTypes2">Explorer</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" name="ShipTypes[]" id="ShipTypes3" value="Interceptor">
+                                <label class="custom-control-label" for="ShipTypes3">Interceptor</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" name="ShipTypes[]" id="ShipTypes4" value="Survey">
+                                <label class="custom-control-label" for="ShipTypes4">Survey</label>
+                            </div>
+                        </div>
+
+
+                    </form>
 
                     <div class="form-group">
-                        <label for="Mines">Mines</label>
-                        <select multiple class="form-control" id="Mines">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Enemy Ship Types</label>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="ShipTypes[]" id="ShipTypes1" value="Battleship">
-                            <label class="custom-control-label" for="ShipTypes1">Battleship</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="ShipTypes[]" id="ShipTypes2" value="Explorer">
-                            <label class="custom-control-label" for="ShipTypes2">Explorer</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="ShipTypes[]" id="ShipTypes3" value="Interceptor">
-                            <label class="custom-control-label" for="ShipTypes3">Interceptor</label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="ShipTypes[]" id="ShipTypes4" value="Survey">
-                            <label class="custom-control-label" for="ShipTypes4">Survey</label>
+                        <div class="example example_tagclass">
+                            <div class="bs-example">
+                                <input type="text" id="LinkedSystems"/>
+                            </div>
                         </div>
                     </div>
 
-
-                </form>
-                <div class="form-group">
-                    <div class="example example_tagclass">
-                        <div class="bs-example">
-                            <input type="text" id="LinkedSystems"/>
-                        </div>
-                    </div>
                 </div>
+
+
 
             </div>
             <div class="modal-footer">

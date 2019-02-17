@@ -12,51 +12,55 @@ STFCmap = (function() {
             let n = L.latLng;
             return L.Util.isArray(x) ? n(x[1], x[0]) : n(y, x)
         },
-        /**
-         * takes a comma separated string and converts to array
-         * @param s
-         * @returns {Array}
-         */
-        strToArray = function(s) {
-            return s.split(",").reduce((t, s) => ((s = s.trim()).length > 0 && t.push(s), t), [])
-        },
-        /**
-         * cleans, sorts alphabetically, concatenates into 1 string
-         * @string a - first value
-         * @string b = second value
-         * @returns {string}, alpha sorted, cleaned and concatenated
-         */
-        makePathKey = function(a, b) {
-            function clean(val) {
-                return val.toLowerCase().replace(/\s/g, '').replace("'", '')
-            }
+    /**
+     * takes a comma separated string and converts to array
+     * @param s
+     * @returns {Array}
+     */
+    strToArray = function(s) {
+        return s.split(",").reduce((t, s) => ((s = s.trim()).length > 0 && t.push(s), t), [])
+    }, /**
+     * takes an array and turns into a string representation
+     * @param a
+     * @returns {s}
+     */
+    arrToStr = function(a) {
+        return a.join(", ") || "";
+    },
+    /**
+     * cleans, sorts alphabetically, concatenates into 1 string
+     * @string a - first value
+     * @string b = second value
+     * @returns {string}, alpha sorted, cleaned and concatenated
+     */
+    makePathKey = function(a, b) {
+        function clean(val) {
+            return val.toLowerCase().replace(/\s/g, '').replace("'", '')
+        }
 
-            a = clean(a);
-            b = clean(b);
-            return (a > b) ? b + a : a + b
-        },
-        /**
-         * copies output to the clipboard for pasting elsewhere. It does not work with objects containing non-string values.
-         * @string c = the content you want to copy.
-         */
-        copyToClipboard = function(c) {
-            let e = JSON.stringify(c), n = $("<input>").val(e).appendTo("body").select();
-            document.execCommand("copy"), n.remove()
-        },
-        /**
-         * check if the string has any digits included.
-         * @string s = the string to check.
-         */
-        isNumeric = function(s) {
-            s = s.toString();
-            check = s.match(/\d+/g);
-            //console.log("chk",s, check);
-            return check;
-        };
+        a = clean(a);
+        b = clean(b);
+        return (a > b) ? b + a : a + b
+    },
+    /**
+     * copies output to the clipboard for pasting elsewhere. It does not work with objects containing non-string values.
+     * @string c = the content you want to copy.
+     */
+    copyToClipboard = function(c) {
+        let e = JSON.stringify(c), n = $("<input>").val(e).appendTo("body").select();
+        document.execCommand("copy"), n.remove()
+    },
+    /**
+     * check if the string has any digits included.
+     * @string s = the string to check.
+     */
+    isNumeric = function(s) {
+        return s.toString().match(/\d+/g);
+    };
 
     //set the map boundaries, coordinates, zoom, coords
     let map;
-    const xMin = -8000;
+    const xMin = -7000;
     const yMin = 2000;
     const xMax = -2000;
     const yMax = -2000;
@@ -68,8 +72,8 @@ STFCmap = (function() {
     //containers
     let galaxy = {}; //contains all systems information.
     let paths = {}; //contains the paths coordinates
-    let pathKeys = {}; //contains the internal leaflet id's for easy access.
-    let pathRefs = {};
+    let pathKeys = {}; //contains the internal leaflet id's for easy access. -- pathKeys[uniquePathName] = matching _leaflet_id
+    let pathRefs = {}; //holds the actual path references, access just like pathKeys (may remove later)
     let icons; //icons
     let layers = {}; //contains all layer groups, for easy access
     let baseMaps; //the maps group
@@ -77,16 +81,26 @@ STFCmap = (function() {
     let controlLayers; //holds the menu object, update this when removing paths
     let skippedSystems = []; //contains a list of systems without coordinates
     let systemNames = []; //holds all the systems for easy linking
-
-    //draw/edit mode
-    let debugMode = true;
-    let testLine;
+    let systemNodes = {}; //holds the system nodes events get bound to.
+    //debugger/editor assistance
+    let showLayer = {
+        'systems': true,
+        'paths': true,
+        'shipTypes': true,
+        'editor': true
+    };
+    let reloadOnChange = true;
+    let debugMode = (env === 'local'); //auto start debug mode locally
+    let editorLoaded = false; //enables extra functionality for map management
+    let tmpSystem; //system while moving.
+    let tmpPath; //temporary paths
+    //used to prevent initial loading of features while developing.
 
     //shameless promotions
     let attributions;
 
     let init = function() {
-        console.log("STFC map init");
+        //console.log("STFC map init");
         //create the map
         map = L.map('map', {
             crs: L.CRS.Simple,
@@ -97,11 +111,10 @@ STFCmap = (function() {
         });
 
         let galaxyFile = (env === 'live') ? "assets/json/galaxy.json" : 'resources/db-json.php'; //only works for me, for now...
-        console.log("Environment:", env);
+        //console.log("Environment:", env);
         loadFile(galaxyFile, initMapData); //load the galaxy and extra info
         loadFile("assets/json/icons.json", initIcons); //load the icons
     };
-
     let initIcons = function(iconsData) {
         icons = {};
         for (let type in iconsData) {
@@ -115,12 +128,10 @@ STFCmap = (function() {
             }
         }
     };
-
     let initMapData = function(data) {
         attributions = setAttributions(data["info"]);
         initGalaxy(data["galaxy"]);
     };
-
     /*let initGalaxy = function(g) {
         for (let i in g) {
             let sys = g[i];
@@ -140,7 +151,6 @@ STFCmap = (function() {
         }
         initMap();
     };*/
-
     let initGalaxy = function(g) {
         for (let i in g) {
             let sys = g[i];
@@ -156,29 +166,28 @@ STFCmap = (function() {
                 sys["Coordinates"] = x + ", " + y;
                 gotCoords = true;
             }
+
             if(isNumeric(adjX) && isNumeric(adjY)) {
                 sys["yx"] = xy(adjX, adjY);
                 gotCoords = true;
-                console.log("has ADJ", name, adjX, adjY);
             }
 
             if(!gotCoords) {
                 skippedSystems.push(sys);
             } else {
                 galaxy[name] = sys;
-                let linkedSysObject = { "id":sys.id , "name": name, "faction": sys.Zone};
+                let linkedSysObject = {"id": sys.id, "name": name, "faction": sys.Zone};
                 systemNames.push(linkedSysObject);
             }
-
         }
 
         initMap();
     };
-
     let initMap = function() {
-        console.log("initMap");
+        //console.log("initMap");
         //set boundaries and load map img
         let bounds = [xy(xMin, yMin), xy(xMax, yMax)];
+        //layers["Map"] = L.imageOverlay('assets/wall_grid1024x128.png', bounds, {id: 'wall-grid', attribution: attributions});
         layers["Map"] = L.imageOverlay('assets/wall_grid.png', bounds, {id: 'wall-grid', attribution: attributions});
 
         //setup the groupArrays
@@ -195,7 +204,7 @@ STFCmap = (function() {
 
                 systemsGroup.push(makeSystemNode(sys)); //add a system node
                 setTravelPathsToGroup(systemKey, linkedSystems, paths); //setup the linked systems paths
-                addPathsWithKey(paths, pathsGroup); //add the path to the index & map
+                setPathsWithKey(paths, pathsGroup); //add the path to the index & map
                 setMines(sys["yx"], mines, minesGroup); //set the mines object
             }
         }
@@ -211,59 +220,57 @@ STFCmap = (function() {
         layers["System"] = L.layerGroup(systemsGroup); //group the systems
         layers["Mines"] = {}; //start this empty to add in the groups later
         for (let resource in minesGroup) {
-            layers.Mines[resource] = L.layerGroup(minesGroup[resource]); //group the mines by key
+            if(minesGroup.hasOwnProperty(resource)) layers.Mines[resource] = L.layerGroup(minesGroup[resource]); //group the mines by key
         }
-
 
         map.layers = layers;
         map.setView(startingCoords, startingZoom);
 
         layers.Map.addTo(map);
         layers.Grid.addTo(map);
-        layers.Paths.addTo(map);
-        layers.System.addTo(map);
+
+        //added these flags for easy on/off while adding features
+        if(showLayer.paths) layers.Paths.addTo(map);
+        if(showLayer.systems) layers.System.addTo(map);
 
         setControlLayer();
-        initLinkedSystemsTags();
+
+        if(debugMode) {
+            initLinkedSystemsTags(); //load tagging
+            map.on('click', onMapClick);
+            map.on("contextmenu", function(e) {
+                return false;
+            });
+        }
         //addLegend(); //maybe later, try icons in controllayer 1st.
         //set events
-        map.on('click', onMapClick);
-
     };
-
     let setGroups = function(layers) {
         //let resourceNames = Object.keys(layers);
         let groups = {};
         for (let name in layers) {
-            groups[name] = layers[name];
+            if(layers.hasOwnProperty(name)) groups[name] = layers[name];
         }
         return groups;
     };
-
     let setControlLayer = function() {
         if(layerControl) layerControl.remove();
-
         baseMaps = {
-            "Map": layers.Grid,
-            "System": layers.System
+            "Map": layers.Grid
         };
         controlLayers = {
-            "Paths": {
+            "Base": {
+                "System": layers.System,
                 "Travel Paths": layers.Paths
-            },
-            "Debug": {
-                "Grid": layers["DebugLines"],
-                "Points": layers["DebugPoints"]
             },
             "Mines": setGroups(layers["Mines"])
         };
-
-
+        if(debugMode) {
+            controlLayers["Debug"] = {"Grid": layers["DebugLines"], "Points": layers["DebugPoints"]}
+        }
         layerControl = L.control.groupedLayers(baseMaps, controlLayers, {groupCheckboxes: true});
         layerControl.addTo(map);
     };
-
-
     let setTravelPathsToGroup = function(systemName, linkedSystems, pathContainer) {
         //console.log("linkedSystems are", linkedSystems);
         let linked = strToArray(linkedSystems); //make array of linked systems
@@ -271,6 +278,7 @@ STFCmap = (function() {
             if(linked.hasOwnProperty(i)) {
                 let nameA = systemName; //the current system name
                 let nameB = linked[i]; //one of the linked system's name
+
                 //console.log("check A", nameA, galaxy[nameA], galaxy[nameA] !== undefined);
                 //console.log("check B", nameB, galaxy[nameB], galaxy[nameB] !== undefined);
                 let A = galaxy[nameA].yx; //get the latLngs made earlier.
@@ -281,8 +289,7 @@ STFCmap = (function() {
             }
         }
     };
-
-    let addPathsWithKey = function(paths, pathsGroup, options) {
+    let setPathsWithKey = function(paths, pathsGroup, options) {
         for (let label in paths) {
             if(paths.hasOwnProperty(label)) {
                 pathRefs[label] = makeLine(paths[label], options || {color: "blue", className: "line " + label, id: label});
@@ -290,7 +297,6 @@ STFCmap = (function() {
             }
         }
     };
-
     let createPath = function(paths, opts) {
         let arr = [];
         for (let pathKey in paths) {
@@ -301,9 +307,7 @@ STFCmap = (function() {
         if(opts === undefined) opts = {className: 'line', weight: 1, opacity: 0.5};
         console.log("createPath", paths, opts, opts === undefined);
         return L.polyline(arr, opts);//return the new path
-
     };
-
     let setMines = function(yx, mines, group) {
         if(mines === "None") return false;
         if(group === undefined || group.length > 1) {
@@ -320,22 +324,25 @@ STFCmap = (function() {
             }
         }
     };
-
     let makeSystemNode = function(sys) {
         //let sys = systemData;
-        let template = createSystemPopup(sys);
+        let template = makeSystemPopup(sys);
+        let name = sys["Name"];
         let isPrimarySystem = sys["Primary System"] === "Yes";
-        let iconKey = "System";
-        if(isPrimarySystem) iconKey = "Primary";
+        let iconKey = isPrimarySystem ? "Primary" : "System";
         let icon = icons.Systems[iconKey];
         let opts = {icon: icon, draggable: debugMode, id: sys["Name"]};
-        let node = makeMarker(sys.yx, opts).bindPopup(template).bindTooltip(sys["Name"]);
+        let node = makeMarker(sys.yx, opts).bindTooltip(sys["Name"]);
         if(debugMode) {
             initSystemDebugMode(node);
+            map.on("contextmenu", destroyTmpPath);
+            node.on("mouseup", testClicks);
+        } else {
+            node.bindPopup(template);
         }
+        systemNodes[name] = node;
         return node;
     };
-
     let makeMarker = function(yx, options) {
         return L.marker(yx, options);
     };
@@ -345,51 +352,73 @@ STFCmap = (function() {
     let makeGroup = function(group) {
         return L.layerGroup(group);
     };
+    let testClicks = function(e) {
+        let which = e.originalEvent.which;
+        //console.log("testclicks", which);
+        if(which === 1) {
+            if(tmpSystem !== undefined) {
+                destroyTmpPath();
+                return false;
+            } else {
+                let sysName = e.sourceTarget.options.id;
+                let leafID = e.sourceTarget._leaflet_id;
+                console.log("left clicked - open system editor", e, sysName, leafID);
+                console.log("clicked galaxy data", galaxy[sysName]);
+            }
+        } else if(which === 2) {
 
+            let name = e.sourceTarget.options.id;
+            console.log("mid clicked - Clear Adj Coordinates", e);
+            console.log("name", name);
+            saveAdjXY(name, '', '');
+        } else if(which === 3) {
+            console.log("right clicked - makePath", e);
+            generateTmpPath(e);
+        }
+        return false;
+    };
+    let onMapClick = function(e) {
+        //console.clear();
+        if(tmpPath !== undefined) {
+            console.log("cancelling path", e);
+            destroyTmpPath();
+        }
+        //console.log("You clicked the map at x:", e.latlng.lng, "y:", e.latlng.lat);
+    };
     /*let addLegend = function() {
         var legend = L.control({position: 'bottomright'});
         legend.onAdd = function(map) {
-
             var div = L.DomUtil.create('div', 'Legend');
             div.innerHTML =
                 '<i style="background:#72B2FF";></i><span style="font-weight: 600;">90 Minuten Kurzparkzone</span><br>' +
                 '<i style="background:#BEE7FF";></i><span style="font-weight: 600;">180 Minuten Kurzparkzone</span><br>' +
                 '<i style="background:#A3FF72";></i><span style="font-weight: 600;">Werktags Parkstraße</span><br>' +
                 '<i style="background:#D8D0F4";></i><span style="font-weight: 600;">Parkstraße</span><br>';
-
             return div;
         };
         legend.addTo(map);
     };*/
 
-    let createSystemPopup = function(sys) {
+    let makeSystemPopup = function(sys) {
         let adjustedCoords = '';
         let divOpen = "<div>";
         let divClose = "</div>";
-
         if(isNumeric(sys["AdjX"]) && isNumeric(sys["AdjY"])) {
             adjustedCoords = `Override Coords: ${sys["AdjX"]}, ${sys["AdjY"]}`;
         }
-
         let info = `${sys["Name"]} [${sys["System Level"]}]<br>System ${sys["SystemID"]}: ${sys["Coordinates"]}
         <br>Faction: ${sys["Faction"]}<br>Hostiles: ${sys["Hostiles"]}<br>Hostiles Range: ${sys["Ship Levels"]}
         <br>Ship Types: ${sys["Ship Type"]}<br>Warp Range: ${sys["Warp Required"]}<br>Mines: ${sys["Mines"]}
         <br>Station Hubs: ${sys["Station Hub"]}<br>` + adjustedCoords;
         let cleanedName = cleanName(sys["Name"]);
-        let editButton = debugMode ? createEditButton() : '';
+        let editButton = debugMode ? makeEditButton() : '';
         let domain = (env === 'live') ? 'https://raw.githubusercontent.com/joeycrash135/stfc-galaxy-map/master/' : '';
         let img = "<img src='" + domain + "assets/img/" + cleanedName + ".png' width='175px' />";
         return divOpen + img + divClose + divOpen + info + divClose + divOpen + editButton + divClose;
     };
-
-    let createEditButton = function() {
-        return '<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit-system-data">Edit</button>'
-    };
-
     let cleanName = function(name) {
         return name.replace(/[^a-zA-Z]/, "").replace(/\s+/, "").toLowerCase();
     };
-
     let makeGridLines = function(spacing) {
         let lines = [];
         let x = xMin;
@@ -410,37 +439,33 @@ STFCmap = (function() {
         return makeLine(lines, gridLineOptions);
     };
 
-    let makeDebugPoints = function(spacing) {
-        let points = [];
-        let x = xMin;
-        let y = yMin;
-        let _spacing = spacing || 100;
-        while (x <= xMax) {
-            while (y >= yMax) {
-                let point = L.circle(xy(x, y), {radius: 3, opacity: 0.25, color: 'yellow'}).bindPopup("X: " + x + "<br> Y: " + y);
-                points.push(point);
-                y = y - _spacing;
-            }
-            x = x + _spacing;
-            y = yMin;
-        }
-        return L.layerGroup(points);
+    let loadFile = function(file, callback) {
+        $.getJSON(file, function() {
+            //console.log("loading " + file);
+        }).done(function(d) {
+            callback(d);
+        }).fail(function(d) {
+            console.warn(file + " had a problem loading. Sorry!");
+            console.warn(d);
+        }).always(function() {
+        });
+    };
+    let setAttributions = function(data) {
+        let mapLink = "<a href='https://joeycrash135.github.io/stfc-galaxy-map/' title='Star Trek Fleet Command Galaxy Map' >";
+        let authLink = "<a href='https://github.com/joeycrash135/' title='joeycrash135 @ Github'>";
+        let shoutoutMyAlliance = "Viper Elite [VIP]";
+        let close = "</a>";
+        return mapLink + data.name + close + " v" + data.version + "<br>" + "By: " + authLink + data.author + close + " Alliance:" + shoutoutMyAlliance;
     };
 
-    let makeDebugLines = function() {
-        let lines = [];
-        let x = xMin, y = yMin;
-        let spacing = 5;
-        while (x <= xMax) {
-            lines.push([xy(x, yMin), xy(x, yMax)]);
-            x = x + spacing;
-        }
-        while (y >= yMax) {
-            lines.push([xy(xMin, y), xy(xMax, y)]);
-            y = y - spacing;
-        }
-        return L.polyline(lines, {color: 'green', weight: 1, opacity: 0.75, className: 'debug'});
-    };
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////   LAYER MANAGEMENT   ///////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////   MAP EDITOR   /////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     let initSystemDebugMode = function(node) {
         let oldPaths = []; //placeholder paths for old lines
@@ -452,10 +477,13 @@ STFCmap = (function() {
         let movePaths = []; //temp paths while moving
         let moveCount = 0;
         let draggedSystemName;
+
         node.on("dragstart", function(e) {
             draggedSystemName = e.target.options.id;
+            console.warn("dragstart", e);
             let node = galaxy[draggedSystemName];
             linkedSystems = node["Linked Systems"];
+            console.log("node linked drag", linkedSystems);
             if(linkedSystems) {
                 //add an old line to the map
                 let options = {className: "oldLine", color: 'red', weight: 2, opacity: 1};
@@ -470,9 +498,7 @@ STFCmap = (function() {
                     if(linkedKeys.hasOwnProperty(key)) {
                         let pathName = linkedKeys[key]; //get the unique pathName
                         //let pathToRemove = pathRefs[pathName]; //path ref
-
                         //console.log("test", pathToRemove);
-
                         $("." + pathName).remove(); //brute removal, need to remove from map memory also.
                         $(".tmpLine").remove(); //brute removal, need to remove from map memory also.
                     }
@@ -490,6 +516,7 @@ STFCmap = (function() {
         });
 
         node.on("move", function(e) {
+            //console.log("node moving", e);
             if(moveCount > 0) movePaths.remove(); //clear any movePaths
             moveCount++;
             let draggedyx = e.latlng; //get the moving coords
@@ -503,15 +530,20 @@ STFCmap = (function() {
         });
 
         node.on("dragend", function(e) {
+            console.log("end", e);
+            let nodeID = e.target["_leaflet_id"];
+            let endX = Math.round(e.target._latlng.lng);
+            let endY = Math.round(e.target._latlng.lat);
+
+            if(debugMode && env === 'local'){
+                let dbID = e.target.options.id;
+                console.log("SAVING XY", nodeID, endX, endY);
+                saveAdjXY(dbID, endX, endY);
+            }
             if(linkedSystems) {
                 //reset the count for the next drag
                 moveCount = 0;
                 //get the new lat/lng
-                let endX = Math.round(e.target._latlng.lng);
-                let endY = Math.round(e.target._latlng.lat);
-
-                //e.target._latlng.lng = endX;
-                //e.target._latlng.lat = endY;
 
                 //remove the drag paths
                 oldPathsGroup.removeFrom(map);
@@ -524,10 +556,8 @@ STFCmap = (function() {
                 galaxy[draggedSystemName]["y"] = endY;
                 galaxy[draggedSystemName]["yx"] = xy(endX, endY);
 
-                let nodeID = e.target["_leaflet_id"];
-
-                console.log("paths", paths, galaxy[draggedSystemName].yx);
-                console.log("nodeID", nodeID);
+                //console.log("paths", paths, galaxy[draggedSystemName].yx);
+                //console.log("nodeID", nodeID);
                 //snap to coordinates
                 layers["System"].getLayer(nodeID).setLatLng(xy(endX, endY));
 
@@ -536,6 +566,7 @@ STFCmap = (function() {
                     if(linkedSystemNames.hasOwnProperty(name)) {
                         let A = linkedSystemNames[name];
                         let B = draggedSystemName;
+                        updateLinkedSystemsInfo(A, B);
                         let yx = galaxy[A].yx; //grab the yx to save
                         let yx2 = xy(endX, endY); //new yx
                         let pathKey = makePathKey(A, B);
@@ -546,21 +577,199 @@ STFCmap = (function() {
                 //remove all the paths
                 layers.Paths.remove();
                 let newPathsGroup = [];
-                addPathsWithKey(paths, newPathsGroup);
+                setPathsWithKey(paths, newPathsGroup);
                 layers.Paths = makeGroup(newPathsGroup);
                 layers.Paths.addTo(map);
                 setControlLayer();
-
-                //set the json to the clipboard
-
-                if(location.host.split(".")[0] === 'stfc') {
-                    //setup ajax for quick local editing
-                }
-                copyToClipboard(galaxy[draggedSystemName]);
+                //copyToClipboard(galaxy[draggedSystemName]);
             }
         });
     };
 
+    //Cartography Helper (local editor stuff) - NOT AVAILABLE ON LIVE JUST YET
+    let initLinkedSystemsTags = function() {
+        console.log("init tags");
+        let systemTokens = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            local: systemNames
+        });
+        systemTokens.initialize();
+        let elt = $('#LinkedSystems', 'body');
+        elt.tagsinput({
+            tagClass: function(item) {
+                switch (item.faction) {
+                    case 'INDEPENDENT'   :
+                        return 'badge badge-secondary';
+                    case 'FEDERATION'  :
+                        return 'badge badge-primary';
+                    case 'KLINGON':
+                        return 'badge badge-danger';
+                    case 'ROMULAN'   :
+                        return 'badge badge-success';
+                }
+            },
+            itemValue: 'id',
+            itemText: 'name',
+            typeaheadjs: {
+                name: 'name',
+                displayKey: 'name',
+                source: systemTokens.ttAdapter()
+            }
+        });
+        console.log("thisgal", galaxy);
+        $(".twitter-typeahead").css('display', 'inline');
+    };
+
+    let generateTmpPath = function(e) {
+        //let _this = this;
+        //console.warn("generateTmpPath", e);
+        //console.log("generateTmpPath", e, _this.options.id, _this.sourceTarget.options.id, _this.options.id || _this.sourceTarget.options.id);
+        let clickedSystemName = e.sourceTarget.options.id;
+
+        let yx;
+        //let options = {className: "tmpPath", color: 'orange', weight: 1, opacity: .6};
+        if(tmpSystem === undefined) {
+            //if not defined, start a temp path
+            tmpSystem = clickedSystemName;
+            yx = galaxy[clickedSystemName].yx;
+            //tmpPath = makeLine([yx, xy(-2626,-20)], options);
+            //tmpPath.addTo(map);
+            console.log("system", galaxy[clickedSystemName]);
+            map.on("mousemove", updateTmpPath);
+            return false;
+        } else if(tmpSystem === clickedSystemName) {
+            //if the same system was clicked, cancel the path
+            console.log("clicked same system, cancelling line.");
+        } else {
+            //if tmpSystem is defined and clickedSystem is different, make a real path
+            makeNewPathAndUpdateSystems(tmpSystem, clickedSystemName);
+            updateLinkedSystemsInfo(tmpSystem, clickedSystemName);
+        }
+        destroyTmpPath();
+        /*//add an old line to the map
+        let options = {className: "oldLine", color: 'red', weight: 2, opacity: 1};
+        linkedKeys = getSystemLinkedPathKeys(draggedSystemName, linkedSystems); //get the unique names of the paths
+        linkedSystemNames = strToArray(linkedSystems); //add the linked systems to an array
+
+        setTravelPathsToGroup(draggedSystemName, linkedSystems, oldPaths); //setup the paths coords and drop em in oldPaths
+        oldPathsGroup = createPath(oldPaths, options); //make a group from paths
+        oldPathsGroup.addTo(map); //add the old lines to maps
+
+        for (let key in linkedKeys) {
+            if(linkedKeys.hasOwnProperty(key)) {
+                let pathName = linkedKeys[key]; //get the unique pathName
+                //let pathToRemove = pathRefs[pathName]; //path ref
+
+                //console.log("test", pathToRemove);
+
+                $("." + pathName).remove(); //brute removal, need to remove from map memory also.
+                $(".tmpLine").remove(); //brute removal, need to remove from map memory also.
+            }
+        }
+
+        //save the linked coords for tempLines
+        for (let name in linkedSystemNames) {
+            if(linkedSystemNames.hasOwnProperty(name)) {
+                let systemName = linkedSystemNames[name];
+                let yx = galaxy[systemName].yx; //grab the yx to save
+                linkCoords.push(yx); //save just the latLng to reattach later
+            }
+        }*/
+        //on mousedrag get the changing mouse coords and redraw path
+
+    };
+    let updateLinkedSystemsInfo = function(A, B) {
+        if(galaxy[A] === undefined || galaxy[B] === undefined) return false;
+        let linkedA = galaxy[A]["Linked Systems"];
+        let linkedB = galaxy[B]["Linked Systems"];
+        let arrA = strToArray(linkedA);
+        let arrB = strToArray(linkedB);
+        arrB.push(A);
+        arrA.push(B);
+        galaxy[A]["Linked Systems"] = arrToStr(unique(arrA));
+        galaxy[B]["Linked Systems"] = arrToStr(unique(arrB));
+
+        function unique(a) {
+            return $.grep(a, function(e, i) {
+                return i === $.inArray(e, a);
+            });
+        }
+        console.warn("updating Linked sys (", A, ") - (", B,")");
+        if(debugMode && env === 'local'){
+            let updatedSysNames = [A,B];
+            saveLinkedSystemsToDb(updatedSysNames);
+        }
+    };
+
+    let makeNewPathAndUpdateSystems = function(A, B) {
+        let yx = galaxy[A].yx; //grab the yx to save
+        let yx2 = galaxy[B].yx; //new yx
+        let pathKey = makePathKey(A, B); //make unique path name
+        paths[pathKey] = [yx, yx2]; //update the paths with the correct latlng
+        pathRefs[pathKey] = paths[pathKey]; //update the pathRef
+        let newPath = makeLine(paths[pathKey], {color: "teal", className: "line " + pathKey, id: pathKey});
+        newPath.addTo(layers.Paths);
+    };
+    let destroyTmpPath = function() {
+        if(map.hasLayer(tmpPath)) {
+            tmpPath.removeFrom(map);
+            tmpSystem = tmpSystem = undefined;
+            map.off("mousemove", updateTmpPath);
+        }
+        return false;
+    };
+    let updateTmpPath = function(e) {
+        if(map.hasLayer(tmpPath)) tmpPath.removeFrom(map);
+        let sysYX = galaxy[tmpSystem].yx;
+        let mouseYX = e.latlng;
+        let options = {className: "tmpPath", color: 'orange', weight: 1, opacity: .6};
+        tmpPath = makeLine([sysYX, mouseYX], options);
+        tmpPath.addTo(map);
+    };
+
+    //override multiselect chooser
+    $('option').mousedown(function(e) {
+        e.preventDefault();
+        $(this).toggleClass('selected');
+        $(this).prop('selected', !$(this).prop('selected'));
+        return false;
+    });
+
+    let makeEditButton = function() {
+        if(!showLayer['editor']) return '';
+        return '<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit-system-data">Edit</button>'
+    };
+    let makeDebugPoints = function(spacing) {
+        let points = [];
+        let x = xMin;
+        let y = yMin;
+        let _spacing = spacing || 100;
+        while (x <= xMax) {
+            while (y >= yMax) {
+                let point = L.circle(xy(x, y), {radius: 3, opacity: 0.25, color: 'yellow'}).bindPopup("X: " + x + "<br> Y: " + y);
+                points.push(point);
+                y = y - _spacing;
+            }
+            x = x + _spacing;
+            y = yMin;
+        }
+        return L.layerGroup(points);
+    };
+    let makeDebugLines = function() {
+        let lines = [];
+        let x = xMin, y = yMin;
+        let spacing = 5;
+        while (x <= xMax) {
+            lines.push([xy(x, yMin), xy(x, yMax)]);
+            x = x + spacing;
+        }
+        while (y >= yMax) {
+            lines.push([xy(xMin, y), xy(xMax, y)]);
+            y = y - spacing;
+        }
+        return L.polyline(lines, {color: 'green', weight: 1, opacity: 0.75, className: 'debug'});
+    };
     let getSystemLinkedPathKeys = function(system, linkedSystems) {
         let keys = [];
         let linked = (!Array.isArray(linkedSystems)) ? strToArray(linkedSystems) : linkedSystems;
@@ -575,33 +784,54 @@ STFCmap = (function() {
         return keys;
     };
 
-    let onMapClick = function(e) {
-        //console.clear();
-        console.log("You clicked the map at x:", e.latlng.lng, "y:", e.latlng.lat);
-    };
-
-    let loadFile = function(file, callback) {
-        $.getJSON(file, function() {
-            //console.log("loading " + file);
-        }).done(function(d) {
-            callback(d);
-        }).fail(function(d) {
-            console.warn(file + " had a problem loading. Sorry!");
-            console.warn(d);
-        }).always(function() {
+    //update system data
+    let saveAdjXY = function(system, adjX, adjY){
+        console.log("saveAdjXY");
+        let sysData = galaxy[system];
+        let data = {id:sysData.id, AdjX:adjX, AdjY:adjY};
+        $.ajax({
+            url: "resources/update-adj-coords.php",
+            type: "POST",
+            data: data,
+            dataType: "html",
+            cache: false,
+            success: function(data) {
+                console.log("success saving adjusted XY", data);
+                if(reloadOnChange) location.reload();
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                console.warn("saveAdjXY", xhr.status + " -- " + thrownError);
+            }
         });
+        //console.warn("saveAdjXY", data);
+    };
+    let saveLinkedSystemsToDb = function(systems){
+        console.log("saveLinkedSystemsToDb");
+        let data = {};
+        if(typeof systems === 'string') systems = strToArray(systems);
+        for(let sysIndex in systems){
+            if(systems.hasOwnProperty(sysIndex)){
+                let sysName = systems[sysIndex];
+                let sysData = galaxy[sysName];
+                data[sysData.id] = sysData["Linked Systems"];
+            }
+        }
+        $.ajax({
+            url: "resources/update-travel-path.php",
+            type: "POST",
+            data: data,
+            dataType: "html",
+            cache: false,
+            success: function(data) {
+                console.log("Linked Systems update success", data);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                console.warn("saveLinkedSystemsToDb", xhr.status + " -- " + thrownError);
+            }
+        });
+        //console.warn("saving data", data);
     };
 
-    let setAttributions = function(data) {
-        let mapLink = "<a href='https://joeycrash135.github.io/stfc-galaxy-map/' title='Star Trek Fleet Command Galaxy Map' >";
-        let authLink = "<a href='https://github.com/joeycrash135/' title='joeycrash135 @ Github'>";
-        let shoutoutMyAlliance = "Viper Elite [VIP]";
-        let close = "</a>";
-        return mapLink + data.name + close + " v" + data.version + "<br>" + "By: " + authLink + data.author + close + " Alliance:" + shoutoutMyAlliance;
-    };
-
-    /////////////////// LOCAL LAZY ENTRIES //////////////////////
-    //Systems Debugger
     $('#local-update-submit').on("click", function(e) {
         let data = {};
         $.ajax({
@@ -620,56 +850,10 @@ STFCmap = (function() {
         });
     });
 
-    //override multiselect chooser
-    $('option').mousedown(function(e) {
-        e.preventDefault();
-        $(this).toggleClass('selected');
-        $(this).prop('selected', !$(this).prop('selected'));
-        return false;
-    });
-
-
-    let initLinkedSystemsTags = function() {
-        var systemTokens = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: systemNames
-        });
-        systemTokens.initialize();
-        var elt = $('#LinkedSystems');
-        elt.tagsinput({
-            tagClass: function(item) {
-                switch (item.faction) {
-                    case 'INDEPENDENT'   : return 'badge badge-secondary';
-                    case 'FEDERATION'  : return 'badge badge-primary';
-                    case 'KLINGON': return 'badge badge-danger';
-                    case 'ROMULAN'   : return 'badge badge-success';
-                }
-            },
-            itemValue: 'id',
-            itemText: 'name',
-            typeaheadjs: {
-                name: 'name',
-                displayKey: 'name',
-                source: systemTokens.ttAdapter()
-            }
-        });
-
-        $(".twitter-typeahead").css('display', 'inline');
-    };
-
 
     return { // public interface
         init: function() {
             init();
-        },
-        pathRefs: pathRefs,
-        count: function() {
-            let count = 0;
-            $.each(galaxy, function() {
-                count++;
-            });
-            return count;
         }
     };
 })();
