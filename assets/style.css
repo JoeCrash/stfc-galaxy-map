@@ -1,18 +1,56 @@
-html, body {
+/*html, body {
     height: 100%;
-   /* margin: 0;
-    background: #000;*/
-}
+   !* margin: 0;
+    background: #000;*!
+}*/
 
 .leaflet-container {
     /*background-color:rgba(0,0,0,0);*/
 }
 
-#map {
-    margin-top:70px;
-    width: 100%;
-    height: 700px;
+body {
+    padding: 0;
+    margin: 0;
 }
+body > #map-wrapper {
+    position: fixed;
+    top: calc(50px + 1em);
+    bottom: 0.1em;
+    right: 0;
+    left: 0;
+    vertical-align: top;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+    float: left;
+}
+
+/*!* make vertical objects visible *!
+#map {
+    overflow:visible;
+    transform:rotateX(30deg);
+}
+
+!* removes a flickering background color *!
+.leaflet-container {
+    background:none;
+}
+
+!* set up our 3D space *!
+#map-wrapper {
+    perspective:1800px;
+    transform-origin: bottom center;
+}
+
+#map,
+#map * {
+    -webkit-transform-style:preserve-3d;
+    transform-style:preserve-3d;
+
+}*/
+
 
 .dim {
     opacity: 0.2;

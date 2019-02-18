@@ -64,6 +64,7 @@ STFCmap = (function() {
     const yMin = 2000;
     const xMax = -2000;
     const yMax = -2000;
+    const bounds = [xy(xMin, yMin), xy(xMax, yMax)];
     const startingZoom = 0;
     const minZoom = -3;
     const maxZoom = 7;
@@ -108,7 +109,9 @@ STFCmap = (function() {
             minZoom: minZoom,
             maxZoom: maxZoom,
             zoomSnap: 0.5,
-            zoomDelta: 0.5
+            zoomDelta: 0.5,
+            maxBounds: bounds,
+            maxBoundsViscosity: 1.0
         });
 
         let galaxyFile = (env === 'live') ? "assets/json/galaxy.json" : 'resources/db-json.php'; //only works for me, for now...
@@ -188,7 +191,6 @@ STFCmap = (function() {
     let initMap = function() {
         //console.log("initMap");
         //set boundaries and load map img
-        let bounds = [xy(xMin, yMin), xy(xMax, yMax)];
         //layers["Map"] = L.imageOverlay('assets/wall_grid1024x128.png', bounds, {id: 'wall-grid', attribution: attributions});
         layers["Map"] = L.imageOverlay('assets/wall_grid.png', bounds, {id: 'wall-grid', attribution: attributions});
 
