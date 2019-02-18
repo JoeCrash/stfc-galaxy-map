@@ -67,7 +67,7 @@ STFCmap = (function() {
     const startingZoom = 0;
     const minZoom = -3;
     const maxZoom = 7;
-    let startingCoords = xy(-2878, 13);
+    let startingCoords = xy(-5072, -1695);
 
     //containers
     let galaxy = {}; //contains all systems information.
@@ -80,7 +80,8 @@ STFCmap = (function() {
     let layerControl; //the controls group
     let controlLayers; //holds the menu object, update this when removing paths
     let skippedSystems = []; //contains a list of systems without coordinates
-    let systemNames = []; //holds all the systems for easy linking
+    let systemNames = []; //holds all the system names for typeahead
+    let systemTokens = []; //holds system names in a tag format for typeahead
     let systemNodes = {}; //holds the system nodes events get bound to.
     //debugger/editor assistance
     let showLayer = {
@@ -89,7 +90,7 @@ STFCmap = (function() {
         'shipTypes': true,
         'editor': true
     };
-    let reloadOnChange = true;
+    let reloadOnChange = false;
     let debugMode = (env === 'local'); //auto start debug mode locally
     let editorLoaded = false; //enables extra functionality for map management
     let tmpSystem; //system while moving.
@@ -177,7 +178,8 @@ STFCmap = (function() {
             } else {
                 galaxy[name] = sys;
                 let linkedSysObject = {"id": sys.id, "name": name, "faction": sys.Zone};
-                systemNames.push(linkedSysObject);
+                systemTokens.push(linkedSysObject);
+                systemNames.push(name);
             }
         }
 
@@ -234,9 +236,12 @@ STFCmap = (function() {
         if(showLayer.systems) layers.System.addTo(map);
 
         setControlLayer();
+        initFlyToSystem();
 
         if(debugMode) {
             initLinkedSystemsTags(); //load tagging
+            //addLegend();
+            initBringNearSystem();
             map.on('click', onMapClick);
             map.on("contextmenu", function(e) {
                 return false;
@@ -278,7 +283,7 @@ STFCmap = (function() {
             if(linked.hasOwnProperty(i)) {
                 let nameA = systemName; //the current system name
                 let nameB = linked[i]; //one of the linked system's name
-
+                if(galaxy[nameA] === undefined || galaxy[nameB] === undefined) return true;
                 //console.log("check A", nameA, galaxy[nameA], galaxy[nameA] !== undefined);
                 //console.log("check B", nameB, galaxy[nameB], galaxy[nameB] !== undefined);
                 let A = galaxy[nameA].yx; //get the latLngs made earlier.
@@ -337,9 +342,10 @@ STFCmap = (function() {
             initSystemDebugMode(node);
             map.on("contextmenu", destroyTmpPath);
             node.on("mouseup", testClicks);
-        } else {
-            node.bindPopup(template);
         }
+
+        node.bindPopup(template);
+
         systemNodes[name] = node;
         return node;
     };
@@ -383,21 +389,135 @@ STFCmap = (function() {
             console.log("cancelling path", e);
             destroyTmpPath();
         }
-        //console.log("You clicked the map at x:", e.latlng.lng, "y:", e.latlng.lat);
+        console.log("You clicked the map at x:", e.latlng.lng, "y:", e.latlng.lat);
     };
+
     /*let addLegend = function() {
         var legend = L.control({position: 'bottomright'});
         legend.onAdd = function(map) {
             var div = L.DomUtil.create('div', 'Legend');
-            div.innerHTML =
-                '<i style="background:#72B2FF";></i><span style="font-weight: 600;">90 Minuten Kurzparkzone</span><br>' +
-                '<i style="background:#BEE7FF";></i><span style="font-weight: 600;">180 Minuten Kurzparkzone</span><br>' +
-                '<i style="background:#A3FF72";></i><span style="font-weight: 600;">Werktags Parkstraße</span><br>' +
-                '<i style="background:#D8D0F4";></i><span style="font-weight: 600;">Parkstraße</span><br>';
+            div.innerHTML = getDebugPanel();
             return div;
         };
         legend.addTo(map);
     };*/
+
+    /*let getDebugPanel = function(){
+        let panel = $("<div class=''></div>");
+        let input = "<input id='fly-to'></input>";
+        let submit = `<button class="btn btn-default" id="fly-to-system">FlyTo</button>`;
+        return panel.html();
+    };*/
+
+    let flyToSystem = function(system){
+        let sys;
+        if(system === undefined){
+            sys = $("#fly-to").val();
+        }else{
+            sys = system;
+        }
+        if(galaxy[sys] === undefined) return false;
+        console.log("flying to", sys, galaxy);
+        console.log("check sys", galaxy[sys]);
+        let yx = galaxy[sys].yx;
+        map.flyTo(yx);
+        systemNodes[sys].openTooltip();
+    };
+
+    let initFlyToSystem = function(){
+        //console.log("init flyTo", systemNames);
+        let sysNames = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            local: systemNames
+        });
+        sysNames.initialize();
+        $('#fly-to').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            },
+            {
+                name: 'systems',
+                source: sysNames.ttAdapter()
+            })
+            .on('keypress',function(e) {
+            if(e.which === 13) {
+                flyToSystem();
+            }
+        });
+        $("body").on('keydown',function(e) {
+            //console.log("pressed something", e);
+            let fly = $('#fly-to');
+            let moveSys = $('#move-this-system');
+
+            //console.log("is tab?", e.keyCode === 9, fly.is(":focus"));
+            if(e.keyCode === 9) {
+                if(!fly.is(":focus") && !moveSys.is(":focus")){
+                    e.preventDefault();
+                    fly.val("");
+                    fly.focus();
+                }
+            }
+        });
+
+        $("#fly-to-system").on("click", function(){
+            flyToSystem();
+        });
+    };
+
+    let initBringNearSystem = function(){
+        let move = $('#move-this-system');
+        let near = $('#near-this-system');
+        let go = $('#bring-to-system');
+        let sysNames = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            local: systemNames
+        });
+        sysNames.initialize();
+        let options = {
+            hint: true,
+            highlight: true,
+            minLength: 1
+        };
+        let source = {
+            name: 'systems',
+            source: sysNames.ttAdapter()
+        };
+        move.typeahead(options, source);
+        near.typeahead(options, source);
+
+        go.on('click', function(){
+            bringNearSystem();
+        });
+
+            /*.on('keypress',function(e) {
+                if(e.which === 13) {
+                    flyToSystem();
+                }
+            });*/
+
+    };
+
+    let bringNearSystem = function(){
+        let move = $('#move-this-system').val();
+        let near = $('#near-this-system').val();
+        if(move === '' || near === '') return false;
+        if(move === near) return false;
+        //get near coords
+        let nearCoords = galaxy[near].yx;
+        let x = nearCoords.lng + Math.floor(Math.random() * 51) - 25;
+        let y = nearCoords.lat + Math.floor(Math.random() * 51) - 25;
+        let newCoords = xy(x,y);
+        console.log("move", move, "near", near);
+        console.log("x", y, "y", y, "new", newCoords);
+        console.log("nearCoords", nearCoords);
+
+        systemNodes[move].setLatLng(newCoords);
+        galaxy[move].yx = newCoords;
+        flyToSystem(move);
+    };
 
     let makeSystemPopup = function(sys) {
         let adjustedCoords = '';
@@ -421,9 +541,11 @@ STFCmap = (function() {
     };
     let makeGridLines = function(spacing) {
         let lines = [];
-        let x = xMin;
-        let y = yMin;
-        let _spacing = spacing || 100; //define the spacing between lines, both x and y
+        let xOffset = 26;
+        let yOffset = 10;
+        let x = xMin + xOffset;
+        let y = yMin + yOffset;
+        let _spacing = spacing || 56; //define the spacing between lines
         if(_spacing < 1) _spacing = 1; //lines will not spread if spacing is set to 0
         let gridLineOptions = {color: 'white', weight: 0.5, opacity: 0.3, className: 'gridLines'};
 
@@ -574,6 +696,8 @@ STFCmap = (function() {
                     }
                 }
 
+                //layers["System"].getLayer(nodeID).moveTo(galaxy[draggedSystemName]["yx"]);
+                systemNodes[draggedSystemName].setLatLng(galaxy[draggedSystemName]["yx"]);
                 //remove all the paths
                 layers.Paths.remove();
                 let newPathsGroup = [];
@@ -589,12 +713,12 @@ STFCmap = (function() {
     //Cartography Helper (local editor stuff) - NOT AVAILABLE ON LIVE JUST YET
     let initLinkedSystemsTags = function() {
         console.log("init tags");
-        let systemTokens = new Bloodhound({
+        let sysTokens = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: systemNames
+            local: systemTokens
         });
-        systemTokens.initialize();
+        sysTokens.initialize();
         let elt = $('#LinkedSystems', 'body');
         elt.tagsinput({
             tagClass: function(item) {
@@ -614,7 +738,7 @@ STFCmap = (function() {
             typeaheadjs: {
                 name: 'name',
                 displayKey: 'name',
-                source: systemTokens.ttAdapter()
+                source: sysTokens.ttAdapter()
             }
         });
         console.log("thisgal", galaxy);
