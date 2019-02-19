@@ -111,11 +111,10 @@ STFCmap = (function() {
             zoomSnap: 0.5,
             zoomDelta: 0.5,
             maxBounds: bounds,
-            maxBoundsViscosity: 1.0
+            maxBoundsViscosity: 1.0,
+            preferCanvas: true,
         });
-
         let galaxyFile = (env === 'live') ? "assets/json/galaxy.json" : 'resources/db-json.php'; //only works for me, for now...
-        //console.log("Environment:", env);
         loadFile(galaxyFile, initMapData); //load the galaxy and extra info
         loadFile("assets/json/icons.json", initIcons); //load the icons
     };
@@ -297,6 +296,7 @@ STFCmap = (function() {
         }
     };
     let setPathsWithKey = function(paths, pathsGroup, options) {
+        let myRenderer = L.canvas({ padding: 0.5 });
         for (let label in paths) {
             if(paths.hasOwnProperty(label)) {
                 pathRefs[label] = makeLine(paths[label], options || {color: "blue", className: "line " + label, id: label});
@@ -549,6 +549,7 @@ STFCmap = (function() {
         let y = yMin + yOffset;
         let _spacing = spacing || 56; //define the spacing between lines
         if(_spacing < 1) _spacing = 1; //lines will not spread if spacing is set to 0
+        //let myRenderer = L.canvas({ padding: 0.5 });
         let gridLineOptions = {color: 'white', weight: 0.5, opacity: 0.3, className: 'gridLines'};
 
         while (x <= xMax) {
@@ -577,7 +578,7 @@ STFCmap = (function() {
     let setAttributions = function(data) {
         let mapLink = "<a href='https://joeycrash135.github.io/stfc-galaxy-map/' title='Star Trek Fleet Command Galaxy Map' >";
         let authLink = "<a href='https://github.com/joeycrash135/' title='joeycrash135 @ Github'>";
-        let shoutoutMyAlliance = "Viper Elite [VIP]";
+        let shoutoutMyAlliance = "Pit Vipers [VIP]";
         let close = "</a>";
         return mapLink + data.name + close + " v" + data.version + "<br>" + "By: " + authLink + data.author + close + " Alliance:" + shoutoutMyAlliance;
     };
