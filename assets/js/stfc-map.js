@@ -540,7 +540,8 @@ STFCmap = (function() {
         <br>Ship Types: ${sys["Ship Type"]}<br>Warp Range: ${sys["Warp Required"]}<br>Mines: ${sys["Mines"]}
         <br>Station Hubs: ${sys["Station Hub"]}<br>` + adjustedCoords;
         let cleanedName = cleanName(sys["Name"]);
-        let editButton = debugMode ? makeEditButton() : '';
+        //let editButton = debugMode ? makeEditButton() : '';
+        let editButton =  makeEditButton();
         let domain = (env === 'live') ? 'https://raw.githubusercontent.com/joeycrash135/stfc-galaxy-map/master/' : '';
         let img = "<img src='" + domain + "assets/img/" + cleanedName + ".png' width='175px' />";
         return divOpen + img + divClose + divOpen + info + divClose + divOpen + editButton + divClose;
