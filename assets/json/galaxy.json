@@ -4,7 +4,7 @@
         "version": "0.7.0",
         "author": "joeycrash135",
         "contributors": "",
-        "count": 597
+        "count": 598
     },
     "galaxy": [
         {
@@ -128,11 +128,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Independent",
-            "Linked Systems": "Sorenle",
+            "Linked Systems": "Sorenle, Niawillen",
             "Planets": "",
             "Primary System": "",
             "AdjX": "-4698",
-            "AdjY": "-346"
+            "AdjY": "-237"
         }, {
             "id": 7,
             "Name": "Agrico",
@@ -299,8 +299,8 @@
             "Linked Systems": "Rene",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-3440",
+            "AdjY": "464"
         }, {
             "id": 15,
             "Name": "Alacti",
@@ -779,11 +779,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Federation",
-            "Linked Systems": "Opla",
+            "Linked Systems": "Opla, Earorfilad",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4941",
-            "AdjY": "-282"
+            "AdjX": "-4949",
+            "AdjY": "-312"
         }, {
             "id": 38,
             "Name": "Ascher",
@@ -821,11 +821,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Independent",
-            "Linked Systems": "",
+            "Linked Systems": "Obilent, Elona",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4727",
+            "AdjY": "-517"
         }, {
             "id": 40,
             "Name": "Atreig",
@@ -1178,11 +1178,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Federation",
-            "Linked Systems": "",
+            "Linked Systems": "Doska",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4970",
+            "AdjY": "-127"
         }, {
             "id": 57,
             "Name": "BeK",
@@ -1265,8 +1265,8 @@
             "Linked Systems": "",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4971",
+            "AdjY": "7"
         }, {
             "id": 61,
             "Name": "Benzar",
@@ -1808,7 +1808,7 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Independent",
-            "Linked Systems": "Dyrr, Bridford, Landi",
+            "Linked Systems": "Bridford, Landi, Dyrr",
             "Planets": "",
             "Primary System": "",
             "AdjX": "",
@@ -1958,8 +1958,8 @@
             "Linked Systems": "",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4979",
+            "AdjY": "17"
         }, {
             "id": 94,
             "Name": "Cha'joQDu",
@@ -2081,7 +2081,7 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Independent",
-            "Linked Systems": "",
+            "Linked Systems": "Elona, Opla, Lorillia, Obilent",
             "Planets": "",
             "Primary System": "",
             "AdjX": "",
@@ -2336,8 +2336,8 @@
             "Linked Systems": "Opla",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4941",
-            "AdjY": "-361"
+            "AdjX": "-4927",
+            "AdjY": "-368"
         }, {
             "id": 112,
             "Name": "Dauouuy",
@@ -2459,11 +2459,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Independent",
-            "Linked Systems": "",
+            "Linked Systems": "Obilent, Labac, Dhi'ban",
             "Planets": "",
             "Primary System": "Yes",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4633",
+            "AdjY": "-491"
         }, {
             "id": 118,
             "Name": "Denobula Triaxa",
@@ -2564,11 +2564,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Independent",
-            "Linked Systems": "",
+            "Linked Systems": "Rigel, Deneva",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4686",
+            "AdjY": "-544"
         }, {
             "id": 123,
             "Name": "Didi",
@@ -2837,11 +2837,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Federation",
-            "Linked Systems": "",
+            "Linked Systems": "Gemet, Metea, Eagutim, Mapic, Durchman, Querlz, Bazamex, P'Jem",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4991",
+            "AdjY": "-97"
         }, {
             "id": 136,
             "Name": "Dovaler",
@@ -2963,11 +2963,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "",
-            "Linked Systems": "",
+            "Linked Systems": "Doska",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4961",
+            "AdjY": "-114"
         }, {
             "id": 142,
             "Name": "Duvlock",
@@ -3026,11 +3026,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Federation",
-            "Linked Systems": "",
+            "Linked Systems": "Doska",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4953",
+            "AdjY": "-95"
         }, {
             "id": 145,
             "Name": "Earokij",
@@ -3068,11 +3068,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "",
-            "Linked Systems": "",
+            "Linked Systems": "Aruna, Vulcan, S'mtharz",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-5090",
+            "AdjY": "-332"
         }, {
             "id": 147,
             "Name": "Eayou",
@@ -3197,8 +3197,8 @@
             "Linked Systems": "",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4995",
+            "AdjY": "22"
         }, {
             "id": 153,
             "Name": "Eisenhorn",
@@ -3299,7 +3299,7 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Independent",
-            "Linked Systems": "",
+            "Linked Systems": "Rigel, Cita Laga, Astrida",
             "Planets": "",
             "Primary System": "",
             "AdjX": "",
@@ -3449,8 +3449,8 @@
             "Linked Systems": "Quvolis, Zamam, Friefra",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4523",
-            "AdjY": "-838"
+            "AdjX": "-4535",
+            "AdjY": "-859"
         }, {
             "id": 165,
             "Name": "Eral",
@@ -3866,11 +3866,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Federation",
-            "Linked Systems": "",
+            "Linked Systems": "Gemet",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4989",
+            "AdjY": "-162"
         }, {
             "id": 185,
             "Name": "Follin",
@@ -4016,8 +4016,8 @@
             "Linked Systems": "Opla",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4815",
-            "AdjY": "-322"
+            "AdjX": "-4821",
+            "AdjY": "-331"
         }, {
             "id": 192,
             "Name": "Friefra",
@@ -4142,8 +4142,8 @@
             "Linked Systems": "Opla",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4882",
-            "AdjY": "-438"
+            "AdjX": "-4878",
+            "AdjY": "-430"
         }, {
             "id": 198,
             "Name": "Gemet",
@@ -4160,11 +4160,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Federation",
-            "Linked Systems": "",
+            "Linked Systems": "Vulcan, Lo'Uren Co, Foaiveb, Gowok, Iocau, Le'Onor, Zadiaoo, Doska",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-5028",
+            "AdjY": "-186"
         }, {
             "id": 199,
             "Name": "Glintara",
@@ -4307,11 +4307,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Federation",
-            "Linked Systems": "",
+            "Linked Systems": "Gemet",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-5051",
+            "AdjY": "-141"
         }, {
             "id": 206,
             "Name": "Gra",
@@ -4601,11 +4601,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "",
-            "Linked Systems": "",
+            "Linked Systems": "Priya, Niawillen, Losti",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4889",
+            "AdjY": "-145"
         }, {
             "id": 220,
             "Name": "Heima",
@@ -4811,7 +4811,7 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "",
-            "Linked Systems": "",
+            "Linked Systems": "S'mtharz, P'Jem",
             "Planets": "",
             "Primary System": "",
             "AdjX": "",
@@ -5021,11 +5021,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "",
-            "Linked Systems": "",
+            "Linked Systems": "Gemet",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-5078",
+            "AdjY": "-166"
         }, {
             "id": 240,
             "Name": "Ione",
@@ -5609,11 +5609,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Independent",
-            "Linked Systems": "Sorenle",
+            "Linked Systems": "",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4694",
-            "AdjY": "-296"
+            "AdjX": "-4631",
+            "AdjY": "-342"
         }, {
             "id": 268,
             "Name": "Kepp",
@@ -6071,11 +6071,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Independent",
-            "Linked Systems": "",
+            "Linked Systems": "Lycia, Deneva, Vindemiatrix",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4576",
+            "AdjY": "-515"
         }, {
             "id": 290,
             "Name": "Laidcenn",
@@ -6302,11 +6302,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "",
-            "Linked Systems": "",
+            "Linked Systems": "Gemet",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-5075",
+            "AdjY": "-234"
         }, {
             "id": 301,
             "Name": "Lelas",
@@ -6554,11 +6554,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "",
-            "Linked Systems": "",
+            "Linked Systems": "Gemet",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-5027",
+            "AdjY": "-214"
         }, {
             "id": 313,
             "Name": "Loaiy",
@@ -6620,8 +6620,8 @@
             "Linked Systems": "Zamam",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4564",
-            "AdjY": "-733"
+            "AdjX": "-4534",
+            "AdjY": "-716"
         }, {
             "id": 316,
             "Name": "Loiat",
@@ -6659,11 +6659,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "",
-            "Linked Systems": "",
+            "Linked Systems": "Opla, Cita Laga, Coridan",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4799",
+            "AdjY": "-443"
         }, {
             "id": 318,
             "Name": "Losti",
@@ -6680,11 +6680,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "",
-            "Linked Systems": "",
+            "Linked Systems": "Hann, P'Jem",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4902",
+            "AdjY": "-50"
         }, {
             "id": 319,
             "Name": "Lotch",
@@ -6806,11 +6806,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Independent",
-            "Linked Systems": "",
+            "Linked Systems": "Zaurak, Labac",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4625",
+            "AdjY": "-527"
         }, {
             "id": 325,
             "Name": "Lyon",
@@ -6995,11 +6995,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Federation",
-            "Linked Systems": "",
+            "Linked Systems": "Doska",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-5003",
+            "AdjY": "-65"
         }, {
             "id": 334,
             "Name": "Maq",
@@ -7310,11 +7310,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Federation",
-            "Linked Systems": "",
+            "Linked Systems": "Doska",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-5028",
+            "AdjY": "-110"
         }, {
             "id": 349,
             "Name": "Meuee",
@@ -7373,11 +7373,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Independent",
-            "Linked Systems": "Sorenle",
+            "Linked Systems": "",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4715",
-            "AdjY": "-303"
+            "AdjX": "-4663",
+            "AdjY": "-342"
         }, {
             "id": 352,
             "Name": "Mielikki",
@@ -7583,11 +7583,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Romulan",
-            "Linked Systems": "Sorenle",
+            "Linked Systems": "",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4688",
-            "AdjY": "-313"
+            "AdjX": "-4620",
+            "AdjY": "-334"
         }, {
             "id": 362,
             "Name": "Nacip",
@@ -7775,8 +7775,8 @@
             "Linked Systems": "",
             "Planets": "",
             "Primary System": "Yes",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4401",
+            "AdjY": "1046"
         }, {
             "id": 371,
             "Name": "Nezha",
@@ -7814,11 +7814,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "",
-            "Linked Systems": "",
+            "Linked Systems": "Afritalis, Hann",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4719",
+            "AdjY": "-190"
         }, {
             "id": 373,
             "Name": "Nibiq",
@@ -8066,11 +8066,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Independent",
-            "Linked Systems": "",
+            "Linked Systems": "Cita Laga, Astrida, Deneva",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4722",
+            "AdjY": "-472"
         }, {
             "id": 385,
             "Name": "Ocus",
@@ -8216,8 +8216,8 @@
             "Linked Systems": "Opla",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4801",
-            "AdjY": "-340"
+            "AdjX": "-4806",
+            "AdjY": "-341"
         }, {
             "id": 392,
             "Name": "Ophiuchi",
@@ -8255,7 +8255,7 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Independent",
-            "Linked Systems": "Freyda, Oltomon, Pune, Ora Leraa, Gelvin, Kosz, Skyedark, Dalukerinborva, Sorenle, Aruna",
+            "Linked Systems": "Freyda, Oltomon, Pune, Ora Leraa, Gelvin, Kosz, Skyedark, Dalukerinborva, Aruna, Cita Laga, Lorillia, Sorenle, Vulcan, Voss",
             "Planets": "",
             "Primary System": "",
             "AdjX": "",
@@ -8321,8 +8321,8 @@
             "Linked Systems": "Opla",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4852",
-            "AdjY": "-460"
+            "AdjX": "-4837",
+            "AdjY": "-449"
         }, {
             "id": 397,
             "Name": "Orion",
@@ -8444,11 +8444,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Federation",
-            "Linked Systems": "",
+            "Linked Systems": "Doska, Losti, Iainey",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4893",
+            "AdjY": "-3"
         }, {
             "id": 403,
             "Name": "Pahvo",
@@ -8552,8 +8552,8 @@
             "Linked Systems": "Sarraq",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-3208",
+            "AdjY": "412"
         }, {
             "id": 408,
             "Name": "Parka",
@@ -8801,11 +8801,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Federation",
-            "Linked Systems": "Sorenle",
+            "Linked Systems": "Vulcan, Voss, Hann",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4726",
-            "AdjY": "-316"
+            "AdjX": "-4824",
+            "AdjY": "-203"
         }, {
             "id": 420,
             "Name": "Pune",
@@ -8825,8 +8825,8 @@
             "Linked Systems": "Opla",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4800",
-            "AdjY": "-413"
+            "AdjX": "-4793",
+            "AdjY": "-398"
         }, {
             "id": 421,
             "Name": "Pyr",
@@ -8927,11 +8927,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "",
-            "Linked Systems": "",
+            "Linked Systems": "Doska",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-5025",
+            "AdjY": "-90"
         }, {
             "id": 426,
             "Name": "Quirad",
@@ -9077,8 +9077,8 @@
             "Linked Systems": "",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4682",
-            "AdjY": "-82"
+            "AdjX": "",
+            "AdjY": ""
         }, {
             "id": 433,
             "Name": "Ramexik",
@@ -9200,11 +9200,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Independent",
-            "Linked Systems": "Nelve, Bellas, Zaurak",
+            "Linked Systems": "Nelve, Bellas, Zaurak, Elona, Dhi'ban",
             "Planets": "",
             "Primary System": "Yes",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4735",
+            "AdjY": "-633"
         }, {
             "id": 439,
             "Name": "Riktor",
@@ -9557,11 +9557,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "",
-            "Linked Systems": "",
+            "Linked Systems": "Earorfilad, Iainey",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-5155",
+            "AdjY": "-230"
         }, {
             "id": 456,
             "Name": "Sahqooq",
@@ -9644,8 +9644,8 @@
             "Linked Systems": "Beta Renner, Parasum",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-3146",
+            "AdjY": "326"
         }, {
             "id": 460,
             "Name": "Schmietainski",
@@ -9833,8 +9833,8 @@
             "Linked Systems": "Opla",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4925",
-            "AdjY": "-426"
+            "AdjX": "-4919",
+            "AdjY": "-412"
         }, {
             "id": 469,
             "Name": "Slawlor",
@@ -9977,7 +9977,7 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Independent",
-            "Linked Systems": "Opla, Midnight, Kepler-018, Nabok, Afritalis, Priya",
+            "Linked Systems": "Opla, Afritalis",
             "Planets": "",
             "Primary System": "",
             "AdjX": "",
@@ -10337,8 +10337,8 @@
             "Linked Systems": "",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4984",
+            "AdjY": "17"
         }, {
             "id": 493,
             "Name": "Teenax",
@@ -11072,8 +11072,8 @@
             "Linked Systems": "",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-5029",
+            "AdjY": "-30"
         }, {
             "id": 528,
             "Name": "Uuuuhai",
@@ -11093,8 +11093,8 @@
             "Linked Systems": "",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4973",
+            "AdjY": "12"
         }, {
             "id": 529,
             "Name": "V'varia",
@@ -11342,11 +11342,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "",
-            "Linked Systems": "Zaurak",
+            "Linked Systems": "Zaurak, Labac",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4504",
-            "AdjY": "-568"
+            "AdjX": "-4537",
+            "AdjY": "-590"
         }, {
             "id": 541,
             "Name": "Vinland",
@@ -11468,11 +11468,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Federation",
-            "Linked Systems": "",
+            "Linked Systems": "Opla, Priya",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4820",
+            "AdjY": "-267"
         }, {
             "id": 547,
             "Name": "Vulcan",
@@ -11489,7 +11489,7 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Federation",
-            "Linked Systems": "",
+            "Linked Systems": "Earorfilad, Opla, Priya, Gemet",
             "Planets": "",
             "Primary System": "Yes",
             "AdjX": "",
@@ -11912,8 +11912,8 @@
             "Linked Systems": "",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4867",
+            "AdjY": "-13"
         }, {
             "id": 568,
             "Name": "Xiyia",
@@ -12203,11 +12203,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Federation",
-            "Linked Systems": "",
+            "Linked Systems": "Gemet",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-5084",
+            "AdjY": "-196"
         }, {
             "id": 582,
             "Name": "Zamam",
@@ -12266,11 +12266,11 @@
             "Warp Required": "",
             "Station Hub": "",
             "Faction": "Independent",
-            "Linked Systems": "Rigel, Vindemiatrix",
+            "Linked Systems": "Rigel, Vindemiatrix, Lycia",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "-4628",
-            "AdjY": "-646"
+            "AdjX": "-4623",
+            "AdjY": "-632"
         }, {
             "id": 585,
             "Name": "Zehoro",
@@ -12290,8 +12290,8 @@
             "Linked Systems": "",
             "Planets": "",
             "Primary System": "",
-            "AdjX": "",
-            "AdjY": ""
+            "AdjX": "-4996",
+            "AdjY": "17"
         }, {
             "id": 586,
             "Name": "Zeta Polis",
@@ -12544,6 +12544,27 @@
             "Primary System": "",
             "AdjX": "",
             "AdjY": ""
+        }, {
+            "id": 598,
+            "Name": "Coridan",
+            "SystemID": "218039082",
+            "Coordinates": "",
+            "X": -4812,
+            "Y": -498,
+            "System Level": 16,
+            "Zone": "INDEPENDENT",
+            "Mines": "",
+            "Hostiles": "",
+            "Ship Type": "",
+            "Ship Levels": "",
+            "Warp Required": "",
+            "Station Hub": "",
+            "Faction": "",
+            "Linked Systems": "Lorillia",
+            "Planets": "",
+            "Primary System": "",
+            "AdjX": "-4811",
+            "AdjY": "-499"
         }
     ]
 }

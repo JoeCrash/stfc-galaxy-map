@@ -36,24 +36,30 @@
                 <a class="nav-link disabled" href="#">Disabled</a>
             </li>
         </ul>-->
-        <form class="form-inline mt-2 mt-md-0 mr-5">
-            Move: &nbsp;<input id="move-this-system" class="form-control mr-sm-2" type="text" placeholder="Move This" aria-label="Move This">
-            Near: &nbsp;<input id="near-this-system" class="form-control mr-sm-2" type="text" placeholder="Near This" aria-label="">
-            <button  id="bring-to-system" class="btn btn-outline-success my-2 my-sm-0" type="button">Move Closer</button>
-        </form>
-        <form class="form-inline mt-2 mt-md-0">
-            <input id="fly-to" class="form-control mr-sm-2" type="text" placeholder="Search System" aria-label="Search">
-            <button  id="fly-to-system" class="btn btn-outline-success my-2 my-sm-0" type="button">Fly To</button>
-        </form>
+
+            <form class="form-inline mt-2 mt-md-0 mr-5">
+                Move: &nbsp;<input id="move-this-system" class="form-control mr-sm-2 typeahead" type="text" placeholder="Move This" aria-label="Move This">
+                Near: &nbsp;<input id="near-this-system" class="form-control mr-sm-2 typeahead" type="text" placeholder="Near This" aria-label="">
+                <button  id="bring-to-system" class="btn btn-info my-2 my-sm-0" type="button">Move Closer</button>
+            </form>
+
+            <form class="form-inline mt-2 mt-md-0 mr-5">
+                <input id="fly-to" class="form-control mr-sm-2 typeahead" type="text" placeholder="Search System" aria-label="Search">
+                <button  id="fly-to-system" class="btn btn-success my-2 my-sm-0" type="button">Fly To</button>
+            </form>
+
+            <form class="form-inline mt-2 mt-md-0 mr-5">
+                <input id="clear-linked" class="form-control mr-sm-2 typeahead" type="text" placeholder="Clear Paths on" aria-label="Remove Paths Linked">
+                <button  id="clear-linked-system" class="btn btn-danger my-2 my-sm-0" type="button">Clear Paths</button>
+            </form>
+
     </div>
 </nav>
+
 
 <div id="map-wrapper">
     <div id="map"></div>
 </div>
-
-
-
 
 <div id="edit-system-data" class="modal right modal-scrolling" tabindex="-1" role="dialog" aria-labelledby="edit-system-data-label" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-side modal-bottom-right" role="document">

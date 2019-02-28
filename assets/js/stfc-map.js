@@ -60,20 +60,19 @@ STFCmap = (function() {
 
     //set the map boundaries, coordinates, zoom, coords
     let map;
-    const xMin = -7000;
-    const yMin = 2000;
+    const xMin = -6000;
     const xMax = -2000;
+    const yMin = 2000;
     const yMax = -2000;
     const bounds = [xy(xMin, yMin), xy(xMax, yMax)];
-    const startingZoom = 0;
+    const startingZoom = -2;
     const minZoom = -3;
     const maxZoom = 7;
-    let startingCoords = xy(-5072, -1695);
-
+    let startingCoords = xy(-4979, -1853);
     //containers
     let galaxy = {}; //contains all systems information.
-    let paths = {}; //contains the paths coordinates
-    let pathKeys = {}; //contains the internal leaflet id's for easy access. -- pathKeys[uniquePathName] = matching _leaflet_id
+    let pathLatLngs = {}; //contains the paths coordinates
+    //let pathKeys = {}; //contains the internal leaflet id's for easy access. -- pathKeys[uniquePathName] = matching _leaflet_id
     let pathRefs = {}; //holds the actual path references, access just like pathKeys (may remove later)
     let icons; //icons
     let layers = {}; //contains all layer groups, for easy access
@@ -88,18 +87,19 @@ STFCmap = (function() {
     let showLayer = {
         'systems': true,
         'paths': true,
+        'grid': true,
         'shipTypes': true,
         'editor': true
     };
-    let reloadOnChange = false;
+    let saveEnabled = true; //disable saving of changes to the db
     let debugMode = (env === 'local'); //auto start debug mode locally
     let editorLoaded = false; //enables extra functionality for map management
-    let tmpSystem; //system while moving.
-    let tmpPath; //temporary paths
-    //used to prevent initial loading of features while developing.
+    let startOnSystem;
+    //let reloadOnChange = false;
 
-    //shameless promotions
-    let attributions;
+    let tmpSystem; //system while moving.
+    let tmpPath; //temporary paths for draw
+    let attributions; //shameless promotions
 
     let init = function() {
         //console.log("STFC map init");
@@ -117,6 +117,7 @@ STFCmap = (function() {
         let galaxyFile = (env === 'live') ? "assets/json/galaxy.json" : 'resources/db-json.php'; //only works for me, for now...
         loadFile(galaxyFile, initMapData); //load the galaxy and extra info
         loadFile("assets/json/icons.json", initIcons); //load the icons
+
     };
     let initIcons = function(iconsData) {
         icons = {};
@@ -204,10 +205,9 @@ STFCmap = (function() {
                 let sys = galaxy[systemKey];
                 let mines = sys["Mines"];
                 let linkedSystems = sys["Linked Systems"];
-
                 systemsGroup.push(makeSystemNode(sys)); //add a system node
-                setTravelPathsToGroup(systemKey, linkedSystems, paths); //setup the linked systems paths
-                setPathsWithKey(paths, pathsGroup); //add the path to the index & map
+                setTravelPathsToGroup(systemKey, linkedSystems, pathLatLngs); //setup the linked systems paths
+                setPathsWithKey(pathLatLngs, pathsGroup); //add the path to the index & map
                 setMines(sys["yx"], mines, minesGroup); //set the mines object
             }
         }
@@ -219,32 +219,43 @@ STFCmap = (function() {
 
         //setup all the groups separately to keep reference.
         layers["Paths"] = L.featureGroup(pathsGroup);
-        layers["Grid"] = makeGridLines(); //grid lines are 100 spaced until I figure out the correct spacing. think in coordinates, not pixels
+        layers["Grid"] = makeGridLines(); //grid lines are 50 spaced until I figure out the correct spacing. think in coordinates, not pixels
         layers["System"] = L.layerGroup(systemsGroup); //group the systems
         layers["Mines"] = {}; //start this empty to add in the groups later
         for (let resource in minesGroup) {
             if(minesGroup.hasOwnProperty(resource)) layers.Mines[resource] = L.layerGroup(minesGroup[resource]); //group the mines by key
         }
 
+        if(startOnSystem === undefined){
+            startOnSystem = localStorage.getItem('startOnSystem');
+            if(startOnSystem === null || startOnSystem === ''){
+                startOnSystem = "Kepler-018"; //start around the middle if the user hadn't visited a system before.
+            }
+        }
+
+        startingCoords = galaxy[startOnSystem].yx;
+
         map.layers = layers;
         map.setView(startingCoords, startingZoom);
 
         layers.Map.addTo(map);
-        layers.Grid.addTo(map);
 
-        //added these flags for easy on/off while adding features
+        //temp flags for limiting features while developing
+        if(showLayer.grid) layers.Grid.addTo(map);
         if(showLayer.paths) layers.Paths.addTo(map);
         if(showLayer.systems) layers.System.addTo(map);
 
         setControlLayer();
+        initTypeahead();
         initFlyToSystem();
 
         if(debugMode) {
             initLinkedSystemsTags(); //load tagging
             //addLegend();
             initBringNearSystem();
+            initClearPathsFromSystem();
             map.on('click', onMapClick);
-            map.on("contextmenu", function(e) {
+            map.on("contextmenu", function() {
                 return false;
             });
         }
@@ -296,7 +307,7 @@ STFCmap = (function() {
         }
     };
     let setPathsWithKey = function(paths, pathsGroup, options) {
-        let myRenderer = L.canvas({ padding: 0.5 });
+        //let myRenderer = L.canvas({ padding: 0.5 });
         for (let label in paths) {
             if(paths.hasOwnProperty(label)) {
                 pathRefs[label] = makeLine(paths[label], options || {color: "blue", className: "line " + label, id: label});
@@ -362,7 +373,6 @@ STFCmap = (function() {
     };
     let testClicks = function(e) {
         let which = e.originalEvent.which;
-        //console.log("testclicks", which);
         if(which === 1) {
             if(tmpSystem !== undefined) {
                 destroyTmpPath();
@@ -372,9 +382,10 @@ STFCmap = (function() {
                 let leafID = e.sourceTarget._leaflet_id;
                 console.log("left clicked - open system editor", e, sysName, leafID);
                 console.log("clicked galaxy data", galaxy[sysName]);
+
+                localStorage.setItem("startOnSystem", sysName); //save the last selected system to local storage to pick up where left off
             }
         } else if(which === 2) {
-
             let name = e.sourceTarget.options.id;
             console.log("mid clicked - Clear Adj Coordinates", e);
             console.log("name", name);
@@ -403,7 +414,6 @@ STFCmap = (function() {
         };
         legend.addTo(map);
     };*/
-
     /*let getDebugPanel = function(){
         let panel = $("<div class=''></div>");
         let input = "<input id='fly-to'></input>";
@@ -411,30 +421,14 @@ STFCmap = (function() {
         return panel.html();
     };*/
 
-    let flyToSystem = function(system){
-        let sys;
-        if(system === undefined){
-            sys = $("#fly-to").val();
-        }else{
-            sys = system;
-        }
-        if(galaxy[sys] === undefined) return false;
-        console.log("flying to", sys, galaxy);
-        console.log("check sys", galaxy[sys]);
-        let yx = galaxy[sys].yx;
-        map.flyTo(yx);
-        systemNodes[sys].openTooltip();
-    };
-
-    let initFlyToSystem = function(){
-        //console.log("init flyTo", systemNames);
+    let initTypeahead = function(){
         let sysNames = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.whitespace,
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             local: systemNames
         });
         sysNames.initialize();
-        $('#fly-to').typeahead({
+        $('.typeahead').typeahead({
                 hint: true,
                 highlight: true,
                 minLength: 1
@@ -442,12 +436,14 @@ STFCmap = (function() {
             {
                 name: 'systems',
                 source: sysNames.ttAdapter()
-            })
-            .on('keypress',function(e) {
-            if(e.which === 13) {
-                flyToSystem();
-            }
-        });
+            });
+    };
+    let initFlyToSystem = function(){
+        $('#fly-to').on('keypress',function(e) {
+                if(e.which === 13) {
+                    flyToSystem();
+                }
+            });
         $("body").on('keydown',function(e) {
             //console.log("pressed something", e);
             let fly = $('#fly-to');
@@ -467,41 +463,52 @@ STFCmap = (function() {
             flyToSystem();
         });
     };
-
+    let flyToSystem = function(system){
+        let sys;
+        if(system === undefined){
+            sys = $("#fly-to").val();
+        }else{
+            sys = system;
+        }
+        if(galaxy[sys] === undefined) return false;
+        console.log("flying to", sys, galaxy);
+        console.log("check sys", galaxy[sys]);
+        let yx = galaxy[sys].yx;
+        map.flyTo(yx);
+        systemNodes[sys].openTooltip();
+    };
     let initBringNearSystem = function(){
-        let move = $('#move-this-system');
-        let near = $('#near-this-system');
-        let go = $('#bring-to-system');
-        let sysNames = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.whitespace,
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: systemNames
-        });
-        sysNames.initialize();
-        let options = {
-            hint: true,
-            highlight: true,
-            minLength: 1
-        };
-        let source = {
-            name: 'systems',
-            source: sysNames.ttAdapter()
-        };
-        move.typeahead(options, source);
-        near.typeahead(options, source);
-
-        go.on('click', function(){
+        $('#bring-to-system').on('click', function(){
             bringNearSystem();
         });
-
-            /*.on('keypress',function(e) {
-                if(e.which === 13) {
-                    flyToSystem();
-                }
-            });*/
-
     };
-
+    let initClearPathsFromSystem = function(){
+        $("#clear-linked-system").on("click", function(){
+            let system = $("#clear-linked").val();
+            if(system === '') return false;
+            clearSystemLinkedPaths(system);
+        });
+    };
+    let clearSystemLinkedPaths = function(system){
+        let mainSysLinks = galaxy[system]["Linked Systems"];
+        let linkedArr = strToArray(mainSysLinks);
+        let updatedSystemNames = [system]; //hold the names that got updated, starting with the main system
+        for(let i in linkedArr){
+            let linkedSysName = linkedArr[i];
+            let linkedSysInfo = galaxy[linkedSysName]["Linked Systems"];
+            let linkedSysArr = strToArray(linkedSysInfo);
+            let hasLink = linkedSysArr.indexOf(system);
+            if(hasLink >= 0){
+                let pathKey = makePathKey(system, linkedSysName);
+                removePathAndRefresh(pathKey);
+                linkedSysArr.splice(hasLink, 1);
+                galaxy[linkedSysName]["Linked Systems"] = arrToStr(linkedSysArr); //update the linked system string
+                updatedSystemNames.push(linkedSysName);
+            }
+        }
+        galaxy[system]["Linked Systems"] = ''; //remove all entries from main system
+        saveLinkedSystemsToDb(updatedSystemNames);
+    };
     let bringNearSystem = function(){
         let move = $('#move-this-system').val();
         let near = $('#near-this-system').val();
@@ -543,11 +550,11 @@ STFCmap = (function() {
     };
     let makeGridLines = function(spacing) {
         let lines = [];
-        let xOffset = 26;
-        let yOffset = 10;
+        let xOffset = 36;
+        let yOffset = 45;
         let x = xMin + xOffset;
         let y = yMin + yOffset;
-        let _spacing = spacing || 56; //define the spacing between lines
+        let _spacing = spacing || 50; //define the spacing between lines
         if(_spacing < 1) _spacing = 1; //lines will not spread if spacing is set to 0
         //let myRenderer = L.canvas({ padding: 0.5 });
         let gridLineOptions = {color: 'white', weight: 0.5, opacity: 0.3, className: 'gridLines'};
@@ -586,7 +593,18 @@ STFCmap = (function() {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////   LAYER MANAGEMENT   ///////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    let removePathAndRefresh = function(pathKey){
+        let removeRef = pathRefs[pathKey];
+        if(layers.Paths.hasLayer(removeRef)){
+            delete pathLatLngs[pathKey];
+            layers.Paths.removeFrom(map);
+        }
+        let newPathsGroup = [];
+        setPathsWithKey(pathLatLngs, newPathsGroup);
+        layers.Paths = L.featureGroup(newPathsGroup);
+        layers.Paths.addTo(map);
+        setControlLayer();
+    };
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////   MAP EDITOR   /////////////////////////////////////////////////////////////////////////////////////////
@@ -597,21 +615,22 @@ STFCmap = (function() {
         let oldPathsGroup = []; //old paths group made from old paths
         let linkedSystems; //linked systems names
         let linkedSystemNames; //linked systems names array
-        let linkedKeys; //names of path keys attached to system
+        let linkedKeys; //names of travel path keys attached to system
         let linkCoords = []; //hold the coordinates of linked systems
-        let movePaths = []; //temp paths while moving
+        let movePathsGroup = []; //temp paths of linked systems while moving
+        let _movePaths = []; //temp paths of linked systems while moving
         let moveCount = 0;
         let draggedSystemName;
 
         node.on("dragstart", function(e) {
             draggedSystemName = e.target.options.id;
-            console.warn("dragstart", e);
+            console.warn("dragstart", e, movePathsGroup);
             let node = galaxy[draggedSystemName];
             linkedSystems = node["Linked Systems"];
             console.log("node linked drag", linkedSystems);
             if(linkedSystems) {
                 //add an old line to the map
-                let options = {className: "oldLine", color: 'red', weight: 2, opacity: 1};
+                let options = {className: "oldLine", color: 'yellow', weight: 1, opacity: 1};
                 linkedKeys = getSystemLinkedPathKeys(draggedSystemName, linkedSystems); //get the unique names of the paths
                 linkedSystemNames = strToArray(linkedSystems); //add the linked systems to an array
 
@@ -640,18 +659,18 @@ STFCmap = (function() {
             }
         });
 
-        node.on("move", function(e) {
+        node.on("drag", function(e) {
             //console.log("node moving", e);
-            if(moveCount > 0) movePaths.remove(); //clear any movePaths
-            moveCount++;
+            map.removeLayer(movePathsGroup);
             let draggedyx = e.latlng; //get the moving coords
             let options = {className: "tmpLine", color: 'green', weight: 2, opacity: 1};
-            let movePathsGroup = []; //movePaths group
+            _movePaths = []; //movePaths group
             for (let i in linkCoords) {
                 let tmpPath = makeLine([draggedyx, linkCoords[i]], options); //make a temp line
-                movePathsGroup.push(tmpPath);  //add to movePathsGroup
+                _movePaths.push(tmpPath);  //add to movePathsGroup
             }
-            movePaths = makeGroup(movePathsGroup).addTo(map); //convert to pathGroup and add to map
+            movePathsGroup = makeGroup(_movePaths);
+            movePathsGroup.addTo(map); //convert to pathGroup and add to map
         });
 
         node.on("dragend", function(e) {
@@ -659,34 +678,22 @@ STFCmap = (function() {
             let nodeID = e.target["_leaflet_id"];
             let endX = Math.round(e.target._latlng.lng);
             let endY = Math.round(e.target._latlng.lat);
+            //update the galaxy node for the map reload
+            galaxy[draggedSystemName]["Coordinates"] = endX + ", " + endY;
+            galaxy[draggedSystemName]["x"] = endX;
+            galaxy[draggedSystemName]["y"] = endY;
+            galaxy[draggedSystemName]["yx"] = xy(endX, endY);
+            layers["System"].getLayer(nodeID).setLatLng(xy(endX, endY));
 
-            if(debugMode && env === 'local'){
-                let dbID = e.target.options.id;
-                console.log("SAVING XY", nodeID, endX, endY);
-                saveAdjXY(dbID, endX, endY);
-            }
+            movePathsGroup.clearLayers();
+            map.removeLayer(oldPathsGroup);
+            map.removeLayer(movePathsGroup);
+            $(".tmpLines").remove();
+            //console.log("check movePaths empty", movePathsGroup);
+            //console.log("see map", map);
+
             if(linkedSystems) {
-                //reset the count for the next drag
-                moveCount = 0;
-                //get the new lat/lng
-
-                //remove the drag paths
-                oldPathsGroup.removeFrom(map);
-                movePaths.removeFrom(map);
-                $(".tmpLines").remove();
-
-                //update the galaxy node for the map reload
-                galaxy[draggedSystemName]["Coordinates"] = endX + ", " + endY;
-                galaxy[draggedSystemName]["x"] = endX;
-                galaxy[draggedSystemName]["y"] = endY;
-                galaxy[draggedSystemName]["yx"] = xy(endX, endY);
-
-                //console.log("paths", paths, galaxy[draggedSystemName].yx);
-                //console.log("nodeID", nodeID);
-                //snap to coordinates
-                layers["System"].getLayer(nodeID).setLatLng(xy(endX, endY));
-
-                //rewrite changed path latLngs
+            //rewrite changed path latLngs
                 for (let name in linkedSystemNames) {
                     if(linkedSystemNames.hasOwnProperty(name)) {
                         let A = linkedSystemNames[name];
@@ -695,7 +702,7 @@ STFCmap = (function() {
                         let yx = galaxy[A].yx; //grab the yx to save
                         let yx2 = xy(endX, endY); //new yx
                         let pathKey = makePathKey(A, B);
-                        paths[pathKey] = [yx, yx2];
+                        pathLatLngs[pathKey] = [yx, yx2];
                     }
                 }
 
@@ -704,12 +711,20 @@ STFCmap = (function() {
                 //remove all the paths
                 layers.Paths.remove();
                 let newPathsGroup = [];
-                setPathsWithKey(paths, newPathsGroup);
+                setPathsWithKey(pathLatLngs, newPathsGroup);
                 layers.Paths = makeGroup(newPathsGroup);
                 layers.Paths.addTo(map);
                 setControlLayer();
                 //copyToClipboard(galaxy[draggedSystemName]);
             }
+
+            //save updated coordinates to db
+            if(debugMode && env === 'local'){
+                let systemName = e.target.options.id;
+                //console.log("SAVING XY", nodeID, systemName, endX, endY);
+                saveAdjXY(systemName, endX, endY);
+            }
+
         });
     };
 
@@ -747,13 +762,8 @@ STFCmap = (function() {
         console.log("thisgal", galaxy);
         $(".twitter-typeahead").css('display', 'inline');
     };
-
     let generateTmpPath = function(e) {
-        //let _this = this;
-        //console.warn("generateTmpPath", e);
-        //console.log("generateTmpPath", e, _this.options.id, _this.sourceTarget.options.id, _this.options.id || _this.sourceTarget.options.id);
         let clickedSystemName = e.sourceTarget.options.id;
-
         let yx;
         //let options = {className: "tmpPath", color: 'orange', weight: 1, opacity: .6};
         if(tmpSystem === undefined) {
@@ -774,37 +784,6 @@ STFCmap = (function() {
             updateLinkedSystemsInfo(tmpSystem, clickedSystemName);
         }
         destroyTmpPath();
-        /*//add an old line to the map
-        let options = {className: "oldLine", color: 'red', weight: 2, opacity: 1};
-        linkedKeys = getSystemLinkedPathKeys(draggedSystemName, linkedSystems); //get the unique names of the paths
-        linkedSystemNames = strToArray(linkedSystems); //add the linked systems to an array
-
-        setTravelPathsToGroup(draggedSystemName, linkedSystems, oldPaths); //setup the paths coords and drop em in oldPaths
-        oldPathsGroup = createPath(oldPaths, options); //make a group from paths
-        oldPathsGroup.addTo(map); //add the old lines to maps
-
-        for (let key in linkedKeys) {
-            if(linkedKeys.hasOwnProperty(key)) {
-                let pathName = linkedKeys[key]; //get the unique pathName
-                //let pathToRemove = pathRefs[pathName]; //path ref
-
-                //console.log("test", pathToRemove);
-
-                $("." + pathName).remove(); //brute removal, need to remove from map memory also.
-                $(".tmpLine").remove(); //brute removal, need to remove from map memory also.
-            }
-        }
-
-        //save the linked coords for tempLines
-        for (let name in linkedSystemNames) {
-            if(linkedSystemNames.hasOwnProperty(name)) {
-                let systemName = linkedSystemNames[name];
-                let yx = galaxy[systemName].yx; //grab the yx to save
-                linkCoords.push(yx); //save just the latLng to reattach later
-            }
-        }*/
-        //on mousedrag get the changing mouse coords and redraw path
-
     };
     let updateLinkedSystemsInfo = function(A, B) {
         if(galaxy[A] === undefined || galaxy[B] === undefined) return false;
@@ -833,15 +812,15 @@ STFCmap = (function() {
         let yx = galaxy[A].yx; //grab the yx to save
         let yx2 = galaxy[B].yx; //new yx
         let pathKey = makePathKey(A, B); //make unique path name
-        paths[pathKey] = [yx, yx2]; //update the paths with the correct latlng
-        pathRefs[pathKey] = paths[pathKey]; //update the pathRef
-        let newPath = makeLine(paths[pathKey], {color: "teal", className: "line " + pathKey, id: pathKey});
+        pathLatLngs[pathKey] = [yx, yx2]; //update the paths with the correct latlng
+        pathRefs[pathKey] = pathLatLngs[pathKey]; //update the pathRef
+        let newPath = makeLine(pathLatLngs[pathKey], {color: "teal", className: "line " + pathKey, id: pathKey});
         newPath.addTo(layers.Paths);
     };
     let destroyTmpPath = function() {
         if(map.hasLayer(tmpPath)) {
             tmpPath.removeFrom(map);
-            tmpSystem = tmpSystem = undefined;
+            tmpSystem = tmpPath = undefined;
             map.off("mousemove", updateTmpPath);
         }
         return false;
@@ -913,6 +892,7 @@ STFCmap = (function() {
 
     //update system data
     let saveAdjXY = function(system, adjX, adjY){
+        if(!saveEnabled) return false;
         console.log("saveAdjXY");
         let sysData = galaxy[system];
         let data = {id:sysData.id, AdjX:adjX, AdjY:adjY};
@@ -924,7 +904,7 @@ STFCmap = (function() {
             cache: false,
             success: function(data) {
                 console.log("success saving adjusted XY", data);
-                if(reloadOnChange) location.reload();
+                //if(reloadOnChange) location.reload();
             },
             error: function(xhr, ajaxOptions, thrownError) {
                 console.warn("saveAdjXY", xhr.status + " -- " + thrownError);
@@ -933,6 +913,7 @@ STFCmap = (function() {
         //console.warn("saveAdjXY", data);
     };
     let saveLinkedSystemsToDb = function(systems){
+        if(!saveEnabled) return false;
         console.log("saveLinkedSystemsToDb");
         let data = {};
         if(typeof systems === 'string') systems = strToArray(systems);
@@ -960,6 +941,7 @@ STFCmap = (function() {
     };
 
     $('#local-update-submit').on("click", function(e) {
+        if(!saveEnabled) return false;
         let data = {};
         $.ajax({
             url: "resources/update-system-data.php",
