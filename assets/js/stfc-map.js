@@ -60,12 +60,14 @@ STFCmap = (function() {
 
     //set the map boundaries, coordinates, zoom, coords
     let map;
-    const xMin = -6000;
-    const xMax = -2000;
-    const yMin = 2000;
-    const yMax = -2000;
+    const xMin = -6458;
+    const xWidth = 4100;
+    const xMax = xMin+xWidth;
+    const yMin = 1462;
+    const yWidth = 3700;
+    const yMax = yMin-yWidth;
     const bounds = [xy(xMin, yMin), xy(xMax, yMax)];
-    const startingZoom = -2;
+    const startingZoom = 1;
     const minZoom = -3;
     const maxZoom = 7;
     let startingCoords = xy(-4979, -1853);
@@ -192,7 +194,8 @@ STFCmap = (function() {
         //console.log("initMap");
         //set boundaries and load map img
         //layers["Map"] = L.imageOverlay('assets/wall_grid1024x128.png', bounds, {id: 'wall-grid', attribution: attributions});
-        layers["Map"] = L.imageOverlay('assets/wall_grid.png', bounds, {id: 'wall-grid', attribution: attributions});
+        //layers["Map"] = L.imageOverlay('assets/wall_grid.png', bounds, {id: 'wall-grid', attribution: attributions});
+        layers["Map"] = L.imageOverlay('assets/mapped-grid.png', bounds, {id: 'wall-grid', attribution: attributions});
 
         //setup the groupArrays
         let systemsGroup = [];
@@ -273,10 +276,11 @@ STFCmap = (function() {
     let setControlLayer = function() {
         if(layerControl) layerControl.remove();
         baseMaps = {
-            "Map": layers.Grid
+            "Map": layers.Map
         };
         controlLayers = {
             "Base": {
+                "Grid": layers.Grid,
                 "System": layers.System,
                 "Travel Paths": layers.Paths
             },
@@ -535,10 +539,17 @@ STFCmap = (function() {
         if(isNumeric(sys["AdjX"]) && isNumeric(sys["AdjY"])) {
             adjustedCoords = `Override Coords: ${sys["AdjX"]}, ${sys["AdjY"]}`;
         }
-        let info = `${sys["Name"]} [${sys["System Level"]}]<br>System ${sys["SystemID"]}: ${sys["Coordinates"]}
-        <br>Faction: ${sys["Faction"]}<br>Hostiles: ${sys["Hostiles"]}<br>Hostiles Range: ${sys["Ship Levels"]}
-        <br>Ship Types: ${sys["Ship Type"]}<br>Warp Range: ${sys["Warp Required"]}<br>Mines: ${sys["Mines"]}
-        <br>Station Hubs: ${sys["Station Hub"]}<br>` + adjustedCoords;
+        let info = `${sys["Name"]} [${sys["System Level"]}]
+        <br>System ${sys["SystemID"]}: ${sys["Coordinates"]}
+        <br>Faction: ${sys["Faction"]}
+        <br>Hostiles: ${sys["Hostiles"]}
+        <br>Hostiles Range: ${sys["Ship Levels"]}
+        <br>Ship Types: ${sys["Ship Type"]}
+        <br>Warp Range: ${sys["Warp Required"]}
+        <br>Mines: ${sys["Mines"]}
+        <br>Station Hubs: ${sys["Station Hub"]}
+        <br>Linked Systems: ${sys["Linked Systems"]}
+        <br>` + adjustedCoords;
         let cleanedName = cleanName(sys["Name"]);
         //let editButton = debugMode ? makeEditButton() : '';
         let editButton =  makeEditButton();
@@ -551,8 +562,8 @@ STFCmap = (function() {
     };
     let makeGridLines = function(spacing) {
         let lines = [];
-        let xOffset = 36;
-        let yOffset = 45;
+        let xOffset = 0;
+        let yOffset = 50;
         let x = xMin + xOffset;
         let y = yMin + yOffset;
         let _spacing = spacing || 50; //define the spacing between lines
@@ -653,6 +664,7 @@ STFCmap = (function() {
                 for (let name in linkedSystemNames) {
                     if(linkedSystemNames.hasOwnProperty(name)) {
                         let systemName = linkedSystemNames[name];
+                        console.log("debugme", systemName, galaxy[systemName]);
                         let yx = galaxy[systemName].yx; //grab the yx to save
                         linkCoords.push(yx); //save just the latLng to reattach later
                     }
