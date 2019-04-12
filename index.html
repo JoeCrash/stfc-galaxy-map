@@ -6,9 +6,9 @@
         <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" href="qgis/css/leaflet.css">
-        <link rel="stylesheet" href="qgis/css/qgis2web.css"><link rel="stylesheet" href="qgis/css/fontawesome-all.min.css">
-        <link rel="stylesheet" href="qgis/css/leaflet-search.css">
+        <link rel="stylesheet" href="./qgis/css/leaflet.css">
+        <link rel="stylesheet" href="./qgis/css/qgis2web.css"><link rel="stylesheet" href="./qgis/css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="./qgis/css/leaflet-search.css">
         <style>
         #map {
             width: 1694px;
@@ -20,23 +20,23 @@
     <body>
         <div id="map">
         </div>
-        <script src="qgis/js/qgis2web_expressions.js"></script>
-        <script src="qgis/js/leaflet.js"></script>
-        <script src="qgis/js/leaflet.rotatedMarker.js"></script>
-        <script src="qgis/js/leaflet.pattern.js"></script>
-        <script src="qgis/js/leaflet-hash.js"></script>
-        <script src="qgis/js/Autolinker.min.js"></script>
-        <script src="qgis/js/rbush.min.js"></script>
-        <script src="qgis/js/labelgun.min.js"></script>
-        <script src="qgis/js/labels.js"></script>
-        <script src="qgis/js/proj4.js"></script>
-        <script src="qgis/js/proj4leaflet.js"></script>
-        <script src="qgis/js/leaflet-search.js"></script>
-        <script src="qgis/data/klingonterritory_0.js"></script>
-        <script src="qgis/data/romulanterritory_1.js"></script>
-        <script src="qgis/data/federationterritory_2.js"></script>
-        <script src="qgis/data/travelpaths_3.js"></script>
-        <script src="qgis/data/stfcgalaxy_4.js"></script>
+        <script src="./qgis/js/qgis2web_expressions.js"></script>
+        <script src="./qgis/js/leaflet.js"></script>
+        <script src="./qgis/js/leaflet.rotatedMarker.js"></script>
+        <script src="./qgis/js/leaflet.pattern.js"></script>
+        <script src="./qgis/js/leaflet-hash.js"></script>
+        <script src="./qgis/js/Autolinker.min.js"></script>
+        <script src="./qgis/js/rbush.min.js"></script>
+        <script src="./qgis/js/labelgun.min.js"></script>
+        <script src="./qgis/js/labels.js"></script>
+        <script src="./qgis/js/proj4.js"></script>
+        <script src="./qgis/js/proj4leaflet.js"></script>
+        <script src="./qgis/js/leaflet-search.js"></script>
+        <script src="./qgis/data/klingonterritory_0.js"></script>
+        <script src="./qgis/data/romulanterritory_1.js"></script>
+        <script src="./qgis/data/federationterritory_2.js"></script>
+        <script src="./qgis/data/travelpaths_3.js"></script>
+        <script src="./qgis/data/stfcgalaxy_4.js"></script>
         <script>
         var m2px = 1;
         function newM2px() {
@@ -61,7 +61,7 @@
         var map = L.map('map', {
             crs: crs,
             continuousWorld: false,
-            worldCopyJump: false, 
+            worldCopyJump: false,
             zoomControl:true, maxZoom:14, minZoom:10
         }).fitBounds([[40.10923857290241,-77.53942745646816],[40.10927333134864,-77.53934457011245]]);
         var hash = new L.Hash(map);
@@ -80,7 +80,7 @@
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1.0, 
+                weight: 1.0,
                 fill: true,
                 fillOpacity: 1,
                 fillColor: 'rgba(255,3,3,1.0)',
@@ -108,7 +108,7 @@
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1.0, 
+                weight: 1.0,
                 fill: true,
                 fillOpacity: 1,
                 fillColor: 'rgba(54,213,54,1.0)',
@@ -136,7 +136,7 @@
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1.0, 
+                weight: 1.0,
                 fill: true,
                 fillOpacity: 1,
                 fillColor: 'rgba(29,135,233,1.0)',
@@ -297,7 +297,7 @@
         bounds_group.addLayer(layer_stfcgalaxy_4);
         map.addLayer(layer_stfcgalaxy_4);
         var baseMaps = {};
-        L.control.layers(baseMaps,{'<img src="qgis/legend/stfcgalaxy_4.png" /> stfc-galaxy': layer_stfcgalaxy_4,'<img src="qgis/legend/travelpaths_3.png" /> travel-paths': layer_travelpaths_3,'<img src="qgis/legend/federationterritory_2.png" /> federation-territory': layer_federationterritory_2,'<img src="qgis/legend/romulanterritory_1.png" /> romulan-territory': layer_romulanterritory_1,'<img src="qgis/legend/klingonterritory_0.png" /> klingon-territory': layer_klingonterritory_0,},{collapsed:false}).addTo(map);
+        L.control.layers(baseMaps,{'<img src="./qgis/legend/stfcgalaxy_4.png" /> stfc-galaxy': layer_stfcgalaxy_4,'<img src="./qgis/legend/travelpaths_3.png" /> travel-paths': layer_travelpaths_3,'<img src="./qgis/legend/federationterritory_2.png" /> federation-territory': layer_federationterritory_2,'<img src="./qgis/legend/romulanterritory_1.png" /> romulan-territory': layer_romulanterritory_1,'<img src="./qgis/legend/klingonterritory_0.png" /> klingon-territory': layer_klingonterritory_0,},{collapsed:false}).addTo(map);
         setBounds();
         newM2px();
 
