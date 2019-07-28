@@ -5,59 +5,64 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89e9c977-e654-40ba-90d4-5b2b0f75f3b7" name="Default" comment="perform cleanup on code, separate private functionality. create html base index">
-      <change afterPath="$PROJECT_DIR$/.idea/STFCmap.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Hitman.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/joeycrash135.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vagrant.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/webResources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/baked-map.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icon/other/Battle Triangle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icon/other/GridFloor01_sharp.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icon/other/StarTrekFC_Logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icon/other/corrupted_data_Large.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icon/other/decoded_data_Large.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icon/other/texture_necro_cloud_near.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/js/augment-territory.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/js/federation-territory.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/js/klingon-territory.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/js/leaflet.easyprint.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/js/leaflet.easyprint.js.map" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/js/proj4.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/js/proj4leaflet.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/js/rbush.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/js/romulan-territory.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/js/stfc-galaxy.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/js/travel-paths.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/json/galaxy.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/json/territories.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/json/travel-paths.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/mapcheck16400.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/mapcheck8200.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/mapped-grid-debug.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/mapped-grid-old.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/mapped-grid.pgw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/mapped-grid.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/pathcheck.gif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/wall_grid.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/wall_grid1024x128.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/wall_grid1024x128B.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qgis/data/augmentterritory_3.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qgis/data/stfcgalaxy_5.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qgis/data/travelpaths_4.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qgis/legend/augmentterritory_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qgis/legend/stfcgalaxy_5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/qgis/legend/travelpaths_4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/MarkerCluster.Default.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/MarkerCluster.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/fontawesome-all.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/cancel.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/cancel_@2X.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/check.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/check_@2X.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/focus.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/focus_@2X.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/layers-2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/layers.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/marker-icon-2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/marker-icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/marker-shadow.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/measure-control.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/rulers.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/rulers_@2X.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/start.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/start_@2X.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/throbber.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/trash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/images/trash_@2X.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/leaflet.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/css/qgis2web.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/data/augmentterritory_3.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/data/federationterritory_2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/data/klingonterritory_0.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/data/romulanterritory_1.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/data/stfcgalaxy_5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/data/travelpaths_4.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/Autolinker.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/Leaflet.VectorGrid.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/OSMBuildings-Leaflet.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/labelgun.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/labels.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/leaflet-hash.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/leaflet-heat.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/leaflet-svg-shape-markers.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/leaflet-tilelayer-wmts.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/leaflet.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/leaflet.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/leaflet.markercluster.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/leaflet.rotatedMarker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/leaflet.wms.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/multi-style-layer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/proj4.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/proj4leaflet.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/qgis2web_expressions.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/js/rbush.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/legend/augmentterritory_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/legend/federationterritory_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/legend/klingonterritory_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/legend/romulanterritory_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/legend/stfcgalaxy_5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/legend/travelpaths_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/webfonts/fa-solid-900.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qgis/webfonts/fa-solid-900.woff2" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -81,11 +86,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="175">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/indexmapedit.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="250">
+              <caret line="185" column="106" lean-forward="true" selection-start-line="185" selection-start-column="106" selection-end-line="185" selection-end-column="106" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/stfc-map.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="340">
-              <caret line="218" lean-forward="true" selection-start-line="218" selection-end-line="218" />
+              <caret line="218" selection-start-line="218" selection-end-line="218" />
               <folding>
                 <element signature="e#335#439#0" />
                 <element signature="e#610#719#0" />
@@ -125,7 +139,7 @@
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="493">
-              <caret line="47" column="68" lean-forward="true" selection-start-line="47" selection-start-column="68" selection-end-line="47" selection-end-column="68" />
+              <caret line="47" column="68" selection-start-line="47" selection-start-column="68" selection-end-line="47" selection-end-column="68" />
             </state>
           </provider>
         </entry>
@@ -162,16 +176,27 @@
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="34">
-              <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+              <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="17">
               <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/indexqgis.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <folding>
+                <element signature="e#78#86#1" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -439,10 +464,10 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Testserver\STFCmap\old" />
       <recent name="D:\Testserver\STFCmap\resources" />
       <recent name="D:\Testserver\STFCmap\assets\js" />
       <recent name="D:\Testserver\STFCmap" />
-      <recent name="D:\Testserver\STFCmap\old" />
       <recent name="D:\Testserver\STFCmap\assets" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
@@ -606,7 +631,7 @@
       <workItem from="1563768926390" duration="838000" />
       <workItem from="1563781775109" duration="404000" />
       <workItem from="1563838768846" duration="209000" />
-      <workItem from="1564340541317" duration="12632000" />
+      <workItem from="1564340541317" duration="13681000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit from CLI, update file structure, add icons, add debug grid, add debug points, add control layers, add leaflet draw, add favicon, swap to leaflet src for development">
       <created>1549564439789</created>
@@ -741,11 +766,18 @@
       <option name="project" value="LOCAL" />
       <updated>1564355600138</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="perform cleanup on code, separate private functionality. create html base index">
+      <created>1564356270143</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1564356270143</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="797024000" />
+    <option name="totallyTimeSpent" value="798073000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -1035,22 +1067,13 @@
     <entry file="file://$PROJECT_DIR$/info.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/indexqgis.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#78#86#1" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.htaccess">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="493">
-          <caret line="47" column="68" lean-forward="true" selection-start-line="47" selection-start-column="68" selection-end-line="47" selection-end-column="68" />
+          <caret line="47" column="68" selection-start-line="47" selection-start-column="68" selection-end-line="47" selection-end-column="68" />
         </state>
       </provider>
     </entry>
@@ -1079,7 +1102,7 @@
     <entry file="file://$PROJECT_DIR$/assets/js/stfc-map.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
-          <caret line="218" lean-forward="true" selection-start-line="218" selection-end-line="218" />
+          <caret line="218" selection-start-line="218" selection-end-line="218" />
           <folding>
             <element signature="e#335#439#0" />
             <element signature="e#610#719#0" />
@@ -1141,17 +1164,10 @@
     <entry file="file://$PROJECT_DIR$/assets/favicon.ico">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/indexmapedit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="678">
-          <caret line="196" column="7" selection-start-line="196" selection-start-column="7" selection-end-line="196" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
-          <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+          <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -1159,6 +1175,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indexqgis.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#78#86#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indexmapedit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="185" column="106" lean-forward="true" selection-start-line="185" selection-start-column="106" selection-end-line="185" selection-end-column="106" />
         </state>
       </provider>
     </entry>
