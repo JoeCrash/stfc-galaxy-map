@@ -1,0 +1,1192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="89e9c977-e654-40ba-90d4-5b2b0f75f3b7" name="Default" comment="perform cleanup on code, separate private functionality. create html base index">
+      <change afterPath="$PROJECT_DIR$/.idea/STFCmap.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/Hitman.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/joeycrash135.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vagrant.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/webResources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/baked-map.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icon/other/Battle Triangle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icon/other/GridFloor01_sharp.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icon/other/StarTrekFC_Logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icon/other/corrupted_data_Large.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icon/other/decoded_data_Large.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/icon/other/texture_necro_cloud_near.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/augment-territory.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/federation-territory.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/klingon-territory.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/leaflet.easyprint.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/leaflet.easyprint.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/proj4.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/proj4leaflet.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/rbush.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/romulan-territory.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/stfc-galaxy.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/travel-paths.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/json/galaxy.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/json/territories.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/json/travel-paths.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/mapcheck16400.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/mapcheck8200.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/mapped-grid-debug.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/mapped-grid-old.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/mapped-grid.pgw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/mapped-grid.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/pathcheck.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/wall_grid.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/wall_grid1024x128.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/wall_grid1024x128B.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/qgis/data/augmentterritory_3.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/qgis/data/stfcgalaxy_5.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/qgis/data/travelpaths_4.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/qgis/legend/augmentterritory_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/qgis/legend/stfcgalaxy_5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/qgis/legend/travelpaths_4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="175">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/js/stfc-map.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="218" lean-forward="true" selection-start-line="218" selection-end-line="218" />
+              <folding>
+                <element signature="e#335#439#0" />
+                <element signature="e#610#719#0" />
+                <element signature="e#877#927#0" />
+                <element signature="e#1169#1434#0" />
+                <element signature="e#1443#1636#0" expanded="true" />
+                <element signature="e#1675#1829#0" />
+                <element signature="e#1987#2045#0" />
+                <element signature="e#2222#2521#0" />
+                <element signature="e#2561#3089#0" />
+                <element signature="e#3134#3482#0" />
+                <element signature="e#3525#3733#0" />
+                <element signature="e#13902#14068#0" expanded="true" />
+                <element signature="e#14136#14241#0" expanded="true" />
+                <element signature="e#14255#14348#0" expanded="true" />
+                <element signature="e#55451#55535#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/json/systems.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="64" column="24" selection-start-line="64" selection-start-column="24" selection-end-line="64" selection-end-column="24" />
+              <folding>
+                <element signature="e#98#889#0" />
+                <element signature="e#948#1041#0" />
+                <element signature="e#1069#1624#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="493">
+              <caret line="47" column="68" lean-forward="true" selection-start-line="47" selection-start-column="68" selection-end-line="47" selection-end-column="68" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/json/icons.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/baked-map.gif">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/favicon.ico">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/assets/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="493">
+              <caret line="29" column="11" selection-start-line="29" selection-start-column="11" selection-end-line="29" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package_json" />
+        <option value="CSS File" />
+        <option value="HTML File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>solarion</find>
+      <find>systemsGroup</find>
+      <find>layers[&quot;s</find>
+      <find>layers.s</find>
+      <find>layers.System</find>
+      <find>layers[&quot;System</find>
+      <find>layers.Min</find>
+      <find>setMines</find>
+      <find>MinesGroup</find>
+      <find>initIcons</find>
+      <find>icons</find>
+      <find>layers[&quot;Mines</find>
+      <find>layers.Mines</find>
+      <find>minesGroup</find>
+      <find>setGroups</find>
+      <find>co</find>
+      <find>start</find>
+      <find>visibi</find>
+      <find>bindPop</find>
+      <find>click</find>
+      <find>openPop</find>
+      <find>popup</find>
+      <find>openPopup</find>
+      <find>img</find>
+      <find>snap</find>
+      <find>8200</find>
+      <find>assets/icon/</find>
+      <find>icon</find>
+      <find>flyToSystem</find>
+      <find>flyTo</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>primary</replace>
+      <replace>32, 32</replace>
+      <replace>let</replace>
+      <replace>Ore</replace>
+      <replace>&quot;:break;</replace>
+      <replace>assets/icon/</replace>
+      <replace>System Level</replace>
+      <replace>2* Raw 11Gas</replace>
+      <replace>id</replace>
+      <replace>name</replace>
+      <replace>faction</replace>
+      <replace>faction:</replace>
+      <replace>modal-edit-system</replace>
+      <replace>STFCmap.strToArray</replace>
+      <replace>STFCmap.makePathKey</replace>
+      <replace>STFCmap.setControlLayer</replace>
+      <replace>STFCmap.copyToClipboard</replace>
+      <replace>/qgis/</replace>
+      <replace>./qgis/</replace>
+      <replace>href=&quot;qgis/</replace>
+      <replace>&quot;qgis/css</replace>
+      <replace>src=&quot;qgis/</replace>
+      <replace>&quot;qgis/data/</replace>
+      <replace>data/</replace>
+      <replace>[</replace>
+      <replace>]</replace>
+      <replace>=&gt;</replace>
+      <replace>systemsPane</replace>
+      <replace>systemsJson</replace>
+      <replace>=</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/assets/json/map.json" />
+        <option value="$PROJECT_DIR$/assets/js/tagsinput.js" />
+        <option value="$PROJECT_DIR$/assets/js/tags.js" />
+        <option value="$PROJECT_DIR$/assets/tagsinput.css" />
+        <option value="$PROJECT_DIR$/test.html" />
+        <option value="$PROJECT_DIR$/resources/update-travel-paths.php" />
+        <option value="$PROJECT_DIR$/assets/json/galaxy.json" />
+        <option value="$PROJECT_DIR$/resources/update-adj-coords.php" />
+        <option value="$PROJECT_DIR$/resources/update-travel-path.php" />
+        <option value="$PROJECT_DIR$/info.php" />
+        <option value="$PROJECT_DIR$/resources/PDOCrud.php" />
+        <option value="$PROJECT_DIR$/resources/save-travel-paths.php" />
+        <option value="$PROJECT_DIR$/qgis2web/index.html" />
+        <option value="$PROJECT_DIR$/indexv2.html" />
+        <option value="$PROJECT_DIR$/assets/js/klingon-territory.js" />
+        <option value="$PROJECT_DIR$/resources/systems.php" />
+        <option value="$PROJECT_DIR$/index3.html" />
+        <option value="$PROJECT_DIR$/assets/js/augment-territory.js" />
+        <option value="$PROJECT_DIR$/indexqgis.html" />
+        <option value="$PROJECT_DIR$/resources/augment-coords.csv" />
+        <option value="$PROJECT_DIR$/assets/json/territories.json" />
+        <option value="$PROJECT_DIR$/resources/csv-coords-to-leaflet-polygon.php" />
+        <option value="$PROJECT_DIR$/.htaccess" />
+        <option value="$PROJECT_DIR$/resources/systems-geojson.php" />
+        <option value="E:/fleet-assist/fleet-guardian.js" />
+        <option value="$PROJECT_DIR$/assets/style.css" />
+        <option value="$PROJECT_DIR$/resources/screenshots.php" />
+        <option value="$PROJECT_DIR$/iframe.php" />
+        <option value="$PROJECT_DIR$/snapshot.php" />
+        <option value="$PROJECT_DIR$/indexmapedit.html" />
+        <option value="$PROJECT_DIR$/assets/json/travel-paths.json" />
+        <option value="$PROJECT_DIR$/resources/travel-paths-geojson.php" />
+        <option value="$PROJECT_DIR$/resources/db-csv.php" />
+        <option value="$PROJECT_DIR$/resources/db-json.php" />
+        <option value="$PROJECT_DIR$/resources/write-stfc-galaxy-csv.php" />
+        <option value="$PROJECT_DIR$/resources/update-linked-systems-geojson.php" />
+        <option value="$PROJECT_DIR$/resources/write-systems-json.php" />
+        <option value="$PROJECT_DIR$/resources/echo-systems-json.php" />
+        <option value="$PROJECT_DIR$/resources/write-stfc-travel-paths-csv.php" />
+        <option value="E:/Projects/STFCbot/stfc.pro/app.js" />
+        <option value="$PROJECT_DIR$/api/index.php" />
+        <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/assets/js/stfc-map-editor.js" />
+        <option value="$PROJECT_DIR$/assets/json/systems.json" />
+        <option value="$PROJECT_DIR$/resources/restore-system-coords-from-json.php" />
+        <option value="$PROJECT_DIR$/assets/json/icons.json" />
+        <option value="$PROJECT_DIR$/assets/js/stfc-map.js" />
+        <option value="$PROJECT_DIR$/assets/js/custom.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBowerSettings">
+    <node-interpreter value="project" />
+    <bower-package value="" />
+    <bower.json value="" />
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 5.6" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="8" />
+    <option name="width" value="1861" />
+    <option name="height" value="1047" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>GeneralPHP</id>
+          </State>
+          <State>
+            <id>HTML</id>
+          </State>
+          <State>
+            <id>PHP</id>
+          </State>
+          <State>
+            <id>PHPDocPHP</id>
+          </State>
+          <State>
+            <id>Probable bugsPHP</id>
+          </State>
+          <State>
+            <id>SQL</id>
+          </State>
+          <State>
+            <id>Type compatibilityPHP</id>
+          </State>
+          <State>
+            <id>UndefinedPHP</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>SQL</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <autoscrollToSource Scope="true" />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <expand>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="STFCmap" type="cbb8eebc:String" user="STFCmap" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="STFCmap" type="cbb8eebc:String" user="STFCmap" />
+              <item name="assets" type="cbb8eebc:String" user="assets" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="STFCmap" type="b2602c69:ProjectViewProjectNode" />
+              <item name="STFCmap" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="STFCmap" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="add_unversioned_files" value="true" />
+    <property name="ignore_missing_gitignore" value="true" />
+    <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
+    <property name="js.eslint.eslintPackage" value="" />
+    <property name="js.eslint.nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.jscs" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.selected.package.eslint" value="" />
+    <property name="node.js.selected.package.jscs" value="" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="C:/Program Files/nodejs/node" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.vagrant" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Testserver\STFCmap\resources" />
+      <recent name="D:\Testserver\STFCmap\assets\js" />
+      <recent name="D:\Testserver\STFCmap" />
+      <recent name="D:\Testserver\STFCmap\old" />
+      <recent name="D:\Testserver\STFCmap\assets" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Testserver\STFCmap" />
+      <recent name="D:\Testserver\STFCmap\easter-eggs" />
+      <recent name="D:\Testserver\STFCmap\resources" />
+      <recent name="D:\Testserver\STFCmap\api" />
+      <recent name="D:\Testserver\STFCmap\assets\json" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\Hitman\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="89e9c977-e654-40ba-90d4-5b2b0f75f3b7" name="Default" comment="" />
+      <created>1548802097462</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1548802097462</updated>
+      <workItem from="1548802098806" duration="1886000" />
+      <workItem from="1548820863863" duration="29401000" />
+      <workItem from="1548883891615" duration="3146000" />
+      <workItem from="1548889883157" duration="29934000" />
+      <workItem from="1548958156963" duration="9843000" />
+      <workItem from="1548976970923" duration="700000" />
+      <workItem from="1548986207211" duration="8669000" />
+      <workItem from="1549014738928" duration="7930000" />
+      <workItem from="1549052495991" duration="8494000" />
+      <workItem from="1549071262033" duration="539000" />
+      <workItem from="1549074520733" duration="17477000" />
+      <workItem from="1549142756819" duration="25883000" />
+      <workItem from="1549177049133" duration="1218000" />
+      <workItem from="1549225221636" duration="51054000" />
+      <workItem from="1549322852027" duration="1195000" />
+      <workItem from="1549339729689" duration="6028000" />
+      <workItem from="1549347493901" duration="5900000" />
+      <workItem from="1549376715444" duration="4368000" />
+      <workItem from="1549390897400" duration="8956000" />
+      <workItem from="1549404925255" duration="33930000" />
+      <workItem from="1549487248968" duration="16750000" />
+      <workItem from="1549504735312" duration="9000" />
+      <workItem from="1549505546812" duration="18214000" />
+      <workItem from="1549557287100" duration="6716000" />
+      <workItem from="1549570860817" duration="694000" />
+      <workItem from="1549572448147" duration="999000" />
+      <workItem from="1549762925687" duration="3543000" />
+      <workItem from="1549847129588" duration="4593000" />
+      <workItem from="1549866172759" duration="4000" />
+      <workItem from="1549873765859" duration="198000" />
+      <workItem from="1549873999569" duration="6820000" />
+      <workItem from="1549881872382" duration="2635000" />
+      <workItem from="1549889678994" duration="3416000" />
+      <workItem from="1549903200768" duration="37218000" />
+      <workItem from="1549956415227" duration="339000" />
+      <workItem from="1549957692561" duration="1384000" />
+      <workItem from="1549962419832" duration="615000" />
+      <workItem from="1550022900460" duration="2554000" />
+      <workItem from="1550031076843" duration="206000" />
+      <workItem from="1550086947334" duration="999000" />
+      <workItem from="1550105831912" duration="14592000" />
+      <workItem from="1550158786330" duration="3000" />
+      <workItem from="1550175059722" duration="24587000" />
+      <workItem from="1550267926671" duration="6293000" />
+      <workItem from="1550291399005" duration="43998000" />
+      <workItem from="1550397961221" duration="18000" />
+      <workItem from="1550429719161" duration="11727000" />
+      <workItem from="1550469641885" duration="14022000" />
+      <workItem from="1550484838257" duration="2755000" />
+      <workItem from="1550516341755" duration="946000" />
+      <workItem from="1550518252492" duration="4424000" />
+      <workItem from="1550598008724" duration="1242000" />
+      <workItem from="1550599678275" duration="848000" />
+      <workItem from="1550603529419" duration="1960000" />
+      <workItem from="1550640152907" duration="2357000" />
+      <workItem from="1550646232936" duration="11149000" />
+      <workItem from="1550829737413" duration="29326000" />
+      <workItem from="1550902644112" duration="1078000" />
+      <workItem from="1550957891947" duration="806000" />
+      <workItem from="1550974263801" duration="8000" />
+      <workItem from="1551216376763" duration="113000" />
+      <workItem from="1551221442536" duration="787000" />
+      <workItem from="1551235540326" duration="1262000" />
+      <workItem from="1551316208253" duration="1462000" />
+      <workItem from="1551372335983" duration="1347000" />
+      <workItem from="1551391129871" duration="1003000" />
+      <workItem from="1552097550397" duration="9688000" />
+      <workItem from="1552154825835" duration="2525000" />
+      <workItem from="1552196790245" duration="776000" />
+      <workItem from="1552250707622" duration="2257000" />
+      <workItem from="1552263049849" duration="1036000" />
+      <workItem from="1552273656317" duration="1293000" />
+      <workItem from="1552425699932" duration="1359000" />
+      <workItem from="1553042678990" duration="1911000" />
+      <workItem from="1553216352767" duration="639000" />
+      <workItem from="1553474274202" duration="90000" />
+      <workItem from="1554435231421" duration="82000" />
+      <workItem from="1554435627532" duration="8608000" />
+      <workItem from="1554690128652" duration="6944000" />
+      <workItem from="1554920077462" duration="85000" />
+      <workItem from="1554920418524" duration="6188000" />
+      <workItem from="1554946320185" duration="3816000" />
+      <workItem from="1555011733571" duration="2972000" />
+      <workItem from="1555083957923" duration="2540000" />
+      <workItem from="1555452127947" duration="5430000" />
+      <workItem from="1556035854533" duration="2123000" />
+      <workItem from="1556043921254" duration="1222000" />
+      <workItem from="1556082806243" duration="668000" />
+      <workItem from="1556495459570" duration="4371000" />
+      <workItem from="1556601647519" duration="3777000" />
+      <workItem from="1556693309014" duration="1344000" />
+      <workItem from="1556923853151" duration="7082000" />
+      <workItem from="1556998250010" duration="4052000" />
+      <workItem from="1557039375158" duration="2022000" />
+      <workItem from="1557200738501" duration="4826000" />
+      <workItem from="1557434160070" duration="11876000" />
+      <workItem from="1557628966305" duration="1274000" />
+      <workItem from="1557635511013" duration="7554000" />
+      <workItem from="1557798541562" duration="11262000" />
+      <workItem from="1557858994197" duration="5070000" />
+      <workItem from="1557864784493" duration="14121000" />
+      <workItem from="1557898747515" duration="2609000" />
+      <workItem from="1557965424445" duration="18358000" />
+      <workItem from="1557986874171" duration="2583000" />
+      <workItem from="1557991052349" duration="871000" />
+      <workItem from="1558040419316" duration="612000" />
+      <workItem from="1558635626940" duration="710000" />
+      <workItem from="1561139829571" duration="174000" />
+      <workItem from="1561140750366" duration="713000" />
+      <workItem from="1561156000254" duration="1369000" />
+      <workItem from="1561159162359" duration="676000" />
+      <workItem from="1561855631179" duration="4271000" />
+      <workItem from="1562434741136" duration="6009000" />
+      <workItem from="1562448086208" duration="17841000" />
+      <workItem from="1562897093715" duration="466000" />
+      <workItem from="1562897594799" duration="4649000" />
+      <workItem from="1562902578063" duration="9000" />
+      <workItem from="1562917181670" duration="9037000" />
+      <workItem from="1563068003201" duration="515000" />
+      <workItem from="1563081463154" duration="7113000" />
+      <workItem from="1563141624743" duration="605000" />
+      <workItem from="1563220661912" duration="661000" />
+      <workItem from="1563321134175" duration="3235000" />
+      <workItem from="1563329237359" duration="11493000" />
+      <workItem from="1563351508845" duration="3512000" />
+      <workItem from="1563359530003" duration="322000" />
+      <workItem from="1563439558481" duration="890000" />
+      <workItem from="1563571116357" duration="185000" />
+      <workItem from="1563768926390" duration="838000" />
+      <workItem from="1563781775109" duration="404000" />
+      <workItem from="1563838768846" duration="209000" />
+      <workItem from="1564340541317" duration="12632000" />
+    </task>
+    <task id="LOCAL-00001" summary="Initial commit from CLI, update file structure, add icons, add debug grid, add debug points, add control layers, add leaflet draw, add favicon, swap to leaflet src for development">
+      <created>1549564439789</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1549564439789</updated>
+    </task>
+    <task id="LOCAL-00002" summary="sort out entire galaxy list, add updated systems, correct system names, remove duplicates. add system data screenshot in tooltip.">
+      <created>1549850007936</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1549850007936</updated>
+    </task>
+    <task id="LOCAL-00003" summary="comment out debug messages to speed up demo.">
+      <created>1549850695667</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1549850695667</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fix assets path on tooltip to show images">
+      <created>1549851218162</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1549851218162</updated>
+    </task>
+    <task id="LOCAL-00005" summary="added github content link to add when showing from github pages">
+      <created>1549851685554</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1549851685554</updated>
+    </task>
+    <task id="LOCAL-00006" summary="add modal with system editor form. connect db updater to database. cross check all systems.">
+      <created>1549952840927</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1549952840927</updated>
+    </task>
+    <task id="LOCAL-00007" summary="add path generator, add linked system db update, add adjusted XY coord db update, add reset AdjXY coord">
+      <created>1550396632723</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1550396632723</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add flyTo, moveTo functionality">
+      <created>1550487585661</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1550487585662</updated>
+    </task>
+    <task id="LOCAL-00009" summary="add additional travel paths for neutral zone, limit systems to neutral zone. adjust styles to fit map on screen">
+      <created>1550525041214</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1550525041214</updated>
+    </task>
+    <task id="LOCAL-00010" summary="update renderer to use canvas for travel paths">
+      <created>1550604274451</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1550604274451</updated>
+    </task>
+    <task id="LOCAL-00011" summary="update map with all systems">
+      <created>1550608876671</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1550608876671</updated>
+    </task>
+    <task id="LOCAL-00012" summary="update to 0.7, coordinates are being figured out.">
+      <created>1551391206786</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1551391206787</updated>
+    </task>
+    <task id="LOCAL-00013" summary="enable edit mode to display form for Roy.">
+      <created>1551391532391</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1551391532391</updated>
+    </task>
+    <task id="LOCAL-00014" summary="fixed complete grid, added newer systems, added faction areas. completed travel paths">
+      <created>1552196965948</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1552196965948</updated>
+    </task>
+    <task id="LOCAL-00015" summary="add Qgis created map">
+      <created>1555084420428</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1555084420428</updated>
+    </task>
+    <task id="LOCAL-00016" summary="add missing files for qgis map">
+      <created>1555084482734</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1555084482734</updated>
+    </task>
+    <task id="LOCAL-00017" summary="adjust paths in attempt to fix github 404 error">
+      <created>1555085217146</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1555085217146</updated>
+    </task>
+    <task id="LOCAL-00018" summary="adjust paths in attempt to fix github 404 error">
+      <created>1555085796726</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1555085796726</updated>
+    </task>
+    <task id="LOCAL-00019" summary="perform cleanup on code, separate private functionality. create html base index">
+      <created>1564355600138</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1564355600138</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="797024000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49924812" visible="true" weight="0.18869936" />
+      <window_info id="Structure" order="1" sideWeight="0.50075185" side_tool="true" weight="0.16657412" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.25333333" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49946696" visible="true" weight="0.32666665" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50053304" side_tool="true" visible="true" weight="0.32666665" />
+      <window_info anchor="bottom" id="Version Control" order="11" weight="0.32884398" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.3288889" />
+      <window_info anchor="bottom" id="File Transfer" order="13" visible="true" weight="0.32996634" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Remote Host" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16324264" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.2536476" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32777777" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="11" weight="0.3295711" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.32960895" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Remote Host" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial commit from CLI, update file structure, add icons, add debug grid, add debug points, add control layers, add leaflet draw, add favicon, swap to leaflet src for development" />
+    <MESSAGE value="sort out entire galaxy list, add updated systems, correct system names, remove duplicates. add system data screenshot in tooltip." />
+    <MESSAGE value="comment out debug messages to speed up demo." />
+    <MESSAGE value="fix assets path on tooltip to show images" />
+    <MESSAGE value="added github content link to add when showing from github pages" />
+    <MESSAGE value="add modal with system editor form. connect db updater to database. cross check all systems." />
+    <MESSAGE value="add path generator, add linked system db update, add adjusted XY coord db update, add reset AdjXY coord" />
+    <MESSAGE value="add flyTo, moveTo functionality" />
+    <MESSAGE value="add additional travel paths for neutral zone, limit systems to neutral zone. adjust styles to fit map on screen" />
+    <MESSAGE value="update renderer to use canvas for travel paths" />
+    <MESSAGE value="update map with all systems" />
+    <MESSAGE value="update to 0.7, coordinates are being figured out." />
+    <MESSAGE value="enable edit mode to display form for Roy." />
+    <MESSAGE value="fixed complete grid, added newer systems, added faction areas. completed travel paths" />
+    <MESSAGE value="add Qgis created map" />
+    <MESSAGE value="add missing files for qgis map" />
+    <MESSAGE value="adjust paths in attempt to fix github 404 error" />
+    <MESSAGE value="perform cleanup on code, separate private functionality. create html base index" />
+    <option name="LAST_COMMIT_MESSAGE" value="perform cleanup on code, separate private functionality. create html base index" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/resources/systems-json-generator.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="42" selection-start-line="16" selection-start-column="42" selection-end-line="16" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/save-travel-paths.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/romulan-coords.csv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/romulan.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/stfc-travel-paths.csv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/old/map-generator.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" column="5" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/Projects/STFCbot/stfc.pro/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="92" column="14" selection-start-line="92" selection-start-column="14" selection-end-line="92" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/mapped-grid-debug.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/wall_grid1024x128.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/wall_grid.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/mapped-grid.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/json/galaxy.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/json/territories.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="5485" selection-start-column="5485" selection-end-column="5485" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/json/travel-paths.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="17" lean-forward="true" selection-start-column="17" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/augment-territory.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="n#!!block;n#json_augmentterritory_3#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/leaflet.easyprint.js.map">
+      <provider editor-type-id="sourcemapFileViewerProvider" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="37" selection-start-column="37" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/stfc-galaxy.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="105" selection-start-line="5" selection-start-column="101" selection-end-line="5" selection-end-column="105" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/echo-systems-json.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" selection-start-line="1" selection-end-line="14" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/write-stfc-travel-paths-csv.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/csv-coords-to-leaflet-polygon.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
+          <folding>
+            <element signature="n#loadCSV#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/screenshots.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/snapshot.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="40" selection-start-line="1" selection-start-column="39" selection-end-line="1" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/stfc-galaxy.csv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="11271">
+          <caret line="663" column="124" lean-forward="true" selection-start-line="663" selection-start-column="124" selection-end-line="663" selection-end-column="124" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/write-stfc-galaxy-csv.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/write-systems-json.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="799">
+          <caret line="68" column="30" lean-forward="true" selection-start-line="68" selection-start-column="7" selection-end-line="68" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/restore-system-coords-from-json.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="265">
+          <caret line="25" column="29" lean-forward="true" selection-start-line="25" selection-start-column="29" selection-end-line="25" selection-end-column="29" />
+          <folding>
+            <element signature="e#7#88#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/write-travel-paths-json.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="4" selection-start-line="1" selection-start-column="4" selection-end-line="11" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/update-linked-systems-geojson.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="24" selection-start-line="21" selection-start-column="24" selection-end-line="21" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/json/icons.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/json/systems.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="64" column="24" selection-start-line="64" selection-start-column="24" selection-end-line="64" selection-end-column="24" />
+          <folding>
+            <element signature="e#98#889#0" />
+            <element signature="e#948#1041#0" />
+            <element signature="e#1069#1624#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/baked-map.pgw">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/info.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indexqgis.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#78#86#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.htaccess">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="47" column="68" lean-forward="true" selection-start-line="47" selection-start-column="68" selection-end-line="47" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/custom.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/travel-paths.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="n#!!block;n#json_travelpaths_4#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/stfc-map-editor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="203" column="59" selection-start-line="203" selection-start-column="59" selection-end-line="203" selection-end-column="59" />
+          <folding>
+            <element signature="e#4479#4769#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/stfc-map.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="218" lean-forward="true" selection-start-line="218" selection-end-line="218" />
+          <folding>
+            <element signature="e#335#439#0" />
+            <element signature="e#610#719#0" />
+            <element signature="e#877#927#0" />
+            <element signature="e#1169#1434#0" />
+            <element signature="e#1443#1636#0" expanded="true" />
+            <element signature="e#1675#1829#0" />
+            <element signature="e#1987#2045#0" />
+            <element signature="e#2222#2521#0" />
+            <element signature="e#2561#3089#0" />
+            <element signature="e#3134#3482#0" />
+            <element signature="e#3525#3733#0" />
+            <element signature="e#13902#14068#0" expanded="true" />
+            <element signature="e#14136#14241#0" expanded="true" />
+            <element signature="e#14255#14348#0" expanded="true" />
+            <element signature="e#55451#55535#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/leaflet.pattern.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/icon/dilithium.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/icon/battleship-parts.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="119">
+            <caret line="7" column="28" lean-forward="true" selection-start-line="7" selection-start-column="28" selection-end-line="7" selection-end-column="28" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/baked-map.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/baked-map.gif">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="11" selection-start-line="29" selection-start-column="11" selection-end-line="29" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/favicon.ico">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indexmapedit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="678">
+          <caret line="196" column="7" selection-start-line="196" selection-start-column="7" selection-end-line="196" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="Copyright.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
