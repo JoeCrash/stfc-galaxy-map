@@ -1,319 +1,47 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" href="./qgis/css/leaflet.css">
-        <link rel="stylesheet" href="./qgis/css/qgis2web.css"><link rel="stylesheet" href="./qgis/css/fontawesome-all.min.css">
-        <link rel="stylesheet" href="./qgis/css/leaflet-search.css">
-        <style>
-        #map {
-            width: 100%;
-            height: 877px;
-        }
-        </style>
-        <title></title>
-    </head>
-    <body>
-        <div id="map">
-        </div>
-        <script src="./qgis/js/qgis2web_expressions.js"></script>
-        <script src="./qgis/js/leaflet.js"></script>
-        <script src="./qgis/js/leaflet.rotatedMarker.js"></script>
-        <script src="./qgis/js/leaflet.pattern.js"></script>
-        <script src="./qgis/js/leaflet-hash.js"></script>
-        <script src="./qgis/js/Autolinker.min.js"></script>
-        <script src="./qgis/js/rbush.min.js"></script>
-        <script src="./qgis/js/labelgun.min.js"></script>
-        <script src="./qgis/js/labels.js"></script>
-        <script src="./qgis/js/proj4.js"></script>
-        <script src="./qgis/js/proj4leaflet.js"></script>
-        <script src="./qgis/js/leaflet-search.js"></script>
-        <script src="./qgis/data/klingonterritory_0.js"></script>
-        <script src="./qgis/data/romulanterritory_1.js"></script>
-        <script src="./qgis/data/federationterritory_2.js"></script>
-        <script src="./qgis/data/travelpaths_3.js"></script>
-        <script src="./qgis/data/stfcgalaxy_4.js"></script>
-        <script>
-        var m2px = 1;
-        function newM2px() {
-            var centerLatLng = map.getCenter();
-            var pointC = map.latLngToContainerPoint(centerLatLng);
-            var pointX = [pointC.x + 100, pointC.y];
+<html>
+<head>
+    <title>Star Trek Fleet Command | Interactive Galaxy Map</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap-reboot.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css">-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="icon" href="assets/favicon.ico"/>
+</head>
+<body class="">
 
-            var latLngC = map.containerPointToLatLng(pointC);
-            var latLngX = map.containerPointToLatLng(pointX);
+<nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
+    <a class="navbar-brand" href="#"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <h3>Star Trek Fleet Command Galaxy Map - Zoom in for more detail, click for system info.</h3>
+    </div>
+</nav>
 
-            var distanceX = latLngC.distanceTo(latLngX)/100;
+<div id="map-wrapper">
+    <div id="map"></div>
+</div>
 
-            reciprocal = 1 / distanceX;
-            m2px = reciprocal;
-        }
-        function geoStyle(m) {
-            return Math.ceil(m * m2px);
-        }
-        var crs = new L.Proj.CRS('USER:100000', '+proj=lcc +lat_1=40.66666666666666 +lat_2=41.03333333333333 +lat_0=40.16666666666666 +lon_0=-74 +x_0=300000 +y_0=0 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=us-ft +no_defs', {
-            resolutions: [2800, 1400, 700, 350, 175, 84, 42, 21, 11.2, 5.6, 2.8, 1.4, 0.7, 0.35, 0.14, 0.07],
-        });
-        var map = L.map('map', {
-            crs: crs,
-            continuousWorld: false,
-            worldCopyJump: false,
-            zoomControl:true, maxZoom:14, minZoom:10
-        }).fitBounds([[40.10923857290241,-77.53942745646816],[40.10927333134864,-77.53934457011245]]);
-        var hash = new L.Hash(map);
-        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="http://leafletjs.com" title="A JS library for interactive maps">Leaflet</a>');
-        var bounds_group = new L.featureGroup([]);
-        function setBounds() {
-        }
-        function pop_klingonterritory_0(feature, layer) {
-        }
+<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>-->
 
-        function style_klingonterritory_0_0() {
-            return {
-                pane: 'pane_klingonterritory_0',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(255,3,3,1.0)',
-            }
-        }
-        map.createPane('pane_klingonterritory_0');
-        map.getPane('pane_klingonterritory_0').style.zIndex = 400;
-        map.getPane('pane_klingonterritory_0').style['mix-blend-mode'] = 'normal';
-        var layer_klingonterritory_0 = new L.geoJson(json_klingonterritory_0, {
-            attribution: '',
-            pane: 'pane_klingonterritory_0',
-            onEachFeature: pop_klingonterritory_0,
-            style: style_klingonterritory_0_0,
-        });
-        bounds_group.addLayer(layer_klingonterritory_0);
-        map.addLayer(layer_klingonterritory_0);
-        function pop_romulanterritory_1(feature, layer) {
-        }
+<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.min.js"></script>-->
+<script src="assets/js/leaflet.groupedlayercontrol.js" type="text/javascript"></script> <!-- provides the legend -->
+<!--<script src="assets/js/leaflet.pattern.js"></script>--> <!-- allows fills -->
 
-        function style_romulanterritory_1_0() {
-            return {
-                pane: 'pane_romulanterritory_1',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(54,213,54,1.0)',
-            }
-        }
-        map.createPane('pane_romulanterritory_1');
-        map.getPane('pane_romulanterritory_1').style.zIndex = 401;
-        map.getPane('pane_romulanterritory_1').style['mix-blend-mode'] = 'normal';
-        var layer_romulanterritory_1 = new L.geoJson(json_romulanterritory_1, {
-            attribution: '',
-            pane: 'pane_romulanterritory_1',
-            onEachFeature: pop_romulanterritory_1,
-            style: style_romulanterritory_1_0,
-        });
-        bounds_group.addLayer(layer_romulanterritory_1);
-        map.addLayer(layer_romulanterritory_1);
-        function pop_federationterritory_2(feature, layer) {
-        }
+<!--<script src="assets/js/proj4.js"></script>--> <!-- projections transform -->
+<!--<script src="assets/js/proj4leaflet.js"></script>--> <!-- leaflet wrapper to allow proj4 to work -->
+<script src="assets/js/rbush.min.js"></script> <!-- high performance r tree -->
 
-        function style_federationterritory_2_0() {
-            return {
-                pane: 'pane_federationterritory_2',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(29,135,233,1.0)',
-            }
-        }
-        map.createPane('pane_federationterritory_2');
-        map.getPane('pane_federationterritory_2').style.zIndex = 402;
-        map.getPane('pane_federationterritory_2').style['mix-blend-mode'] = 'normal';
-        var layer_federationterritory_2 = new L.geoJson(json_federationterritory_2, {
-            attribution: '',
-            pane: 'pane_federationterritory_2',
-            onEachFeature: pop_federationterritory_2,
-            style: style_federationterritory_2_0,
-        });
-        bounds_group.addLayer(layer_federationterritory_2);
-        map.addLayer(layer_federationterritory_2);
-        function pop_travelpaths_3(feature, layer) {
-           /* var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['fid'] !== null ? Autolinker.link(String(feature.properties['fid'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['name'] !== null ? Autolinker.link(String(feature.properties['name'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Ay'] !== null ? Autolinker.link(String(feature.properties['Ay'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Ax'] !== null ? Autolinker.link(String(feature.properties['Ax'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['By'] !== null ? Autolinker.link(String(feature.properties['By'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Bx'] !== null ? Autolinker.link(String(feature.properties['Bx'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['systemA'] !== null ? Autolinker.link(String(feature.properties['systemA'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['systemB'] !== null ? Autolinker.link(String(feature.properties['systemB'])) : '') + '</td>\
-                    </tr>\
-                </table>';
-            layer.bindPopup(popupContent, {maxHeight: 400});*/
-        }
-
-        function style_travelpaths_3_0() {
-            return {
-                pane: 'pane_travelpaths_3',
-                opacity: 1,
-                color: 'rgba(62,118,238,0.6235294117647059)',
-                dashArray: '',
-                lineCap: 'round',
-                lineJoin: 'round',
-                weight: 2.0,
-                fillOpacity: 0,
-            }
-        }
-        map.createPane('pane_travelpaths_3');
-        map.getPane('pane_travelpaths_3').style.zIndex = 403;
-        map.getPane('pane_travelpaths_3').style['mix-blend-mode'] = 'normal';
-        var layer_travelpaths_3 = new L.geoJson(json_travelpaths_3, {
-            attribution: '',
-            pane: 'pane_travelpaths_3',
-            onEachFeature: pop_travelpaths_3,
-            style: style_travelpaths_3_0,
-        });
-        bounds_group.addLayer(layer_travelpaths_3);
-        map.addLayer(layer_travelpaths_3);
-        function pop_stfcgalaxy_4(feature, layer) {
-            var popupContent = '<table>\
-                    <tr>\
-                        <th scope="row">Name</th>\
-                        <td>' + (feature.properties['Name'] !== null ? Autolinker.link(String(feature.properties['Name'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SystemID'] !== null ? Autolinker.link(String(feature.properties['SystemID'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['X'] !== null ? Autolinker.link(String(feature.properties['X'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Y'] !== null ? Autolinker.link(String(feature.properties['Y'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['System Level'] !== null ? Autolinker.link(String(feature.properties['System Level'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Zone'] !== null ? Autolinker.link(String(feature.properties['Zone'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Mines'] !== null ? Autolinker.link(String(feature.properties['Mines'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Hostiles'] !== null ? Autolinker.link(String(feature.properties['Hostiles'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Ship Type'] !== null ? Autolinker.link(String(feature.properties['Ship Type'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Ship Levels'] !== null ? Autolinker.link(String(feature.properties['Ship Levels'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Warp Required'] !== null ? Autolinker.link(String(feature.properties['Warp Required'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Station Hub'] !== null ? Autolinker.link(String(feature.properties['Station Hub'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Faction'] !== null ? Autolinker.link(String(feature.properties['Faction'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Linked Systems'] !== null ? Autolinker.link(String(feature.properties['Linked Systems'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Planets'] !== null ? Autolinker.link(String(feature.properties['Planets'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Icon'] !== null ? Autolinker.link(String(feature.properties['Icon'])) : '') + '</td>\
-                    </tr>\
-                </table>';
-            layer.bindPopup(popupContent, {maxHeight: 400});
-        }
-
-        function style_stfcgalaxy_4_0() {
-            return {
-                pane: 'pane_stfcgalaxy_4',
-                radius: geoStyle(0.5),
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: geoStyle(1),
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(190,178,151,1.0)',
-            }
-        }
-        map.createPane('pane_stfcgalaxy_4');
-        map.getPane('pane_stfcgalaxy_4').style.zIndex = 404;
-        map.getPane('pane_stfcgalaxy_4').style['mix-blend-mode'] = 'normal';
-        var layer_stfcgalaxy_4 = new L.geoJson(json_stfcgalaxy_4, {
-            attribution: '',
-            pane: 'pane_stfcgalaxy_4',
-            onEachFeature: pop_stfcgalaxy_4,
-            pointToLayer: function (feature, latlng) {
-                var context = {
-                    feature: feature,
-                    variables: {}
-                };
-                return L.circleMarker(latlng, style_stfcgalaxy_4_0(feature));
-            },
-        });
-        bounds_group.addLayer(layer_stfcgalaxy_4);
-        map.addLayer(layer_stfcgalaxy_4);
-        var baseMaps = {};
-        L.control.layers(baseMaps,{'<img src="./qgis/legend/stfcgalaxy_4.png" /> stfc-galaxy': layer_stfcgalaxy_4,'<img src="./qgis/legend/travelpaths_3.png" /> travel-paths': layer_travelpaths_3,'<img src="./qgis/legend/federationterritory_2.png" /> federation-territory': layer_federationterritory_2,'<img src="./qgis/legend/romulanterritory_1.png" /> romulan-territory': layer_romulanterritory_1,'<img src="./qgis/legend/klingonterritory_0.png" /> klingon-territory': layer_klingonterritory_0,},{collapsed:false}).addTo(map);
-        setBounds();
-        newM2px();
-
-            layer_stfcgalaxy_4.setStyle(style_stfcgalaxy_4_0);
-        map.on("zoomend", function(){
-            newM2px();
-
-            layer_stfcgalaxy_4.setStyle(style_stfcgalaxy_4_0);
-        });
-        map.addControl(new L.Control.Search({
-            layer: layer_stfcgalaxy_4,
-            initial: false,
-            hideMarkerOnCollapse: true,
-            propertyName: 'Name'}));
-        document.getElementsByClassName('search-button')[0].className +=
-         ' fa fa-binoculars';
-        </script>
-    </body>
+<script src="assets/js/stfc-map.js" type="text/javascript"></script>
+<script src="assets/js/custom.js" type="text/javascript"></script>
+</body>
 </html>

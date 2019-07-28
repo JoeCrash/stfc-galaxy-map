@@ -1,16 +1,13 @@
-/*html, body {
-    height: 100%;
-   !* margin: 0;
-    background: #000;*!
-}*/
+
 
 .leaflet-container {
-    /*background-color:rgba(0,0,0,0);*/
+    background-color:rgba(0,0,0,0);
 }
 
 body {
     padding: 0;
     margin: 0;
+    background: #000;
 }
 body > #map-wrapper {
     position: fixed;
@@ -25,6 +22,30 @@ body > #map-wrapper {
     height: 100%;
     width: 100%;
     float: left;
+}
+
+.fixed-size{
+    /*width:1200px;
+    height:675px;*/
+    width:1000px;
+    height:1000px;
+    position:absolute;
+    top: 0 !important;
+    left: 0;
+    background: #000;
+}
+
+.system-label{
+    visibility: hidden;
+    background:none;
+    border:none;
+    color: #fff;
+    box-shadow: none;
+    text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+    /*margin-left:5px;*/
+}
+.system-label::before{
+    display: none;
 }
 
 /*!* make vertical objects visible *!
