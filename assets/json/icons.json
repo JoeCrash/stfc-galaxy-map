@@ -1,5 +1,5 @@
 {
-    "Systems": {
+    "systems": {
         "System": {
             "iconSize": [24, 24],
             "iconUrl": "assets/icon/system-sm.png",
@@ -16,120 +16,203 @@
             "className": "primary"
         }
     },
-    "Misc": {
+    "misc": {
         "Debug": {
-            "iconSize": [32, 32],
+            "iconSize": [48, 48],
             "iconUrl": "assets/icon/station-hub.png",
             "className": "station-hub"
         },
         "Station Hub": {
-            "iconSize": [32, 32],
+            "iconSize": [48, 48],
             "iconUrl": "assets/icon/station-hub.png",
             "className": "station-hub"
         }
     },
-    "Mines": {
+    "mines": {
         "Parsteel": {
-            "iconSize": [32, 32],
+            "iconSize": [48, 48],
             "iconUrl": "assets/icon/parsteel.png",
             "className": "parsteel"
         },
         "Tritanium": {
-            "iconSize": [32, 32],
+            "iconSize": [48, 48],
             "iconUrl": "assets/icon/tritanium.png",
             "className": "tritanium"
         },
         "Dilithium": {
-            "iconSize": [32, 32],
+            "iconSize": [48, 48],
             "iconUrl": "assets/icon/dilithium.png",
             "className": "dilithium"
         },
         "2* Raw Crystal": {
-            "iconSize": [32, 32],
-            "iconUrl": "assets/icon/raw-crystal.png",
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/raw-crystal-2.png",
             "className": "crystal2"
         },
         "3* Raw Crystal": {
-            "iconSize": [32, 32],
-            "iconUrl": "assets/icon/raw-crystal.png",
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/raw-crystal-3.png",
             "className": "crystal3"
         },
         "4* Raw Crystal": {
-            "iconSize": [32, 32],
-            "iconUrl": "assets/icon/raw-crystal.png",
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/raw-crystal-4.png",
             "className": "crystal4"
         },
         "2* Raw Gas": {
-            "iconSize": [32, 32],
-            "iconUrl": "assets/icon/raw-gas.png",
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/raw-gas-2.png",
             "className": "gas2"
         },
         "3* Raw Gas": {
-            "iconSize": [32, 32],
-            "iconUrl": "assets/icon/raw-gas.png",
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/raw-gas-3.png",
             "className": "gas3"
         },
         "4* Raw Gas": {
-            "iconSize": [32, 32],
-            "iconUrl": "assets/icon/raw-gas.png",
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/raw-gas-4.png",
             "className": "gas4"
         },
         "2* Raw Ore": {
-            "iconSize": [32, 32],
-            "iconUrl": "assets/icon/raw-ore.png",
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/raw-ore-2.png",
             "className": "ore2"
         },
         "3* Raw Ore": {
-            "iconSize": [32, 32],
-            "iconUrl": "assets/icon/raw-ore.png",
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/raw-ore-3.png",
             "className": "ore3"
         },
         "4* Raw Ore": {
-            "iconSize": [32, 32],
-            "iconUrl": "assets/icon/raw-ore.png",
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/raw-ore-4.png",
             "className": "ore4"
+        },
+        "Corrupted Data": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/corrupted-data.png",
+            "className": "corrupted-data"
+        },
+        "Decoded Data": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/decoded-data.png",
+            "className": "decoded-data"
         }
     },
-    "Factions": {
+    "other_rss": {
+        "2* Refined Crystal": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/refined-crystal-2.png",
+            "className": "ref-crystal2"
+        },
+        "3* Refined Crystal": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/refined-crystal-3.png",
+            "className": "ref-crystal3"
+        },
+        "4* Refined Crystal": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/refined-crystal-4.png",
+            "className": "ref-crystal4"
+        },
+        "2* Refined Gas": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/refined-gas-2.png",
+            "className": "ref-gas2"
+        },
+        "3* Refined Gas": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/refined-gas-3.png",
+            "className": "ref-gas3"
+        },
+        "4* Refined Gas": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/refined-gas-4.png",
+            "className": "ref-gas4"
+        },
+        "2* Refined Ore": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/refined-ore-2.png",
+            "className": "ref-ore2"
+        },
+        "3* Refined Ore": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/refined-ore-3.png",
+            "className": "ref-ore3"
+        },
+        "4* Refined Ore": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/refined-ore-4.png",
+            "className": "ref-ore4"
+        },
+        "Common Plutonium": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/common-plutonium.png",
+            "className": "com-plutonium"
+        },
+        "Uncommon Plutonium": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/uncommon-plutonium.png",
+            "className": "unc-plutonium"
+        },
+        "Rare Plutonium": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/rare-plutonium.png",
+            "className": "rare-plutonium"
+        },
+        "Swarm Biominerals": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/swarm-biominerals.png",
+            "className": "swarm"
+        },
+        "Frequency Modulator": {
+            "iconSize": [48, 48],
+            "iconUrl": "assets/icon/frequency-modulator.png",
+            "className": "freq-modulator"
+        }
+
+    },
+    "factions": {
         "Federation": {
-            "iconSize": [32, 32],
+            "iconSize": [48, 48],
             "iconUrl": "assets/icon/federation.png",
             "className": "federation"
         },
         "Klingon": {
-            "iconSize": [32, 32],
+            "iconSize": [48, 48],
             "iconUrl": "assets/icon/klingon.png",
             "className": "klingon"
         },
         "Romulan": {
-            "iconSize": [32, 32],
+            "iconSize": [48, 48],
             "iconUrl": "assets/icon/romulan.png",
             "className": "romulan"
         },
         "Independent": {
-            "iconSize": [32, 32],
+            "iconSize": [48, 48],
             "iconUrl": "assets/icon/independent.png",
             "className": "independent"
         }
     },
-    "Ship Types": {
+    "ship_types": {
         "Battleship": {
-            "iconSize": [32, 32],
+            "iconSize": [48, 48],
             "iconUrl": "assets/icon/battleship.png",
             "className": "battleship"
         },
         "Explorer": {
-            "iconSize": [32, 32],
+            "iconSize": [48, 48],
             "iconUrl": "assets/icon/explorer.png",
             "className": "explorer"
         },
         "Interceptor": {
-            "iconSize": [32, 32],
+            "iconSize": [48, 48],
             "iconUrl": "assets/icon/interceptor.png",
             "className": "interceptor"
         },
         "Survey": {
-            "iconSize": [32, 32],
+            "iconSize": [48, 48],
             "iconUrl": "assets/icon/survey.png",
             "className": "survey"
         }

@@ -74,19 +74,18 @@ STFCmap = (function() {
                 $("body").addClass("fixed-size");
                 $("#map-wrapper").addClass("fixed-size");
                 $("#map").addClass("fixed-size");
-                $("nav").remove();
                 $(".leaflet-top").hide();
             }
             console.log("path output", path);
             return cleanName(path);
         },
-        systemNameToID = function(sysName) {
+        systemNameToID = function(sysname) {
             //scan for an name and return relevant ID
-            let cleanedName = cleanName(sysName);
-            let sys = galaxy[cleanedName];
+            let cleanedname = cleanName(sysname);
+            let sys = galaxy[cleanedname];
             if(sys !== undefined){
-                if(sys.hasOwnProperty('SystemID')){
-                    return sys.SystemID;
+                if(sys.hasOwnProperty('systemID')){
+                    return sys.systemID;
                 }
             }
             return undefined;
@@ -94,7 +93,6 @@ STFCmap = (function() {
         systemIDToName = function(sysID) {
             //scan for an name and return relevant ID
             let cleanedID = cleanName(sysID);
-            //console.log("nameTOID", sysName, galaxy);
             return systemIds[cleanedID];
         };
 
@@ -126,10 +124,10 @@ STFCmap = (function() {
     let baseLayers; //the maps group
     let layerControl; //the layerControl object itself. filled with controlLayers
     let controlLayers; //this gets set with all the menu layers and then gets added into layerControl
-    let systemIds = {}; //holds the systemName/id key values for easy searching (id/name combination)
+    let systemIds = {}; //holds the systemname/id key values for easy searching (id/name combination)
     let systemNodes = {}; //holds the system nodes all events get bound to. (events on nodes)
     let systemPopups = {}; //holds the system popups, since they won't load via url.
-    let systemNames = []; //holds all the system names for typeahead (simple array with just the names)
+    let systemnames = []; //holds all the system names for typeahead (simple array with just the names)
     let systemTokens = []; //holds system names in a tag format for typeahead (typeahead tags formatted object)
     let systemsGroup = []; //temp array to hold the system nodes for layerControl (layers.systems)
     let minesGroup = {}; //temp array to hold the system nodes for layerControl (layers.systems)
@@ -151,7 +149,7 @@ STFCmap = (function() {
     let init = function() {
         //use custom crs if needed, for now we skip
         let canvas = false;
-        snapMode = getUrlParameter('snap') === '1' ? true : false;
+        snapMode = getUrlParameter('snap') === '1';
         if(snapMode){
             canvas = true;
             console.log("render set to canvas mode");
@@ -167,10 +165,9 @@ STFCmap = (function() {
             wheelPxPerZoomLevel: 100,
             maxBoundsViscosity: 1.0,
             preferCanvas: canvas
-            /*maxBounds: bounds, preferCanvas: true,*/
         }).on('load', function(){
             window.status = 'maploaded';
-            console.log("win status", window.status);
+            //console.log("win status", window.status);
         });
 
         //hash = new L.Hash(map); //todo? generate hash urls
@@ -189,8 +186,8 @@ STFCmap = (function() {
         for (let i = 0; i < count; i++) {
             let system = systems[i];
             let properties = system.properties;
-            let name = cleanName(properties.Name);
-            let id = properties.SystemID;
+            let name = cleanName(properties.name);
+            let id = properties.systemID;
             let sysNode = makeSystemNode(system);
             //sysNode.addTo(map);
             let yx = system.geometry.coordinates;
@@ -202,7 +199,7 @@ STFCmap = (function() {
             galaxy[name].yx = yx;
             systemsGroup.push(sysNode); //add a system node to the layergroup
 
-            let mines = properties.Mines;
+            let mines = properties.mines;
             setMines(yx, mines, minesGroup); //set the mines object
         }
         initMap();
@@ -247,11 +244,11 @@ STFCmap = (function() {
 
         layers.System = L.layerGroup(systemsGroup);
         layers.System.addTo(map);
-        layers.Mines = {}; //start this empty to add in the groups later
+        layers.mines = {}; //start this empty to add in the groups later
 
         //convert each mine type into its own layerGroup
         for (let resource in minesGroup) {
-            if(minesGroup.hasOwnProperty(resource)) layers.Mines[resource] = L.layerGroup(minesGroup[resource]); //group the mines by key
+            if(minesGroup.hasOwnProperty(resource)) layers.mines[resource] = L.layerGroup(minesGroup[resource]); //group the mines by key
         }
 
         if(layerControl) layerControl.remove();
@@ -259,9 +256,9 @@ STFCmap = (function() {
             "Map": layers.Map
         };
         controlLayers = {
-            "Mines": setGroups(layers.Mines)
+            "Mines": setGroups(layers.mines)
         };
-        layerControl = L.control.groupedLayers(null, controlLayers, {groupCheckboxes: true, exclusiveGroups: ["Mines"]});
+        layerControl = L.control.groupedLayers(null, controlLayers, {groupCheckboxes: true, /*exclusiveGroups: ["Mines"]*/});
         //layerControl = L.control.layers(null, controlLayers, {groupCheckboxes: true});
         layerControl.addTo(map);
 
@@ -297,8 +294,8 @@ STFCmap = (function() {
         //todo style the systems with radius and icon
         let coords = sys.geometry.coordinates;
         let properties = sys.properties;
-        let sysName = properties.Name;
-        let sysLabel = sysName + ' (' + properties.SystemLevel + ')';
+        let sysName = properties.name;
+        let sysLabel = sysName + ' (' + properties.systemLevel + ')';
         let popupTemplate = makeSystemPopup(properties);
         let radius = properties.radius !== undefined && properties.radius !== '' ? parseInt(properties.radius) : 3;
         let node = makeCircle(coords, {className:'system '+cleanName(sysName), id: sysName, radius: radius, color: 'white', fillOpacity: 1, stroke: true})
@@ -341,9 +338,8 @@ STFCmap = (function() {
         mines = strToArray(mines);
         for (let resourceKey in mines) {
             if(mines.hasOwnProperty(resourceKey)) {
-                console.log("mine", icons);
                 let resource = mines[resourceKey];
-                let iconObj = icons.Mines[resource];
+                let iconObj = icons.mines[resource];
                 let options = {icon: iconObj, interactive:false};
                 if(!group.hasOwnProperty(resource)) group[resource] = []; //init the resource group if its not an array
                 group[resource].push(makeMarker(yx, options));
@@ -369,7 +365,7 @@ STFCmap = (function() {
         let sysNames = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.whitespace,
             queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: systemNames
+            local: systemnames
         });
         sysNames.initialize();
         $('.typeahead').typeahead({
@@ -446,22 +442,22 @@ STFCmap = (function() {
     /*let clearSystemLinkedPaths = function(system) {
         let mainSysLinks = galaxy[system]["Linked Systems"];
         let linkedArr = strToArray(mainSysLinks);
-        let updatedSystemNames = [system]; //hold the names that got updated, starting with the main system
+        let updatedSystemnames = [system]; //hold the names that got updated, starting with the main system
         for (let i in linkedArr) {
-            let linkedSysName = linkedArr[i];
-            let linkedSysInfo = galaxy[linkedSysName]["Linked Systems"];
+            let linkedSysname = linkedArr[i];
+            let linkedSysInfo = galaxy[linkedSysname]["Linked Systems"];
             let linkedSysArr = strToArray(linkedSysInfo);
             let hasLink = linkedSysArr.indexOf(system);
             if(hasLink >= 0) {
-                let pathKey = makePathKey(system, linkedSysName);
+                let pathKey = makePathKey(system, linkedSysname);
                 removePathAndRefresh(pathKey);
                 linkedSysArr.splice(hasLink, 1);
-                galaxy[linkedSysName]["Linked Systems"] = arrToStr(linkedSysArr); //update the linked system string
-                updatedSystemNames.push(linkedSysName);
+                galaxy[linkedSysname]["Linked Systems"] = arrToStr(linkedSysArr); //update the linked system string
+                updatedSystemnames.push(linkedSysname);
             }
         }
         galaxy[system]["Linked Systems"] = ''; //remove all entries from main system
-        saveLinkedSystemsToDb(updatedSystemNames);
+        saveLinkedSystemsToDb(updatedSystemnames);
     };*/
     /*let bringNearSystem = function() {
         let move = $('#move-this-system').val();
@@ -483,20 +479,20 @@ STFCmap = (function() {
     };*/
 
     let makeSystemPopup = function(p) {
-        let name = p.Name;
-        let id = p.SystemID;
-        let systemLevel = p.SystemLevel;
-        let faction = p.Faction;
-        let hostiles = p.Hostiles;
-        let icon = p.Icon;
-        let LinkedSystems = p.LinkedSystems;
-        let mines = p.Mines;
-        let planets = p.Planets;
-        let shipLevel = p.ShipLevel;
-        let shipTypes = p.ShipTypes;
-        let stationHub = p.StationHub;
-        let warpRequired = p.WarpRequired;
-        let zone = p.Zone;
+        let name = p.name;
+        let id = p.systemID;
+        let systemLevel = p.systemLevel;
+        let faction = p.faction;
+        let hostiles = p.hostiles;
+        let icon = p.icon;
+        let linkedSystems = p.linkedSystems;
+        let mines = p.mines;
+        let planets = p.planets;
+        let shipLevel = p.shipLevel;
+        let shipTypes = p.shipTypes;
+        let stationHub = p.stationHub;
+        let warpRequired = p.warpRequired;
+        let zone = p.zone;
         let divOpen = "<div>";
         let divClose = "</div>";
         let info = ` 
@@ -509,8 +505,8 @@ STFCmap = (function() {
         <br>Warp Range: ${warpRequired}
         <br>Mines: ${mines}
         <br>Station Hubs: ${stationHub}
-        <br>Linked Systems: ${LinkedSystems}`;
-        let cleanedName = cleanName(p["Name"]);
+        <br>Linked Systems: ${linkedSystems}`;
+        let cleanedName = cleanName(p["name"]);
         let domain = '';
         let img = "<img src='" + domain + "assets/img/" + cleanedName + ".png' width='175px' />";
         return  divOpen + info + divClose + divOpen + divClose;
