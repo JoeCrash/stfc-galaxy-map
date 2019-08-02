@@ -18,8 +18,7 @@ version 1.1 - August 2019
 - removed extra css from older version of map
 - removed bootstrap, rbush and other unneeded libraries
 - switched external libraries to CDN link (just download if you want a local version)
-- added proper icons with stars
-- added 4* Resources
+- added 2*, 3*, 4*, swarm and data resource icons
 - added other misc icons for later use
 
 Coming Soon:
