@@ -188,24 +188,25 @@ STFCMap = (function() {
         for (let i = 0; i < count; i++) {
             let system = systems[i];
             let properties = system.properties;
-            let name = cleanName(properties.name);
+            let name = properties.name;
+            let cleaned = cleanName(properties.name);
             let id = properties.systemID;
             let sysNode = makeSystemNode(system);
             //sysNode.addTo(map);
             let yx = system.geometry.coordinates;
             //cache data for later
             sysNode.on("click", function() {
-                flyToSystem(name)
+                flyToSystem(cleaned)
             }); //allow flyto on clicked system
             systemIds[id] = name;
-            systemNodes[name] = sysNode;
-            galaxy[name] = properties;
-            galaxy[name].yx = yx;
+            systemNodes[cleaned] = sysNode;
+            galaxy[cleaned] = properties;
+            galaxy[cleaned].yx = yx;
             systemsGroup.push(sysNode); //add a system node to the layergroup
             let mines = properties.mines;
             setMines(yx, mines, minesGroup); //set the mines object
-            let cleaned = properties.name.toString(); // todo setup with cleanName function and maybe a key/val pair with full name.
-            systemNames.push(cleaned); //holds all the system names for typeahead
+            //let cleaned = properties.name.toString(); // todo setup with cleanName function and maybe a key/val pair with full name.
+            systemNames.push(name); //holds all the system names for typeahead
         }
         initMap();
 
@@ -305,16 +306,20 @@ STFCMap = (function() {
         let coords = sys.geometry.coordinates;
         let properties = sys.properties;
         let sysName = properties.name;
+        let cleaned = cleanName(sysName);
         let sysLabel = sysName + ' (' + properties.systemLevel + ')';
         let popupTemplate = makeSystemPopup(properties);
         let radius = properties.radius !== undefined && properties.radius !== '' ? parseInt(properties.radius) : 3;
         let node = makeCircle(coords, {className: 'system ' + cleanName(sysName), id: sysName, radius: radius, color: 'white', fillOpacity: 1, stroke: true})
             .bindTooltip(sysLabel, {permanent: true, direction: 'right', offset: [2, -2], className: 'system-label'});
         let popup = node.bindPopup(popupTemplate);
-        systemNodes[sysName] = node; //cache the node for events
-        systemPopups[sysName] = popup; //cache the popup for events
+        systemNodes[cleaned] = node; //cache the node for events
+        systemPopups[cleaned] = popup; //cache the popup for events
+        console.log("sysName", sysName);
         return node;
+
     };
+
     let initIcons = function(iconsData) {
         //console.log("loading icons");
         icons = {};
@@ -369,6 +374,14 @@ STFCMap = (function() {
         console.log("flyToSystem", system);
         let yx = galaxy[system].yx;
         map.panTo(yx, 3);
+        //systemNodes[system].openPopup();
+        /*if(openPopup){
+            console.log("openPopup");
+            let popup = L.popup().setLatLng(yx).setContent("I am a standalone popup.").openOn(map);
+            popup.addTo(map);
+            console.log("pop")
+        }*/
+
     };
 
     let makeSystemPopup = function(p) {
@@ -446,7 +459,6 @@ STFCMap = (function() {
             return systemNames;
         },
         flyTo: function(system, openPopup) {
-            console.log("i got flyto", system);
             flyToSystem(cleanName(system), openPopup);
         },
         // utils

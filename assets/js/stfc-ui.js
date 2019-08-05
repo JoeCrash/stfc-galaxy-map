@@ -108,7 +108,7 @@ STFCUI = (function() {
                 let cleaned = STFCMap.cleanName(name);
                 if(systemNames.indexOf(name) >= 0){
                     console.log("submitting good val", name);
-                    STFCMap.flyTo(cleaned);
+                    STFCMap.flyTo(cleaned, true);
                     _searchWrapper.removeClass("focus");
                     _input.typeahead('val', '');
                 }else{
