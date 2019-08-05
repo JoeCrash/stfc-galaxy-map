@@ -172,8 +172,8 @@ STFCMap = (function() {
         });
 
         //hash = new L.Hash(map); //todo? generate hash urls
-        let systemsJson = "../assets/json/systems.json";
-        let iconsJson = "../assets/json/icons.json";
+        let systemsJson = "./assets/json/systems.json";
+        let iconsJson = "./assets/json/icons.json";
         //initial systems load
         loadFile(iconsJson, initIcons); //load the icons
         loadFile(systemsJson, initSystems);
