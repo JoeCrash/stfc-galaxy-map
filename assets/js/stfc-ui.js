@@ -106,13 +106,13 @@ STFCUI = (function() {
             function submit(){
                 let name = _input.val();
                 let cleaned = STFCMap.cleanName(name);
-                if(systemNames.indexOf(value) >= 0){
+                if(systemNames.indexOf(name) >= 0){
                     console.log("submitting good val", value);
-                    STFCMap.flyTo(value);
+                    STFCMap.flyTo(cleaned);
                     _searchWrapper.removeClass("focus");
                     _input.typeahead('val', '');
                 }else{
-                    console.log("BAD val", value);
+                    console.log("BAD val", name);
                     _searchWrapper.removeClass("focus");
                     _input.typeahead('val', '');
                 }
