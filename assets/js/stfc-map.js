@@ -1,6 +1,6 @@
 let env = (window.location.hostname === "joeycrash135.github.io") ? 'live' : 'local';
-let STFCmap;
-STFCmap = (function() {
+let STFCMap;
+STFCMap = (function() {
     //helpers
     /**
      * converts x,y coordinates into y,x LatLng object for leaflet
@@ -66,25 +66,26 @@ STFCmap = (function() {
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         },
         getStringFromURL = function() {
-            let path = window.location.pathname;
-            if(path === undefined || path === '/'){
+            let path = window.location.pathname; //get the path
+            let index = path.lastIndexOf("/"); //get the index of the last text
+            let result = path.substr(index + 1); //pluck the last bit of text
+            if(result === '' || path === '/') {
                 path = getUrlParameter('s');
             }
-            if(snapMode){
+            if(snapMode) {
                 $("body").addClass("fixed-size");
                 $("#map-wrapper").addClass("fixed-size");
                 $("#map").addClass("fixed-size");
                 $(".leaflet-top").hide();
             }
-            console.log("path output", path);
-            return cleanName(path);
+            return result || path;
         },
         systemNameToID = function(sysname) {
             //scan for an name and return relevant ID
             let cleanedname = cleanName(sysname);
             let sys = galaxy[cleanedname];
-            if(sys !== undefined){
-                if(sys.hasOwnProperty('systemID')){
+            if(sys !== undefined) {
+                if(sys.hasOwnProperty('systemID')) {
                     return sys.systemID;
                 }
             }
@@ -124,11 +125,11 @@ STFCmap = (function() {
     let baseLayers; //the maps group
     let layerControl; //the layerControl object itself. filled with controlLayers
     let controlLayers; //this gets set with all the menu layers and then gets added into layerControl
-    let systemIds = {}; //holds the systemname/id key values for easy searching (id/name combination)
+    let systemIds = {}; //holds the [id:name] key:values for easy searching - systemIds[2038174376] = Rosec
+    let systemNames = []; //holds all the system names for typeahead
     let systemNodes = {}; //holds the system nodes all events get bound to. (events on nodes)
-    let systemPopups = {}; //holds the system popups, since they won't load via url.
-    let systemnames = []; //holds all the system names for typeahead (simple array with just the names)
-    let systemTokens = []; //holds system names in a tag format for typeahead (typeahead tags formatted object)
+    let systemPopups = {}; //holds the system popups
+
     let systemsGroup = []; //temp array to hold the system nodes for layerControl (layers.systems)
     let minesGroup = {}; //temp array to hold the system nodes for layerControl (layers.systems)
     let icons; //icons
@@ -150,7 +151,7 @@ STFCmap = (function() {
         //use custom crs if needed, for now we skip
         let canvas = false;
         snapMode = getUrlParameter('snap') === '1';
-        if(snapMode){
+        if(snapMode) {
             canvas = true;
             console.log("render set to canvas mode");
         }
@@ -165,17 +166,18 @@ STFCmap = (function() {
             wheelPxPerZoomLevel: 100,
             maxBoundsViscosity: 1.0,
             preferCanvas: canvas
-        }).on('load', function(){
+        }).on('load', function() {
             window.status = 'maploaded';
             //console.log("win status", window.status);
         });
 
         //hash = new L.Hash(map); //todo? generate hash urls
-        let systemsJson = "assets/json/systems.json";
-        let iconsJson = "assets/json/icons.json";
+        let systemsJson = "../assets/json/systems.json";
+        let iconsJson = "../assets/json/icons.json";
         //initial systems load
         loadFile(iconsJson, initIcons); //load the icons
         loadFile(systemsJson, initSystems);
+
     };
 
     let initSystems = function(_galaxy) {
@@ -192,24 +194,28 @@ STFCmap = (function() {
             //sysNode.addTo(map);
             let yx = system.geometry.coordinates;
             //cache data for later
-            sysNode.on("click", function(){flyToSystem(name)}); //allow flyto on clicked system
+            sysNode.on("click", function() {
+                flyToSystem(name)
+            }); //allow flyto on clicked system
             systemIds[id] = name;
             systemNodes[name] = sysNode;
             galaxy[name] = properties;
             galaxy[name].yx = yx;
             systemsGroup.push(sysNode); //add a system node to the layergroup
-
             let mines = properties.mines;
             setMines(yx, mines, minesGroup); //set the mines object
+            let cleaned = properties.name.toString(); // todo setup with cleanName function and maybe a key/val pair with full name.
+            systemNames.push(cleaned); //holds all the system names for typeahead
         }
         initMap();
+
     };
 
     let initMap = function() {
         map.attributionControl.setPrefix(setAttributions());
-        let myRenderer = L.canvas({ padding: 0.5 });
+        let myRenderer = L.canvas({padding: 0.5});
 
-        layers["Map"] = L.imageOverlay('assets/baked-map.gif', bounds, {id: 'wall-grid', renderer:myRenderer}); //background image
+        layers["Map"] = L.imageOverlay('../assets/baked-map.gif', bounds, {id: 'wall-grid', renderer: myRenderer}); //background image
         layers.Map.addTo(map);
 
         toggleSystemLabel(map.getZoom()); //set text visibility
@@ -225,16 +231,16 @@ STFCmap = (function() {
         if(startOnSystem !== undefined) {
             let cleanIdentifier = cleanName(startOnSystem);
             let id = systemNameToID(cleanIdentifier);
-            if(id === undefined){
+            if(id === undefined) {
                 cleanIdentifier = systemIDToName(cleanIdentifier);
-                if(cleanIdentifier === undefined){
+                if(cleanIdentifier === undefined) {
                     startOnSystem = cleanName('Kepler-018');
                     tmpZoom = 2;
-                }else{
+                } else {
                     startOnSystem = cleanIdentifier;
                     flyTo = true;
                 }
-            }else{
+            } else {
                 flyTo = true;
             }
             startingCoords = galaxy[startOnSystem].yx;
@@ -262,16 +268,20 @@ STFCmap = (function() {
         //layerControl = L.control.layers(null, controlLayers, {groupCheckboxes: true});
         layerControl.addTo(map);
 
+        console.log("check", typeof STFCUI, typeof STFCUI === undefined, typeof STFCUI === 'undefined');
+        if(typeof STFCUI !== 'undefined') {
+            STFCUI.init(map);
+        }
         zoomUIUpdate();
 
     };
 
-    let zoomUIUpdate = function(){
+    let zoomUIUpdate = function() {
         let zoom = map.getZoom();
         toggleSystems(zoom);
         toggleSystemLabel(zoom);
         //toggleTravelPaths(zoom); //unused for now, travel paths may be added later.
-        console.log("zoom", zoom);
+        //console.log("zoom", zoom);
     };
 
     let toggleSystems = function(zoom) {
@@ -298,7 +308,7 @@ STFCmap = (function() {
         let sysLabel = sysName + ' (' + properties.systemLevel + ')';
         let popupTemplate = makeSystemPopup(properties);
         let radius = properties.radius !== undefined && properties.radius !== '' ? parseInt(properties.radius) : 3;
-        let node = makeCircle(coords, {className:'system '+cleanName(sysName), id: sysName, radius: radius, color: 'white', fillOpacity: 1, stroke: true})
+        let node = makeCircle(coords, {className: 'system ' + cleanName(sysName), id: sysName, radius: radius, color: 'white', fillOpacity: 1, stroke: true})
             .bindTooltip(sysLabel, {permanent: true, direction: 'right', offset: [2, -2], className: 'system-label'});
         let popup = node.bindPopup(popupTemplate);
         systemNodes[sysName] = node; //cache the node for events
@@ -329,7 +339,6 @@ STFCmap = (function() {
         }
         return groups;
     };
-
     let setMines = function(yx, mines, group) {
         if(mines === "None") return false;
         if(group === undefined || group.length > 1) {
@@ -340,7 +349,7 @@ STFCmap = (function() {
             if(mines.hasOwnProperty(resourceKey)) {
                 let resource = mines[resourceKey];
                 let iconObj = icons.mines[resource];
-                let options = {icon: iconObj, interactive:false};
+                let options = {icon: iconObj, interactive: false};
                 if(!group.hasOwnProperty(resource)) group[resource] = []; //init the resource group if its not an array
                 group[resource].push(makeMarker(yx, options));
             }
@@ -353,130 +362,14 @@ STFCmap = (function() {
     let makeMarker = function(yx, options) {
         return L.marker(yx, options);
     };
-    let makeLine = function(yx, options) {
-        return L.polyline(yx, options);
-    };
-    let makeGroup = function(group) {
-        return L.layerGroup(group);
-    };
 
     /* To be added later */
-    let initTypeahead = function() {
-        let sysNames = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.whitespace,
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: systemnames
-        });
-        sysNames.initialize();
-        $('.typeahead').typeahead({
-                hint: true,
-                highlight: true,
-                minLength: 1
-            },
-            {
-                name: 'systems',
-                source: sysNames.ttAdapter()
-            });
-    };
-    let initFlyToSystem = function() {
-        $('#fly-to').on('keypress', function(e) {
-            if(e.which === 13) {
-                flyToSystem();
-            }
-        });
-        $("body").on('keydown', function(e) {
-            //console.log("pressed something", e);
-            let fly = $('#fly-to');
-            let moveSys = $('#move-this-system');
-
-            //console.log("is tab?", e.keyCode === 9, fly.is(":focus"));
-            if(e.keyCode === 9) {
-                if(!fly.is(":focus") && !moveSys.is(":focus")) {
-                    e.preventDefault();
-                    fly.val("");
-                    fly.focus();
-                }
-            }
-        });
-
-        $("#fly-to-system").on("click", function(e) {
-            flyToSystem();
-            //e.stopPropagation();
-            //e.preventDefault();
-        });
-    };
     let flyToSystem = function(system, openPopup) {
-        let sys;
-        if(system === undefined) {
-            sys = $("#fly-to").val();
-        } else {
-            sys = system;
-        }
-        if(galaxy[sys] === undefined) return false;
-        console.log("flying to", sys, system);
-        let yx = galaxy[sys].yx;
-        map.panTo(yx, 2);
-        //console.log("openPopup", openPopup);
-        if(openPopup) {
-            console.log('sys', sys);
-            console.log('sysnode', systemNodes[sys]);
-            console.log('popups', systemPopups[sys]);
-            //[sys];
-            //systemNodes[sys];
-        }else{
-            console.log("openPopupNO", openPopup);
-        }
+        if(galaxy[system] === undefined) return false;
+        console.log("flyToSystem", system);
+        let yx = galaxy[system].yx;
+        map.panTo(yx, 3);
     };
-    /*let initBringNearSystem = function() {
-        $('#bring-to-system').on('click', function() {
-            bringNearSystem();
-        });
-    };*/
-    /*let initClearPathsFromSystem = function() {
-        $("#clear-linked-system").on("click", function() {
-            let system = $("#clear-linked").val();
-            if(system === '') return false;
-            clearSystemLinkedPaths(system);
-        });
-    };*/
-    /*let clearSystemLinkedPaths = function(system) {
-        let mainSysLinks = galaxy[system]["Linked Systems"];
-        let linkedArr = strToArray(mainSysLinks);
-        let updatedSystemnames = [system]; //hold the names that got updated, starting with the main system
-        for (let i in linkedArr) {
-            let linkedSysname = linkedArr[i];
-            let linkedSysInfo = galaxy[linkedSysname]["Linked Systems"];
-            let linkedSysArr = strToArray(linkedSysInfo);
-            let hasLink = linkedSysArr.indexOf(system);
-            if(hasLink >= 0) {
-                let pathKey = makePathKey(system, linkedSysname);
-                removePathAndRefresh(pathKey);
-                linkedSysArr.splice(hasLink, 1);
-                galaxy[linkedSysname]["Linked Systems"] = arrToStr(linkedSysArr); //update the linked system string
-                updatedSystemnames.push(linkedSysname);
-            }
-        }
-        galaxy[system]["Linked Systems"] = ''; //remove all entries from main system
-        saveLinkedSystemsToDb(updatedSystemnames);
-    };*/
-    /*let bringNearSystem = function() {
-        let move = $('#move-this-system').val();
-        let near = $('#near-this-system').val();
-        if(move === '' || near === '') return false;
-        if(move === near) return false;
-        //get near coords
-        let nearCoords = galaxy[near].yx;
-        let x = nearCoords.lng + Math.floor(Math.random() * 51) - 25;
-        let y = nearCoords.lat + Math.floor(Math.random() * 51) - 25;
-        let newCoords = xy(x, y);
-        console.log("move", move, "near", near);
-        console.log("x", y, "y", y, "new", newCoords);
-        console.log("nearCoords", nearCoords);
-
-        systemNodes[move].setLatLng(newCoords);
-        galaxy[move].yx = newCoords;
-        flyToSystem(move);
-    };*/
 
     let makeSystemPopup = function(p) {
         let name = p.name;
@@ -509,7 +402,7 @@ STFCmap = (function() {
         let cleanedName = cleanName(p["name"]);
         let domain = '';
         let img = "<img src='" + domain + "assets/img/" + cleanedName + ".png' width='175px' />";
-        return  divOpen + info + divClose + divOpen + divClose;
+        return divOpen + info + divClose + divOpen + divClose;
     };
 
     let loadFile = function(file, callback) {
@@ -534,12 +427,58 @@ STFCmap = (function() {
         return mapLink + mapName + close + " v" + version + "<br>" + "By: " + authLink + author + close + " Server: " + serverInfo;
     };
 
-    return { // public interface
+
+    let highlightSearch = function() {
+        console.log('buttonClicked');
+        //show search
+
+    }
+
+    return { //public interface
         init: function() {
             init();
+        },
+        //
+        getMap: function() {
+            return map;
+        },
+        getSystemNames: function() {
+            return systemNames;
+        },
+        flyTo: function(system, openPopup) {
+            console.log("i got flyto", system);
+            flyToSystem(cleanName(system), openPopup);
+        },
+        // utils
+        xy: function(x, y) {
+            return xy(x, y);
+        },
+        strToArray: function(s) {
+            return strToArray(s);
+        },
+        arrToStr: function(a) {
+            return arrToStr(a);
+        },
+        copyToClipboard: function(c) {
+            return copyToClipboard(c);
+        },
+        isNumeric: function(s) {
+            return isNumeric(s);
+        },
+        cleanName: function(name) {
+            return cleanName(name);
+        },
+        getUrlParameter: function(name) {
+            return getUrlParameter(name);
+        },
+        getStringFromURL: function() {
+            return getStringFromURL();
+        },
+        systemNameToID: function(sysname) {
+            return systemNameToID(sysname);
+        },
+        systemIDToName: function(sysID) {
+            return systemIDToName(sysID);
         }
     };
-
-
 })();
-STFCmap.init();
