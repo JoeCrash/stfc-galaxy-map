@@ -215,7 +215,7 @@ STFCMap = (function() {
         map.attributionControl.setPrefix(setAttributions());
         let myRenderer = L.canvas({padding: 0.5});
 
-        layers["Map"] = L.imageOverlay('../assets/baked-map.gif', bounds, {id: 'wall-grid', renderer: myRenderer}); //background image
+        layers["Map"] = L.imageOverlay('assets/baked-map.gif', bounds, {id: 'wall-grid', renderer: myRenderer}); //background image
         layers.Map.addTo(map);
 
         toggleSystemLabel(map.getZoom()); //set text visibility
