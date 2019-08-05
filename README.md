@@ -21,7 +21,7 @@ version 1.1 - August 2019
 - added 2*, 3*, 4*, swarm and data resource icons
 - added other misc icons for later use
 
-version 1.2
+version 1.1.2
 - Added system search input
 
 Coming Soon:

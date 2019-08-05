@@ -422,7 +422,7 @@ STFCMap = (function() {
         let close = "</a>";
         let serverInfo = '[16] Solari'; //info.serverInfo
         let mapName = 'Star Trek Fleet Command Galaxy Map'; //info.mapName
-        let version = '1.1'; //info.version
+        let version = '1.1.2'; //info.version
         let author = 'joeycrash135'; //info.author
         return mapLink + mapName + close + " v" + version + "<br>" + "By: " + authLink + author + close + " Server: " + serverInfo;
     };
