@@ -25,5 +25,4 @@ version 1.1.2
 - Added system search input
 
 Coming Soon:
-- ~~Search Systems~~
 - Pretty Popup
