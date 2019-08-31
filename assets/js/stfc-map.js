@@ -238,12 +238,13 @@ STFCMap = (function() {
                     startOnSystem = cleanName('Kepler-018');
                     tmpZoom = 2;
                 } else {
-                    startOnSystem = cleanIdentifier;
+                    startOnSystem = cleanName(cleanIdentifier);
                     flyTo = true;
                 }
             } else {
                 flyTo = true;
             }
+            console.log("IS GALAXY SET", galaxy, startOnSystem);
             startingCoords = galaxy[startOnSystem].yx;
         }
         map.setView(startingCoords, tmpZoom);
