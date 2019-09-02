@@ -433,12 +433,13 @@ STFCMap = (function() {
     let setAttributions = function(info) {
         let mapLink = "<a href='https://stfcpro.com' title='Star Trek Fleet Command Galaxy Map'>";
         let authLink = "<a href='https://github.com/joeycrash135/' title='joeycrash135 @ Github'>";
+        let discLink = "<a href='https://discord.gg/fKThyH2' title='STFC Pro Official'>";
         let close = "</a>";
         let serverInfo = '[16] Solari'; //info.serverInfo
         let mapName = 'Star Trek Fleet Command Galaxy Map'; //info.mapName
-        let version = '1.1.2'; //info.version
+        let version = '1.2'; //info.version
         let author = 'joeycrash135'; //info.author
-        return mapLink + mapName + close + " v" + version + "<br>" + "By: " + authLink + author + close + " Server: " + serverInfo;
+        return mapLink + mapName + close + " v" + version + "<br>" + "By: " + authLink + author + close + " Server: " + serverInfo + "<br>" + discLink + "STFC Pro Discord" + close;
     };
 
 
