@@ -2,6 +2,7 @@ let STFCUI;
 STFCUI = (function() {
     //helpers
     let systemNames = []; //holds all the system names for typeahead (simple array with just the names)
+    let cleanedNames = []; //holds all the system names for typeahead (simple array with just the names)
     let systemTokens = []; //holds system names in a tag format for typeahead (typeahead tags formatted object)
 
     let init = function(map) {
@@ -90,7 +91,6 @@ STFCUI = (function() {
                     _searchWrapper.removeClass("focus");
                     console.log("input lost focus");
                 }
-
             });
             _reset.on("click", function(){
                 if(_input.val() === ""){
@@ -100,22 +100,16 @@ STFCUI = (function() {
                     _input.val("");
                     console.log("input reset");
                 }
-
             });
-
             function submit(){
+                cleanedNames = STFCMap.getCleanedNames();
                 let name = _input.val();
                 let cleaned = STFCMap.cleanName(name);
-                if(systemNames.indexOf(name) >= 0){
-                    console.log("submitting good val", name);
-                    STFCMap.flyTo(cleaned, true);
-                    _searchWrapper.removeClass("focus");
-                    _input.typeahead('val', '');
-                }else{
-                    console.log("BAD val", name);
-                    _searchWrapper.removeClass("focus");
-                    _input.typeahead('val', '');
+                if(cleanedNames.indexOf(cleaned) >= 0){
+                    STFCMap.flyToSystem(cleaned, true);
                 }
+                _searchWrapper.removeClass("focus");
+                _input.typeahead('val', '');
             }
             return container;
         },
@@ -144,8 +138,6 @@ STFCUI = (function() {
     };
 
     let initTypeaheadB = function(){
-
-
         systemNames = STFCMap.getSystemNames();
         let sysNames = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.whitespace,
@@ -183,19 +175,20 @@ STFCUI = (function() {
     };
 
     function onOpened($e) {
-        console.log('opened');
+        //console.log('opened');
     }
     function onChecked(e, i) {
-        console.log('checked', e, i);
+        //console.log('checked', e, i);
     }
 
     function onAutocompleted($e, datum) {
-        console.log('autocompleted', datum);
+        //console.log('autocompleted', datum);
     }
 
     function onSelected($e, datum) {
         console.log('selected', $e, datum);
         $(".tt-menu").css("display", "none");
+        $("#search-submit").trigger('click');
     }
 
     let closeSuggestions = function(){

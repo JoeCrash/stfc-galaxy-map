@@ -8,7 +8,7 @@
         "System Large": {
             "iconSize": [48, 48],
             "iconUrl": "../assets/icon/system-lg.png",
-            "className": "system"
+            "className": "system-lg"
         },
         "Primary": {
             "iconSize": [64, 32],
@@ -43,6 +43,11 @@
             "iconSize": [48, 48],
             "iconUrl": "../assets/icon/dilithium.png",
             "className": "dilithium"
+        },
+        "Raw Latinum": {
+            "iconSize": [48, 48],
+            "iconUrl": "../assets/icon/raw-latinum.png",
+            "className": "latinum"
         },
         "2* Raw Crystal": {
             "iconSize": [48, 48],
@@ -198,22 +203,22 @@
     "ship_types": {
         "Battleship": {
             "iconSize": [48, 48],
-            "iconUrl": "../assets/icon/battleship.png",
+            "iconUrl": "../assets/icon/battleship-parts.png",
             "className": "battleship"
         },
         "Explorer": {
             "iconSize": [48, 48],
-            "iconUrl": "../assets/icon/explorer.png",
+            "iconUrl": "../assets/icon/explorer-parts.png",
             "className": "explorer"
         },
         "Interceptor": {
             "iconSize": [48, 48],
-            "iconUrl": "../assets/icon/interceptor.png",
+            "iconUrl": "../assets/icon/interceptor-parts.png",
             "className": "interceptor"
         },
         "Survey": {
             "iconSize": [48, 48],
-            "iconUrl": "../assets/icon/survey.png",
+            "iconUrl": "../assets/icon/survey-parts.png",
             "className": "survey"
         }
     }

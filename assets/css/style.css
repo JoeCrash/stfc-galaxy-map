@@ -1,0 +1,413 @@
+@font-face {
+    font-family: 'liberation_sansregular';
+    src: url('../fonts/liberationsans-regular-webfont.woff2') format('woff2'),
+    url('../fonts/liberationsans-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+body {
+    padding: 0;
+    margin: 0;
+    background: #000;
+}
+body > #map-wrapper {
+    position: fixed;
+    top: calc(50px + 1em);
+    bottom: 0.1em;
+    right: 0;
+    left: 0;
+    vertical-align: top;
+}
+#map {
+    height: 100%;
+    width: 100%;
+    float: left;
+}
+.leaflet-container {
+    font: 12px/1.5 'liberation_sansregular', sans-serif;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+/* fancy searchbar */
+button {
+    text-align: center;
+}
+
+button.focus {
+    outline: none;
+}
+
+button.btn-search, button.btn-reset {
+    /*background: #297dfa;*/
+    border: none;
+    height: 30px;
+    font-size: 12px;
+    padding: 4px;
+    position: absolute;
+    top: 0;
+    width: 30px;
+}
+
+.tt-cursor, .tt-cursor:checked, .tt-suggestion:hover {
+    color: #111;
+    background: #ccc;
+}
+
+#search-tool {
+    float: left;
+    height: 50px;
+    margin: 0 8%;
+    position: relative;
+}
+
+#search-tool.focus {
+    margin: 0;
+}
+
+#search-tool input {
+    text-transform: capitalize;
+    background-color: #fff !important;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    height: 30px;
+    padding: 4px 8px;
+    font-weight: 600;
+    border-right: none;
+    transition: all .3s ease-in;
+    width: 100px;
+}
+
+#search-tool button#search-reset {
+    opacity: 0;
+}
+
+#search-tool.focus input {
+    width: 220px;
+}
+
+#search-tool.focus button#search-submit {
+    background: #297dfa;
+    border-radius: 0 50% 50% 0;
+    color: #fff;
+    left: 220px;
+}
+
+#search-tool.focus button#search-reset {
+    opacity: 1;
+    animation: bounceRight .5s;
+    animation-delay: .2s;
+    animation-timing-function: cubic-bezier(0.3, 0.2, 1, 0.8);
+    border-radius: 50%;
+    color: #fff;
+    left: 254px;
+}
+
+#search-tool button#search-submit {
+    background: #ccc;
+    transition: all .3s ease-in;
+}
+
+#search-tool button#search-reset {
+    background: #f00;
+    height: 30px;
+    left: 0;
+    top: 0;
+    transition: all .3s ease-in;
+    width: 30px;
+    z-index: -1;
+}
+
+@keyframes bounceRight {
+    0% {
+        transform: translateX(0px);
+    }
+    50% {
+        transform: translateX(10px);
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+@keyframes jumpTowardSearch {
+    0% {
+        background: #ccc;
+        opacity: 1;
+        transform: rotateZ(0deg) scale(1);
+    }
+    20% {
+        background: #a3b8d7;
+        opacity: 0;
+        transform: rotateZ(-60deg) scale(50);
+    }
+    55% {
+        background: #7aa4e3;
+        opacity: 0;
+        transform: rotateZ(-30deg) scale(100);
+    }
+    90% {
+        background: #5190ee;
+        opacity: 0;
+        transform: rotateZ(-30deg) scale(50);
+    }
+    100% {
+        background: #297dfa;
+        opacity: 1;
+        transform: rotateZ(0deg) scale(1);
+    }
+}
+
+@keyframes jumpTowardReset {
+    0% {
+        opacity: 0;
+        transform: rotateZ(0deg) scale(1);
+    }
+    20% {
+        opacity: 0;
+        transform: rotateZ(-60deg) scale(50);
+    }
+    55% {
+        opacity: 0;
+        transform: rotateZ(-30deg) scale(100);
+    }
+    90% {
+        opacity: 0;
+        transform: rotateZ(-30deg) scale(50);
+    }
+    100% {
+        opacity: 1;
+        transform: rotateZ(0deg) scale(1);
+    }
+}
+/* End fancy searcher */
+
+
+/* Snap Mode */
+.fixed-size {
+    /*width:1200px;
+    height:675px;*/
+    width: 1000px;
+    height: 1000px;
+    position: absolute;
+    top: 0 !important;
+    left: 0;
+    background: #000;
+}
+
+.system-label {
+    visibility: hidden;
+    background: none;
+    border: none;
+    color: #fff;
+    box-shadow: none;
+    text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+    /*margin-left:5px;*/
+}
+.system-label::before {
+    display: none;
+}
+
+.dim {
+    opacity: 0.2;
+}
+
+.leaflet-control-layers-group-name {
+    font-weight: bold;
+    margin-bottom: .2em;
+    margin-left: 3px;
+}
+
+.leaflet-control-layers-group {
+    margin-bottom: .5em;
+}
+
+.leaflet-control-layers-scrollbar {
+    overflow-y: scroll;
+    padding-right: 10px;
+}
+
+/* System Popups */
+.custom-popup .leaflet-popup-content {
+    margin: 2px;
+    width: 100%;
+}
+.popup-ind {
+    background: url("../img/ui/ind-sys-menu.jpg");
+    height: 100%;
+    border-radius: 8px;
+}
+.popup-fed {
+    background: url("../img/ui/fed-sys-menu.jpg");
+    height: 100%;
+    border-radius: 8px;
+}
+.popup-rom {
+    background: url("../img/ui/rom-sys-menu.jpg");
+    height: 100%;
+    border-radius: 8px;
+}
+.popup-kli {
+    background: url("../img/ui/kli-sys-menu.jpg");
+    height: 100%;
+    border-radius: 8px;
+}
+.popup-aug {
+    background: url("../img/ui/aug-sys-menu.jpg");
+    height: 100%;
+    border-radius: 8px;
+}
+.popup-swa {
+    background: url("../img/ui/swa-sys-menu.jpg");
+    height: 100%;
+    border-radius: 8px;
+}
+#system-zone {
+    font-size: 1em;
+    margin-left: 80px;
+    padding-top: 5px;
+    text-shadow: 2px 2px #000;
+}
+#system-name {
+    font-size: 1.4em;
+    margin-left: 80px;
+    margin-top: -7px;
+    text-shadow: 2px 2px #000;
+}
+#system-id {
+    font-size: 0.8em;
+    margin-left: 104px;
+    text-shadow: 2px 2px #000;
+}
+.system-detail-panel {
+    width:96%;
+    margin: 5px 7px;
+    padding-left:3px;
+    height:140px;
+    background: rgb(0,0,0);
+    background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 70%, rgba(255,255,255,0) 100%);
+}
+.system-detail-panel div:not('.tooltip') {
+    width:100%;
+    margin-left:5px;
+    float:left;
+    vertical-align: top;
+}
+.system-detail-panel span {
+    color: #bbb;
+}
+.system-detail-panel div.half-size {
+    width:48%;
+    float:left;
+}
+.system-detail-panel img.node-icon {
+    width:48px;
+    height:48px;
+    margin:-5px;
+}
+.system-detail-panel img.ship-icon {
+    width:48px;
+    height:48px;
+    margin:-5px;
+}
+/* Tooltip */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+.tooltip .tooltiptext {
+    visibility: hidden;
+    min-width:100px;
+    width: 100%;
+    background-color: black;
+    opacity: 0.8;
+    color: #fff;
+    text-align: left;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+/*Custom Popup*/
+.custom-popup .leaflet-popup-content-wrapper {
+    position: absolute;
+    top: -110px;
+    left: 75px;
+    width: 400px;
+    height: 226px;
+    background: none;
+    color: #fff;
+    font-size: 16px;
+    line-height: 24px;
+    box-shadow: none;
+}
+.custom-popup .leaflet-popup-content-wrapper a {
+    color: rgba(255, 255, 255, 0.5);
+}
+.custom-popup .leaflet-popup-tip-container {
+    width: 30px;
+    height: 15px;
+}
+.leaflet-container a.leaflet-popup-close-button {
+    right: -478px;
+    top: -106px;
+}
+.custom-popup .leaflet-popup-tip {
+    display: none;
+}
+
+.twitter-typeahead .tt-query,
+.twitter-typeahead .tt-hint {
+    margin-bottom: 0;
+}
+
+.twitter-typeahead .tt-hint {
+    display: none;
+}
+
+.tt-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    list-style: none;
+    font-size: 14px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+    cursor: pointer;
+}
+
+.tt-suggestion {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: normal;
+    line-height: 1.428571429;
+    color: #333333;
+    white-space: nowrap;
+}
+
+.tt-suggestion:hover,
+.tt-suggestion:focus {
+    color: #ffffff;
+    text-decoration: none;
+    outline: 0;
+    background-color: #428bca;
+}

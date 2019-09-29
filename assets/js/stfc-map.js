@@ -97,6 +97,7 @@ STFCMap = (function() {
             return systemIds[cleanedID];
         };
 
+    //popup for leaflet
     L.Map = L.Map.extend({
         openPopup: function(popup) {
             this._popup = popup;
@@ -116,8 +117,8 @@ STFCMap = (function() {
     const bounds = [xy(xMin, yMin), xy(xMax, yMax)];
     const startingZoom = 1.5;
     const minZoom = -2;
-    const maxZoom = 6;
-    let startingCoords = xy(-4979, -1853);
+    const maxZoom = 4;
+    let startingCoords = xy(-4979, -1853); //kepler-018, center
 
     //containers
     let galaxy = {}; //contains all systems information.
@@ -127,12 +128,14 @@ STFCMap = (function() {
     let controlLayers; //this gets set with all the menu layers and then gets added into layerControl
     let systemIds = {}; //holds the [id:name] key:values for easy searching - systemIds[2038174376] = Rosec
     let systemNames = []; //holds all the system names for typeahead
+    let cleanedNames = []; //holds all the cleaned system names for quick validation of search input
     let systemNodes = {}; //holds the system nodes all events get bound to. (events on nodes)
     let systemPopups = {}; //holds the system popups
 
     let systemsGroup = []; //temp array to hold the system nodes for layerControl (layers.systems)
     let minesGroup = {}; //temp array to hold the system nodes for layerControl (layers.systems)
     let icons; //icons
+    let iconsLoaded = false;//will flag true once loaded
 
     //debugger/editor assistance
     let showLayer = {
@@ -142,28 +145,34 @@ STFCMap = (function() {
         'shipTypes': false,
         'editor': false
     };
-
+    let activeSystem;
     let startOnSystem = undefined; //the systemID or name to focus on (grabbed from URL)
     let snapMode = false;
+    let showDetail = false;
     let map;
 
     let init = function() {
         //use custom crs if needed, for now we skip
         let canvas = false;
+        /** Forces snapshot view for screenshots: crops width, removes ui **/
         snapMode = getUrlParameter('snap') === '1';
+
+
         if(snapMode) {
             canvas = true;
             console.log("render set to canvas mode");
         }
+
+
         map = L.map('map', {
             //crs: crs,
             crs: L.CRS.Simple,
             zoomControl: true,
             minZoom: minZoom,
             maxZoom: maxZoom,
-            zoomSnap: 0.5,
             zoomDelta: 0.5,
-            wheelPxPerZoomLevel: 100,
+            zoomSnap: 0.5,
+            /*wheelPxPerZoomLevel: 100,*/
             maxBoundsViscosity: 1.0,
             preferCanvas: canvas
         }).on('load', function() {
@@ -178,9 +187,41 @@ STFCMap = (function() {
         loadFile(iconsJson, initIcons); //load the icons
         loadFile(systemsJson, initSystems);
 
+        /** RASTER LOADER **/
+        let myRenderer = L.canvas({padding: 0.5});
+        layers["Map"] = L.imageOverlay('./assets/baked-map.png', bounds, {id: 'wall-grid', renderer: myRenderer}); //background image
+        layers.Map.addTo(map);
+
+        /** VECTOR LOADER - OPTION B (NOT AVAILABLE YET)**/
+        /*let travelPathsJson = "assets/json/travel-paths.geojson";
+        let fedJson = "assets/json/fed-territory.geojson";
+        let augJson = "assets/json/aug-territory.geojson";
+        let kliJson = "assets/json/kli-territory.geojson";
+        let romJson = "assets/json/rom-territory.geojson";
+        loadFile(travelPathsJson, initTerritory);
+        loadFile(fedJson, initTerritory);
+        loadFile(augJson, initTerritory);
+        loadFile(kliJson, initTerritory);
+        loadFile(romJson, initTerritory);
+        L.imageOverlay('assets/nopaths-map-optimized.png', bounds, {id: 'wall-grid'}).addTo(map);
+        */
     };
 
+    let initTerritory = function(geoJson) {
+        L.geoJSON(geoJson).addTo(map);
+    }
+
     let initSystems = function(_galaxy) {
+        //ensure icons are loaded before starting
+        console.log("icons loaded? ", iconsLoaded);
+        if(iconsLoaded === false) {
+            setTimeout(function() {
+                initSystems(_galaxy)
+            }, 500);
+            return false;
+        }
+
+        console.log("initSystems");
         systemsGroup = [];
         minesGroup = {};
         let systems = _galaxy.features[0];
@@ -196,7 +237,7 @@ STFCMap = (function() {
             let yx = system.geometry.coordinates;
             //cache data for later
             sysNode.on("click", function() {
-                flyToSystem(cleaned)
+                flyToSystem(cleaned, true);
             }); //allow flyto on clicked system
             systemIds[id] = name;
             systemNodes[cleaned] = sysNode;
@@ -207,6 +248,7 @@ STFCMap = (function() {
             setMines(yx, mines, minesGroup); //set the mines object
             //let cleaned = properties.name.toString(); // todo setup with cleanName function and maybe a key/val pair with full name.
             systemNames.push(name); //holds all the system names for typeahead
+            cleanedNames.push(cleaned); //holds all the system names for typeahead
         }
         initMap();
 
@@ -214,10 +256,13 @@ STFCMap = (function() {
 
     let initMap = function() {
         map.attributionControl.setPrefix(setAttributions());
-        let myRenderer = L.canvas({padding: 0.5});
 
-        layers["Map"] = L.imageOverlay('./assets/baked-map.gif', bounds, {id: 'wall-grid', renderer: myRenderer}); //background image
-        layers.Map.addTo(map);
+        /*layers["Map"] = L.tileLayer('assets/tiles/{z}/{x}/{y}.png', {
+            minZoom: 0,
+            maxZoom: 22,
+            tms: false
+        })*/
+
 
         toggleSystemLabel(map.getZoom()); //set text visibility
 
@@ -246,6 +291,13 @@ STFCMap = (function() {
             }
             console.log("IS GALAXY SET", galaxy, startOnSystem);
             startingCoords = galaxy[startOnSystem].yx;
+
+            showDetail = getUrlParameter('detail') === '1';
+            if(showDetail) {
+                console.log("details of", galaxy[startOnSystem]);
+                //$("<div></div>").addClass("detail")
+            }
+
         }
         map.setView(startingCoords, tmpZoom);
         if(flyTo) flyToSystem(startOnSystem, true);
@@ -280,10 +332,11 @@ STFCMap = (function() {
 
     let zoomUIUpdate = function() {
         let zoom = map.getZoom();
-        toggleSystems(zoom);
+        //todo restore later, checking to ensure tiles work
+        //toggleSystems(zoom);
         toggleSystemLabel(zoom);
         //toggleTravelPaths(zoom); //unused for now, travel paths may be added later.
-        //console.log("zoom", zoom);
+        console.log("zoom", zoom);
     };
 
     let toggleSystems = function(zoom) {
@@ -313,10 +366,10 @@ STFCMap = (function() {
         let radius = properties.radius !== undefined && properties.radius !== '' ? parseInt(properties.radius) : 3;
         let node = makeCircle(coords, {className: 'system ' + cleanName(sysName), id: sysName, radius: radius, color: 'white', fillOpacity: 1, stroke: true})
             .bindTooltip(sysLabel, {permanent: true, direction: 'right', offset: [2, -2], className: 'system-label'});
-        let popup = node.bindPopup(popupTemplate);
+        let popup = node.bindPopup(popupTemplate, {maxWidth: "auto"});
         systemNodes[cleaned] = node; //cache the node for events
         systemPopups[cleaned] = popup; //cache the popup for events
-        console.log("sysName", sysName);
+        //console.log("sysName", sysName);
         return node;
 
     };
@@ -335,6 +388,7 @@ STFCMap = (function() {
                 }
             }
         }
+        iconsLoaded = true;
     };
 
     let setGroups = function(layers) {
@@ -369,39 +423,147 @@ STFCMap = (function() {
         return L.marker(yx, options);
     };
 
-    /* To be added later */
     let flyToSystem = function(system, openPopup) {
-        if(galaxy[system] === undefined) return false;
-        console.log("flyToSystem", system);
-        let yx = galaxy[system].yx;
-        map.panTo(yx, 3);
-        //systemNodes[system].openPopup();
-        /*if(openPopup){
-            console.log("openPopup");
-            let popup = L.popup().setLatLng(yx).setContent("I am a standalone popup.").openOn(map);
-            popup.addTo(map);
-            console.log("pop")
-        }*/
+        if(system === activeSystem) {
+            return false;
+        }
+        console.log("wanna fly", system);
+        let sys;
+        if(system === undefined) {
+            sys = $("#fly-to").val();
+        } else {
+            sys = system;
+        }
+        sys = cleanName(sys);
+        if(galaxy[sys] === undefined) return false;
 
+        let yx = galaxy[sys].yx
+        map.flyTo(yx);
+        activeSystem = sys;
+        if(openPopup) {
+
+            map.once('moveend', function() {
+                console.log("I finished moving");
+                console.log("open popup");
+                systemPopups[sys].openPopup();
+            })
+        }
     };
 
     let makeSystemPopup = function(p) {
-        let name = p.name;
+        console.log("makeSystemPopup", p);
+        let popupClass;
+        let name = p.name[0].toUpperCase() + p.name.slice(1) || ''; //capitalize 1st letter
+        let systemLevel = p.systemLevel || '';
+        let id = p.systemID || '';
+        let warpRequired = p.warpRequired || 'N/A';
+        //zone setup
+        let zone = p.zone.toUpperCase() || '';
+        let event = p.event.toUpperCase() || '';
+        switch (zone) {
+            case "INDEPENDENT":
+                popupClass = (event === 'SWARM') ? 'swa' : 'ind';
+                break;
+            case "FEDERATION":
+                popupClass = 'fed';
+                break;
+            case "KLINGON":
+                popupClass = 'kli';
+                break;
+            case "ROMULAN":
+                popupClass = 'rom';
+                break;
+            case "AUGMENT":
+                popupClass = 'aug';
+                break;
+        }
+        if(event !== '') event = '- ' + event;
+        //console.log("icons", icons.mines);
+        //mines setup
+        let mines = p.mines;
+        let mineSize = p.mineSize > 0 ? ` <code>(${p.mineSize})</code>` : '';
+        let minesArr = p.mines.split(",");
+        let minesHTML = '';
+        if(mines !== 'undefined' && mines !== 'None' && mines !== '') {
+            for (let index in minesArr) {
+                if(minesArr.hasOwnProperty(index)) {
+                    let nodeType = minesArr[index].trim();
+                    let iconUrl = icons.mines[nodeType].options.iconUrl;
+                    let img = `
+                    <div class="tooltip">
+                        <img class="node-icon" src="${iconUrl}" />
+                      <span class="tooltiptext">${nodeType}</span>
+                    </div>
+                    `;
+                    minesHTML += img;
+                    if(!icons.mines[minesArr[index].trim()].options.iconUrl) {
+                        console.warn("need to check, why no options?", name, nodeType, icons.mines[nodeType]);
+                    }
+                }
+            }
+        }
+        mines = minesHTML || '';
+
+        let shipTypes = p.shipTypes;
+        let shipTypesArr = p.shipTypes.split(",");
+        let shipTypesHTML = '';
+        if(shipTypes !== 'undefined' && shipTypes !== 'None' && shipTypes !== '') {
+            for (let index in shipTypesArr) {
+                if(shipTypesArr.hasOwnProperty(index)) {
+                    let nodeType = shipTypesArr[index].trim();
+                    let iconUrl = icons.ship_types[nodeType].options.iconUrl;
+                    let img = `
+                    <div class="tooltip">
+                        <img class="ship-icon" src="${iconUrl}" />
+                      <span class="tooltiptext">${nodeType}</span>
+                    </div>
+                    `;
+                    shipTypesHTML += img;
+                    if(!iconUrl) {
+                        console.warn("need to check, why no options?", name, nodeType, iconUrl);
+                    }
+                }
+            }
+        }
+        shipTypes = shipTypesHTML || '';
+
+        let planets = p.planets;
+        let shipLevel = p.shipLevel;
+        let hostiles = p.hostiles || '';
+        let stationHub = p.stationHub;
+        //<div>Station Hubs: ${stationHub}</div>
+        let divOpen = `<div class='popup-${popupClass}'>`;
+        let divClose = "</div>";
+        let info =
+            `<div id="system-zone">${zone} <span id="system-event">${event}</span> </div>
+             <div id="system-name">${name} [${systemLevel}]</div>
+             <div id="system-id"><span>S:</span>${id}</div>
+             <div class="system-detail-panel">
+                 <div><span>Hostiles:</span> <code>${hostiles}</code> </div>
+                 <div><span>Level Range:</span> <code>${shipLevel}</code></div>
+                 <div class="half-size">
+                     <div><span>Hostile Types:</span></div>
+                     <div>${shipTypes}</div>
+                 </div>
+                 <div class="half-size">
+                     <div><span>Mines:</span>${mineSize}</div>
+                     <div>${mines}</div>
+                 </div> 
+             </div>
+            `;
+        /*let name = p.name;
         let id = p.systemID;
         let systemLevel = p.systemLevel;
         let faction = p.faction;
         let hostiles = p.hostiles;
         let icon = p.icon;
         let linkedSystems = p.linkedSystems;
-        let mines = p.mines;
-        let planets = p.planets;
-        let shipLevel = p.shipLevel;
-        let shipTypes = p.shipTypes;
-        let stationHub = p.stationHub;
-        let warpRequired = p.warpRequired;
+
+
+
+
         let zone = p.zone;
-        let divOpen = "<div>";
-        let divClose = "</div>";
+
         let info = ` 
         <br>System: ${name} [${systemLevel}]
         <br>ID: ${id}
@@ -415,8 +577,8 @@ STFCMap = (function() {
         <br>Linked Systems: ${linkedSystems}`;
         let cleanedName = cleanName(p["name"]);
         let domain = '';
-        let img = "<img src='" + domain + "assets/img/" + cleanedName + ".png' width='175px' />";
-        return divOpen + info + divClose + divOpen + divClose;
+        let img = "<img src='" + domain + "assets/img/" + cleanedName + ".png' width='175px' />";*/
+        return divOpen + info + divClose;
     };
 
     let loadFile = function(file, callback) {
@@ -460,8 +622,17 @@ STFCMap = (function() {
         getSystemNames: function() {
             return systemNames;
         },
-        flyTo: function(system, openPopup) {
-            flyToSystem(cleanName(system), openPopup);
+        getCleanedNames: function() {
+            return cleanedNames;
+        },
+        getSystemNodes: function() {
+            return systemNodes;
+        },
+        getGalaxy: function() {
+            return galaxy;
+        },
+        flyToSystem: function(system, openPopup) {
+            flyToSystem(system, openPopup);
         },
         // utils
         xy: function(x, y) {
