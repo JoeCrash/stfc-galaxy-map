@@ -2,178 +2,178 @@
     "systems": {
         "System": {
             "iconSize": [24, 24],
-            "iconUrl": "assets/icon/system-sm.png",
+            "iconUrl": "./assets/icon/system-sm.png",
             "className": "system"
         },
         "System Large": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/system-lg.png",
+            "iconUrl": "./assets/icon/system-lg.png",
             "className": "system-lg"
         },
         "Primary": {
             "iconSize": [64, 32],
-            "iconUrl": "assets/icon/primary-system.png",
+            "iconUrl": "./assets/icon/primary-system.png",
             "className": "primary"
         }
     },
     "misc": {
         "Debug": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/station-hub.png",
+            "iconUrl": "./assets/icon/station-hub.png",
             "className": "station-hub"
         },
         "Station Hub": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/station-hub.png",
+            "iconUrl": "./assets/icon/station-hub.png",
             "className": "station-hub"
         }
     },
     "mines": {
         "Parsteel": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/parsteel.png",
+            "iconUrl": "./assets/icon/parsteel.png",
             "className": "parsteel"
         },
         "Tritanium": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/tritanium.png",
+            "iconUrl": "./assets/icon/tritanium.png",
             "className": "tritanium"
         },
         "Dilithium": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/dilithium.png",
+            "iconUrl": "./assets/icon/dilithium.png",
             "className": "dilithium"
         },
         "Raw Latinum": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/raw-latinum.png",
+            "iconUrl": "./assets/icon/raw-latinum.png",
             "className": "latinum"
         },
         "2* Raw Crystal": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/raw-crystal-2.png",
+            "iconUrl": "./assets/icon/raw-crystal-2.png",
             "className": "crystal2"
         },
         "3* Raw Crystal": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/raw-crystal-3.png",
+            "iconUrl": "./assets/icon/raw-crystal-3.png",
             "className": "crystal3"
         },
         "4* Raw Crystal": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/raw-crystal-4.png",
+            "iconUrl": "./assets/icon/raw-crystal-4.png",
             "className": "crystal4"
         },
         "2* Raw Gas": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/raw-gas-2.png",
+            "iconUrl": "./assets/icon/raw-gas-2.png",
             "className": "gas2"
         },
         "3* Raw Gas": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/raw-gas-3.png",
+            "iconUrl": "./assets/icon/raw-gas-3.png",
             "className": "gas3"
         },
         "4* Raw Gas": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/raw-gas-4.png",
+            "iconUrl": "./assets/icon/raw-gas-4.png",
             "className": "gas4"
         },
         "2* Raw Ore": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/raw-ore-2.png",
+            "iconUrl": "./assets/icon/raw-ore-2.png",
             "className": "ore2"
         },
         "3* Raw Ore": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/raw-ore-3.png",
+            "iconUrl": "./assets/icon/raw-ore-3.png",
             "className": "ore3"
         },
         "4* Raw Ore": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/raw-ore-4.png",
+            "iconUrl": "./assets/icon/raw-ore-4.png",
             "className": "ore4"
         },
         "Corrupted Data": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/corrupted-data.png",
+            "iconUrl": "./assets/icon/corrupted-data.png",
             "className": "corrupted-data"
         },
         "Decoded Data": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/decoded-data.png",
+            "iconUrl": "./assets/icon/decoded-data.png",
             "className": "decoded-data"
         }
     },
     "other_rss": {
         "2* Refined Crystal": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/refined-crystal-2.png",
+            "iconUrl": "./assets/icon/refined-crystal-2.png",
             "className": "ref-crystal2"
         },
         "3* Refined Crystal": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/refined-crystal-3.png",
+            "iconUrl": "./assets/icon/refined-crystal-3.png",
             "className": "ref-crystal3"
         },
         "4* Refined Crystal": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/refined-crystal-4.png",
+            "iconUrl": "./assets/icon/refined-crystal-4.png",
             "className": "ref-crystal4"
         },
         "2* Refined Gas": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/refined-gas-2.png",
+            "iconUrl": "./assets/icon/refined-gas-2.png",
             "className": "ref-gas2"
         },
         "3* Refined Gas": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/refined-gas-3.png",
+            "iconUrl": "./assets/icon/refined-gas-3.png",
             "className": "ref-gas3"
         },
         "4* Refined Gas": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/refined-gas-4.png",
+            "iconUrl": "./assets/icon/refined-gas-4.png",
             "className": "ref-gas4"
         },
         "2* Refined Ore": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/refined-ore-2.png",
+            "iconUrl": "./assets/icon/refined-ore-2.png",
             "className": "ref-ore2"
         },
         "3* Refined Ore": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/refined-ore-3.png",
+            "iconUrl": "./assets/icon/refined-ore-3.png",
             "className": "ref-ore3"
         },
         "4* Refined Ore": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/refined-ore-4.png",
+            "iconUrl": "./assets/icon/refined-ore-4.png",
             "className": "ref-ore4"
         },
         "Common Plutonium": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/common-plutonium.png",
+            "iconUrl": "./assets/icon/common-plutonium.png",
             "className": "com-plutonium"
         },
         "Uncommon Plutonium": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/uncommon-plutonium.png",
+            "iconUrl": "./assets/icon/uncommon-plutonium.png",
             "className": "unc-plutonium"
         },
         "Rare Plutonium": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/rare-plutonium.png",
+            "iconUrl": "./assets/icon/rare-plutonium.png",
             "className": "rare-plutonium"
         },
         "Swarm Biominerals": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/swarm-biominerals.png",
+            "iconUrl": "./assets/icon/swarm-biominerals.png",
             "className": "swarm"
         },
         "Frequency Modulator": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/frequency-modulator.png",
+            "iconUrl": "./assets/icon/frequency-modulator.png",
             "className": "freq-modulator"
         }
 
@@ -181,44 +181,44 @@
     "factions": {
         "Federation": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/federation.png",
+            "iconUrl": "./assets/icon/federation.png",
             "className": "federation"
         },
         "Klingon": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/klingon.png",
+            "iconUrl": "./assets/icon/klingon.png",
             "className": "klingon"
         },
         "Romulan": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/romulan.png",
+            "iconUrl": "./assets/icon/romulan.png",
             "className": "romulan"
         },
         "Independent": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/independent.png",
+            "iconUrl": "./assets/icon/independent.png",
             "className": "independent"
         }
     },
     "ship_types": {
         "Battleship": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/battleship-parts.png",
+            "iconUrl": "./assets/icon/battleship-parts.png",
             "className": "battleship"
         },
         "Explorer": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/explorer-parts.png",
+            "iconUrl": "./assets/icon/explorer-parts.png",
             "className": "explorer"
         },
         "Interceptor": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/interceptor-parts.png",
+            "iconUrl": "./assets/icon/interceptor-parts.png",
             "className": "interceptor"
         },
         "Survey": {
             "iconSize": [48, 48],
-            "iconUrl": "assets/icon/survey-parts.png",
+            "iconUrl": "./assets/icon/survey-parts.png",
             "className": "survey"
         }
     }
