@@ -133,7 +133,8 @@ STFCMap = (function() {
     let systemPopups = {}; //holds the system popups
 
     let systemsGroup = []; //temp array to hold the system nodes for layerControl (layers.systems)
-    let minesGroup = {}; //temp array to hold the system nodes for layerControl (layers.systems)
+    let minesGroup = {}; //temp array to hold the system nodes for layerControl (layers.mines)
+    let eventsGroup = {}; //temp array to hold the system nodes for layerControl (layers.events)
     let icons; //icons
     let iconsLoaded = false;//will flag true once loaded
 
@@ -170,8 +171,8 @@ STFCMap = (function() {
             zoomControl: true,
             minZoom: minZoom,
             maxZoom: maxZoom,
-            zoomDelta: 0.5,
-            zoomSnap: 0.5,
+            zoomDelta: 0.1,
+            zoomSnap: 0.1,
             /*wheelPxPerZoomLevel: 100,*/
             maxBoundsViscosity: 1.0,
             preferCanvas: canvas
@@ -181,7 +182,9 @@ STFCMap = (function() {
         });
 
         //hash = new L.Hash(map); //todo? generate hash urls
-        let systemsJson = "assets/json/systems.json";
+        let systemsJson = "resources/echo-systems-json.php";
+        //let systemsJson = "assets/json/systems.json";
+
         let iconsJson = "assets/json/icons.json";
         //initial systems load
         loadFile(iconsJson, initIcons); //load the icons
@@ -224,12 +227,14 @@ STFCMap = (function() {
         console.log("initSystems");
         systemsGroup = [];
         minesGroup = {};
+        eventsGroup = {};
         let systems = _galaxy.features[0];
         let count = systems.length;
         for (let i = 0; i < count; i++) {
             let system = systems[i];
             let properties = system.properties;
             let name = properties.name;
+            let event = properties.event;
             let cleaned = cleanName(properties.name);
             let id = properties.systemID;
             let sysNode = makeSystemNode(system);
@@ -246,6 +251,7 @@ STFCMap = (function() {
             systemsGroup.push(sysNode); //add a system node to the layergroup
             let mines = properties.mines;
             setMines(yx, mines, minesGroup); //set the mines object
+            setEvents(yx, event, eventsGroup); //set the events object
             //let cleaned = properties.name.toString(); // todo setup with cleanName function and maybe a key/val pair with full name.
             systemNames.push(name); //holds all the system names for typeahead
             cleanedNames.push(cleaned); //holds all the system names for typeahead
@@ -280,7 +286,8 @@ STFCMap = (function() {
             if(id === undefined) {
                 cleanIdentifier = systemIDToName(cleanIdentifier);
                 if(cleanIdentifier === undefined) {
-                    startOnSystem = cleanName('Kepler-018');
+                    //startOnSystem = cleanName('Kepler-018');
+                    startOnSystem = cleanName('Rator');
                     tmpZoom = 2;
                 } else {
                     startOnSystem = cleanName(cleanIdentifier);
@@ -301,7 +308,7 @@ STFCMap = (function() {
         }
         map.setView(startingCoords, tmpZoom);
         if(flyTo) flyToSystem(startOnSystem, true);
-
+        layers.events = {};
         layers.System = L.layerGroup(systemsGroup);
         layers.System.addTo(map);
         layers.mines = {}; //start this empty to add in the groups later
@@ -309,6 +316,9 @@ STFCMap = (function() {
         //convert each mine type into its own layerGroup
         for (let resource in minesGroup) {
             if(minesGroup.hasOwnProperty(resource)) layers.mines[resource] = L.layerGroup(minesGroup[resource]); //group the mines by key
+        }//convert each event type into its own layerGroup
+        for (let resource in eventsGroup) {
+            if(eventsGroup.hasOwnProperty(resource)) layers.events[resource] = L.layerGroup(eventsGroup[resource]); //group the mines by key
         }
 
         if(layerControl) layerControl.remove();
@@ -316,8 +326,10 @@ STFCMap = (function() {
             "Map": layers.Map
         };
         controlLayers = {
-            "Mines": setGroups(layers.mines)
+            "Mines": setGroups(layers.mines),
+            "Events": setGroups(layers.events)
         };
+        console.log("controlLayers group", layers.mines, layers.events);
         layerControl = L.control.groupedLayers(null, controlLayers, {groupCheckboxes: true, /*exclusiveGroups: ["Mines"]*/});
         //layerControl = L.control.layers(null, controlLayers, {groupCheckboxes: true});
         layerControl.addTo(map);
@@ -383,6 +395,7 @@ STFCMap = (function() {
                 for (let objKey in iconsData[type]) {
                     //console.log("init icons", objKey);
                     if(iconsData[type].hasOwnProperty(objKey)) {
+                        //console.log('"dfgdfgdfg"', iconsData[type][objKey]);
                         icons[type][objKey] = new L.Icon(iconsData[type][objKey]);
                     }
                 }
@@ -392,6 +405,7 @@ STFCMap = (function() {
     };
 
     let setGroups = function(layers) {
+        console.log("layers setGroups", layers);
         //filters out internal properties
         let groups = {};
         for (let name in layers) {
@@ -414,7 +428,50 @@ STFCMap = (function() {
                 group[resource].push(makeMarker(yx, options));
             }
         }
+        //console.log("mines grp", group);
     };
+    let setEvents = function(yx, events, group) {
+        if(events === "None") return false;
+        if(group === undefined || group.length > 1) {
+            console.warn("setEvents expects the group to be defined, but empty. Make sure you are passing in a container object");
+        }
+        events = strToArray(events);
+        for (let resourceKey in events) {
+            if(events.hasOwnProperty(resourceKey)) {
+                let resource = events[resourceKey];
+                let iconObj = icons.other_rss[resource];
+                let options = {icon: iconObj, interactive: false};
+                if(!group.hasOwnProperty(resource)) group[resource] = []; //init the resource group if its not an array
+                group[resource].push(makeMarker(yx, options));
+                console.log("events grp", group[resource]);
+            }
+        }
+
+    };
+    /*let setEvents = function(yx, events, group) {
+        if(events === "None" || events === "") return false;
+        if(group === undefined || group.length > 1) {
+            console.warn("setEvents expects the group to be defined, but empty. Make sure you are passing in a container object");
+        }
+        events = strToArray(events);
+        //console.log("events", events);
+        for (let resourceKey in events) {
+            if(events.hasOwnProperty(resourceKey)) {
+                let resource = events[resourceKey];
+                //todo add swarm tokens
+                //if(resource === "Armada"){
+                    //resource = "Uncommon Armada Credit";
+                    let iconObj = icons.other_rss["Armada"];
+                    let options = {icon: iconObj, interactive: false};
+                    if(!group.hasOwnProperty(resource)) group[resource] = []; //init the resource group if its not an array
+
+                    group[resource].push(makeMarker(yx, options));
+                    console.log("yx options", yx, resource, resourceKey);
+                //}
+            }
+        }
+        console.log("grp", group);
+    };*/
 
     let makeCircle = function(yx, options) {
         return L.circle(yx, options);
@@ -451,17 +508,20 @@ STFCMap = (function() {
     };
 
     let makeSystemPopup = function(p) {
-        console.log("makeSystemPopup", p);
+        //console.log("makeSystemPopup", p);
         let popupClass;
         let name = p.name[0].toUpperCase() + p.name.slice(1) || ''; //capitalize 1st letter
         let systemLevel = p.systemLevel || '';
         let id = p.systemID || '';
         let warpRequired = p.warpRequired || 'N/A';
         //zone setup
-        let zone = p.zone.toUpperCase() || '';
-        let event = p.event.toUpperCase() || '';
+        let zone = p.zone || '';
+        zone = zone.toUpperCase();
+        let event = p.event.trim() || '';
+        event = event.toUpperCase();
         switch (zone) {
             case "INDEPENDENT":
+            case "NEUTRAL":
                 popupClass = (event === 'SWARM') ? 'swa' : 'ind';
                 break;
             case "FEDERATION":
@@ -477,13 +537,14 @@ STFCMap = (function() {
                 popupClass = 'aug';
                 break;
         }
-        if(event !== '') event = '- ' + event;
+
         //console.log("icons", icons.mines);
         //mines setup
         let mines = p.mines;
         let mineSize = p.mineSize > 0 ? ` <code>(${p.mineSize})</code>` : '';
-        let minesArr = p.mines.split(",");
+        let minesArr = p.mines.split(", ");
         let minesHTML = '';
+        //console.log("check me", name, minesArr, minesArr.length, icons.mines);
         if(mines !== 'undefined' && mines !== 'None' && mines !== '') {
             for (let index in minesArr) {
                 if(minesArr.hasOwnProperty(index)) {
@@ -505,7 +566,7 @@ STFCMap = (function() {
         mines = minesHTML || '';
 
         let shipTypes = p.shipTypes;
-        let shipTypesArr = p.shipTypes.split(",");
+        let shipTypesArr = p.shipTypes.split(", ");
         let shipTypesHTML = '';
         if(shipTypes !== 'undefined' && shipTypes !== 'None' && shipTypes !== '') {
             for (let index in shipTypesArr) {
@@ -520,13 +581,28 @@ STFCMap = (function() {
                     `;
                     shipTypesHTML += img;
                     if(!iconUrl) {
-                        console.warn("need to check, why no options?", name, nodeType, iconUrl);
+                        console.warn("need to check, why no options? name:", name, "nodeType:", nodeType, "iconUrl:", iconUrl);
                     }
                 }
             }
         }
         shipTypes = shipTypesHTML || '';
+        let eventHTML = '';
 
+        if(event === 'ARMADA'){
+            //console.log("credit", event, icons.other_rss['Uncommon Armada Credit'].options);
+            let iconUrl = icons.other_rss['Armada'].options.iconUrl;
+            //console.log("go", iconUrl);
+            let img = `
+                    <div class="tooltip">
+                        <img class="ship-icon" src="${iconUrl}" />
+                      <span class="tooltiptext">Uncommon Armada</span>
+                    </div>
+                    `;
+            eventHTML += img;
+        }
+
+        if(event !== '') event = '- ' + event;
         let planets = p.planets;
         let shipLevel = p.shipLevel;
         let hostiles = p.hostiles || '';
@@ -540,7 +616,14 @@ STFCMap = (function() {
              <div id="system-id"><span>S:</span>${id}</div>
              <div class="system-detail-panel">
                  <div><span>Hostiles:</span> <code>${hostiles}</code> </div>
-                 <div><span>Level Range:</span> <code>${shipLevel}</code></div>
+                 <div class="half-size">
+                     <div><span>Level Range:</span></div>
+                     <div>${shipLevel}</div>
+                 </div>
+                 <div class="half-size">
+                     <div><span>Armadas:</span>${mineSize}</div>
+                     <div>${eventHTML}</div>
+                 </div>
                  <div class="half-size">
                      <div><span>Hostile Types:</span></div>
                      <div>${shipTypes}</div>

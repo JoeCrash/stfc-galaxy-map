@@ -166,7 +166,7 @@
             "iconUrl": "./assets/icon/rare-plutonium.png",
             "className": "rare-plutonium"
         },
-        "Swarm Biominerals": {
+        "Swarm": {
             "iconSize": [48, 48],
             "iconUrl": "./assets/icon/swarm-biominerals.png",
             "className": "swarm"
@@ -175,6 +175,11 @@
             "iconSize": [48, 48],
             "iconUrl": "./assets/icon/frequency-modulator.png",
             "className": "freq-modulator"
+        },
+        "Armada": {
+            "iconSize": [48, 48],
+            "iconUrl": "./assets/icon/uncommon-armada-credit.png",
+            "className": "unc-armada-credit"
         }
 
     },
