@@ -24,5 +24,10 @@ version 1.1 - August 2019
 version 1.1.2
 - Added system search input
 
-Coming Soon:
-- Pretty Popup
+version 1.2
+- Pretty Popup (almost like the game!)
+- fixed system search input needing Capital letter to work
+- updated system names, id's based on latest patch
+- added raw latinum to map
+- added all raw latinum systems
+- fixed missing travel path
