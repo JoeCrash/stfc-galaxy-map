@@ -181,8 +181,6 @@ button.btn-search, button.btn-reset {
         transform: rotateZ(0deg) scale(1);
     }
 }
-/* End fancy searcher */
-
 
 /* Snap Mode */
 .fixed-size {
@@ -195,6 +193,36 @@ button.btn-search, button.btn-reset {
     left: 0;
     background: #000;
 }
+.arm-label {
+    visibility: hidden;
+    background: linear-gradient(180deg, rgba(0,0,0,0.8) 90%, rgba(0,0,0,0.5) 70%, rgba(255,255,255,0) 100%);
+    border: none;
+    color: #fff;
+    font-size:12px;
+    box-shadow: none;
+    text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+    margin-left: 10px;
+}
+.uncommon {
+    color: #39D239;
+}
+.rare {
+    color: #72DCEF;
+}
+.epic {
+    color: #C475EC;
+}
+
+.tact-label {
+    visibility: hidden;
+    background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 70%, rgba(255,255,255,0) 100%);
+    border: none;
+    color: #fff;
+    font-size:14px;
+    box-shadow: none;
+    text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
+    margin: 32px -35px;
+}
 
 .system-label {
     visibility: hidden;
@@ -205,7 +233,7 @@ button.btn-search, button.btn-reset {
     text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;
     /*margin-left:5px;*/
 }
-.system-label::before {
+.system-label::before, .tact-label::before, .arm-label::before{
     display: none;
 }
 

@@ -176,10 +176,20 @@
             "iconUrl": "./assets/icon/frequency-modulator.png",
             "className": "freq-modulator"
         },
-        "Armada": {
+        "Uncommon Armada": {
             "iconSize": [48, 48],
             "iconUrl": "./assets/icon/uncommon-armada-credit.png",
             "className": "unc-armada-credit"
+        },
+        "Rare Armada": {
+            "iconSize": [48, 48],
+            "iconUrl": "./assets/icon/rare-armada-credit.png",
+            "className": "rare-armada-credit"
+        },
+        "Epic Armada": {
+            "iconSize": [48, 48],
+            "iconUrl": "./assets/icon/epic-armada-credit.png",
+            "className": "epic-armada-credit"
         }
 
     },
