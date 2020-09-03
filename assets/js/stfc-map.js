@@ -184,9 +184,13 @@ STFCMap = (function() {
             window.status = 'maploaded';
         }).on('popupopen', function() {
 			$('#system-id').click(function(e) {
-				let str = `[${this.dataset.systemName} S:${this.dataset.systemId}]`;
+				let sysName = `${this.dataset.systemName} System`;
+				if (sysName.length > 25) {  //game limit on bookmark names
+					sysName = sysName.substring(0, sysName.length - 1) + '…';
+				}
+				let str = `[${sysName} S:${this.dataset.systemId}]`;
 				copyToClipboard(str);
-				alert(`Copied ${str} to clipboard!`);
+				alert(`Copied "${str}" to the clipboard. Paste it in your game!`);
 			});
 		});
 
