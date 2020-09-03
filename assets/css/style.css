@@ -305,7 +305,8 @@ button.btn-search, button.btn-reset {
 }
 #system-id {
     font-size: 0.8em;
-    margin-left: 104px;
+    margin-left: 80px;
+	padding-left: 24px;
     text-shadow: 2px 2px #000;
 }
 .system-detail-panel {
