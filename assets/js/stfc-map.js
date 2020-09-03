@@ -182,7 +182,13 @@ STFCMap = (function() {
         }).on('load', function() {
             //if you need to know when the map is finished loading, check window status.
             window.status = 'maploaded';
-        });
+        }).on('popupopen', function() {
+			$('#system-id').click(function(e) {
+				let str = `[${this.dataset.systemName} S:${this.dataset.systemId}]`;
+				copyToClipboard(str);
+				alert(`Copied ${str} to clipboard!`);
+			});
+		});
 
         //hash = new L.Hash(map); //todo - generate hash urls
         let systemsJson = "assets/json/systems.json"; //the galaxy data is here.
@@ -280,7 +286,7 @@ STFCMap = (function() {
                 rare: properties.rareArmadaRange,
                 epic: properties.epicArmadaRange,
             };
-            setEvents(yx, event, eventsGroup, eventData); //set the events object
+            //setEvents(yx, event, eventsGroup, eventData); //set the events object
 
             //cache data for later
             systemIds[id] = name;
@@ -676,12 +682,12 @@ STFCMap = (function() {
         let hostiles = p.hostiles || '';
         let stationHub = p.stationHub;
         //<div>Station Hubs: ${stationHub}</div>
-        let divOpen = `<div class='popup-${popupClass}'>`;
+        let divOpen = `<div class='popup-${popupClass}' data-systemid='${id}'>`;
         let divClose = "</div>";
         let info =
             `<div id="system-zone">${zone} <span id="system-event">${event}</span> </div>
              <div id="system-name">${name} [${systemLevel}]</div>
-             <div id="system-id"><span>S:</span>${id}</div>
+             <div id="system-id" class="clickable" data-system-id="${id}" data-system-name="${name}"><span>S:</span>${id}</div>
              <div class="system-detail-panel">
                  <div><span>Hostiles:</span> <code>${hostiles}</code> </div>
                  <div class="half-size">
