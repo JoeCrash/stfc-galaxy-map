@@ -231,7 +231,17 @@ STFCMap = (function() {
         }).on('load', function() {
             //if you need to know when the map is finished loading, check window status.
             window.status = 'maploaded';
-        });
+        }).on('popupopen', function() {
+            $('#system-id').click(function(e) {
+                let sysName = `${this.dataset.systemName} System`;
+                if (sysName.length > 25) {  //game limit on bookmark names
+                    sysName = sysName.substring(0, sysName.length - 1) + '…';
+                }
+                let str = `[${sysName} S:${this.dataset.systemId}]`;
+                copyToClipboard(str);
+                alert(`Copied "${str}" to the clipboard. Paste it in your game!`);
+            });
+        });;
         map.setView(startingCoords, startingZoom);
         map.on("zoomend", function() {
             zoomUIUpdate();
@@ -246,6 +256,7 @@ STFCMap = (function() {
         map.createPane('highlight').style.zIndex = 500;
         map.createPane('events').style.zIndex = 525;
         map.createPane('custommarker').style.zIndex = 650;
+
         //hash = new L.Hash(map); //todo - generate hash urls
         let systemsJson = "assets/json/systems.geojson"; //the galaxy data is here.
         let iconsJson = "assets/json/icons.json"; //the icon information is here
@@ -825,12 +836,12 @@ STFCMap = (function() {
         let hostiles = p.hostiles || '';
         let stationHub = p.stationHub;
         //<div>Station Hubs: ${stationHub}</div>
-        let divOpen = `<div class='popup-${popupClass}'>`;
+        let divOpen = `<div class='popup-${popupClass}' data-systemid='${id}'>`;
         let divClose = "</div>";
         let info =
             `<div id="system-zone">${zone} <span id="system-event">${event}</span> </div>
              <div id="system-name">${name} [${systemLevel}]</div>
-             <div id="system-id"><span>S:</span>${id}</div>
+             <div id="system-id" class="clickable" data-system-id="${id}" data-system-name="${name}"><span>S:</span>${id}</div>
              <div class="system-detail-panel">
                  <div><span>Hostiles:</span> <code>${hostiles}</code> </div>
                  <div class="half-size">

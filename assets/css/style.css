@@ -422,8 +422,10 @@ button.btn-search, button.btn-reset {
 }
 #system-id {
     font-size: 0.8em;
-    margin-left: 104px;
+    margin-left: 78px;
+	padding-left: 26px;
     text-shadow: 2px 2px #000;
+	cursor: pointer;
 }
 .system-detail-panel {
     width:96%;
