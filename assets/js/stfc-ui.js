@@ -4,17 +4,14 @@ STFCUI = (function() {
     let systemNames = []; //holds all the system names for typeahead (simple array with just the names)
     let cleanedNames = []; //holds all the system names for typeahead (simple array with just the names)
     let systemTokens = []; //holds system names in a tag format for typeahead (typeahead tags formatted object)
-
     let init = function(map) {
         console.log("STFCUI init");
-
         //initFlyToSystem();
         //initBringNearSystem();
         //initClearPathsFromSystem();
         map.addControl(new systemSearchTool());
-        initTypeaheadB();
+        initTypeahead();
     };
-
     let systemSearchTool = L.Control.extend({
         options: {
             position: 'topleft'
@@ -22,33 +19,24 @@ STFCUI = (function() {
         },
         onAdd: function(map) {
             let container = L.DomUtil.create('div', 'leaflet-control leaflet-control-custom');
-            /*container.style.backgroundColor = 'white';
-            container.style.width = '30px';
-            container.style.height = '30px';*/
-            /*container.innerHTML = '' +
-                '<a class="" href="#" title="Search Systems" role="button" aria-label="Search Systems"><img id="search-icon" src="assets/img/ui/mg.png"></a>'+
-                '<input id="search-input" type="text" class="inline typeahead">';*/
-            /*container.innerHTML =
-                `<div class="search">
-                <input type="text" name="search" placeholder="Warp To System..">
-                </div>`;*/
+            const closeIcon = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 455.111 455.111" style="enable-background:new 0 0 455.111 455.111;" xml:space="preserve">
+                                <circle style="fill:#E24C4B;" cx="227.556" cy="227.556" r="227.556"/>
+                                <path style="fill:#D1403F;" d="M455.111,227.556c0,125.156-102.4,227.556-227.556,227.556c-72.533,0-136.533-32.711-177.778-85.333  c38.4,31.289,88.178,49.778,142.222,49.778c125.156,0,227.556-102.4,227.556-227.556c0-54.044-18.489-103.822-49.778-142.222  C422.4,91.022,455.111,155.022,455.111,227.556z"/>
+                                <path style="fill:#FFFFFF;" d="M331.378,331.378c-8.533,8.533-22.756,8.533-31.289,0l-72.533-72.533l-72.533,72.533  c-8.533,8.533-22.756,8.533-31.289,0c-8.533-8.533-8.533-22.756,0-31.289l72.533-72.533l-72.533-72.533  c-8.533-8.533-8.533-22.756,0-31.289c8.533-8.533,22.756-8.533,31.289,0l72.533,72.533l72.533-72.533  c8.533-8.533,22.756-8.533,31.289,0c8.533,8.533,8.533,22.756,0,31.289l-72.533,72.533l72.533,72.533  C339.911,308.622,339.911,322.844,331.378,331.378z"/>
+                                </svg>`;
+            const searchIcon = `<svg id="Capa_1" enable-background="new 0 0 512 512" height="20" viewBox="0 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg"><g id="_x34_3_search"><path d="m146.03 264.907h52.162v149.964h-52.162z" fill="#8d9ca8" transform="matrix(.707 .707 -.707 .707 290.748 -22.15)"/><path d="m12.986 499.014c-17.315-17.315-17.315-45.388 0-62.703l118.645-118.645c6.451-6.451 16.909-6.451 23.36 0l39.343 39.343c6.451 6.451 6.451 16.909 0 23.36l-118.644 118.645c-17.315 17.315-45.389 17.315-62.704 0z" fill="#fe646f"/><circle cx="333.761" cy="178.239" fill="#9facba" r="178.239"/><circle cx="333.761" cy="178.239" fill="#d8ecfe" r="127.646"/><path d="m459.795 52.205c-4.17-4.17-8.499-8.083-12.96-11.753 57.597 70.016 53.684 173.671-11.753 239.108s-169.091 69.35-239.108 11.753c3.67 4.462 7.583 8.79 11.753 12.96 69.607 69.607 182.461 69.607 252.068 0s69.607-182.462 0-252.068z" fill="#8d9ca8"/><path d="m194.334 357.009-24.713-24.713c6.451 6.451 6.451 16.909 0 23.36l-118.644 118.645c-12.927 12.927-31.848 16.198-47.814 9.823 2.164 5.42 5.435 10.501 9.824 14.889 17.315 17.315 45.388 17.315 62.703 0l118.645-118.645c6.45-6.45 6.45-16.908-.001-23.359z" fill="#fd4755"/><path d="m424.021 87.979c-3.388-3.388-6.924-6.536-10.581-9.463 40.068 50.072 36.919 123.556-9.463 169.938-46.381 46.381-119.866 49.53-169.938 9.463 2.926 3.657 6.075 7.194 9.463 10.581 49.769 49.769 130.75 49.769 180.519 0s49.769-130.75 0-180.519z" fill="#c4e2ff"/></g></svg>`;
             container.innerHTML =
                 `<div id="search-tool">
-                  <input type="text" class="typeahead" id="search-input" name="search" placeholder="Search Systems">
+                  <input type="text" class="typeahead" id="search-input" name="search-systems" placeholder="Search Systems">
                   <button id="search-submit" type="submit" class="btn btn-search">
-                    <i class="fa fa-search"></i>
+                    ${searchIcon}
                   </button>
-                  <button id="search-reset" type="reset" class="btn btn-reset fa fa-times"></button>
+                  <button id="search-reset" type="reset" class="btn btn-reset">${closeIcon}</button>
                 </div>`;
-            /*container.innerHTML =
-                `<input type="text" class="typeahead" id="search-input" name="search" placeholder="Search Systems">
-                  `;*/
-
             let _searchWrapper = $("#search-tool", container);
             let _input = $("#search-input", container);
             let _submit = $("#search-submit", container);
             let _reset = $("#search-reset", container);
-
             _submit.on("click", function(){
                 if(!_searchWrapper.hasClass("focus")){
                     _searchWrapper.addClass("focus");
@@ -57,7 +45,6 @@ STFCUI = (function() {
                     submit();
                 }
             });
-
             //override close on losing focus
             _input.bind('typeahead:beforeclose',
                 function (e) {
@@ -74,7 +61,6 @@ STFCUI = (function() {
                 // do what you want with the item here
                 console.log("selected", e,i);
             })*/
-
             _input.on("click", function(){
                 $(this).focus();
                 _searchWrapper.addClass("focus");
@@ -83,7 +69,6 @@ STFCUI = (function() {
                     _input.select();
                 }
             });
-
             _input.on("focusout", function(e){
                 console.log("input losing focus:", e, $(".typeahead").typeahead("val"));
                 if($(".typeahead").typeahead("val") === ''){
@@ -114,30 +99,7 @@ STFCUI = (function() {
             return container;
         },
     });
-
-    let initTypeahead = function() {
-        systemNames = STFCMap.getSystemNames();
-        let sysNames = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.whitespace,
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            local: systemNames
-        });
-        sysNames.initialize();
-        $('.typeahead').typeahead({
-                hint: true,
-                highlight: true,
-                minLength: 1
-            },
-            {
-                name: 'systems',
-                source: sysNames.ttAdapter()
-            });
-
-        console.log("typeahead", typeof systemNames, systemNames[0]);
-
-    };
-
-    let initTypeaheadB = function(){
+    let initTypeahead = function(){
         systemNames = STFCMap.getSystemNames();
         let sysNames = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.whitespace,
@@ -152,19 +114,6 @@ STFCUI = (function() {
             highlight: true
         }, {
             name: 'systems',
-            /*displayKey: 'value',*/
-            /*templates: {
-                suggestion: function(data) {
-                    var str = '';
-                    if (data.suggest.Type === 'Customer') {
-                        str += '<i class="icon-1">' + data.suggest.Type + '</i>';
-                    } else if (data.suggest.Type === 'Product') {
-                        str += '<i class="icon-2">' + data.suggest.Type + '</i>';
-                    }
-                    str += '<div>' + data.value + '</div>';
-                    return str;
-                }
-            },*/
             source: sysNames.ttAdapter()
         })
             .on('typeahead:opened', onOpened)
@@ -173,37 +122,28 @@ STFCUI = (function() {
             .on('typeahead:autocompleted', onAutocompleted);
 
     };
-
     function onOpened($e) {
         //console.log('opened');
     }
     function onChecked(e, i) {
         //console.log('checked', e, i);
     }
-
     function onAutocompleted($e, datum) {
         //console.log('autocompleted', datum);
     }
-
     function onSelected($e, datum) {
         console.log('selected', $e, datum);
         $(".tt-menu").css("display", "none");
         $("#search-submit").trigger('click');
     }
-
-    let closeSuggestions = function(){
-
-    };
-
+    let closeSuggestions = function(){};
     let substringMatcher = function(strs) {
         return function findMatches(q, cb) {
             let matches, substringRegex;
             // an array that will be populated with substring matches
             matches = [];
-
             // regex used to determine if a string contains the substring `q`
             let substrRegex = new RegExp(q, 'i');
-
             // iterate through the pool of strings and for any string that
             // contains the substring `q`, add it to the `matches` array
             $.each(strs, function(i, str) {
@@ -211,88 +151,9 @@ STFCUI = (function() {
                     matches.push(str);
                 }
             });
-
             cb(matches);
         };
     };
-
-    /*let initFlyToSystem = function() {
-        $('#fly-to').on('keypress', function(e) {
-            if(e.which === 13) {
-                flyToSystem();
-            }
-        });
-        $("body").on('keydown', function(e) {
-            //console.log("pressed something", e);
-            let fly = $('#fly-to');
-            let moveSys = $('#move-this-system');
-
-            //console.log("is tab?", e.keyCode === 9, fly.is(":focus"));
-            if(e.keyCode === 9) {
-                if(!fly.is(":focus") && !moveSys.is(":focus")) {
-                    e.preventDefault();
-                    fly.val("");
-                    fly.focus();
-                }
-            }
-        });
-
-        $("#fly-to-system").on("click", function(e) {
-            flyToSystem();
-            //e.stopPropagation();
-            //e.preventDefault();
-        });
-    };*/
-    /*let initBringNearSystem = function() {
-        $('#bring-to-system').on('click', function() {
-            bringNearSystem();
-        });
-    };
-    let initClearPathsFromSystem = function() {
-        $("#clear-linked-system").on("click", function() {
-            let system = $("#clear-linked").val();
-            if(system === '') return false;
-            clearSystemLinkedPaths(system);
-        });
-    };
-    let clearSystemLinkedPaths = function(system) {
-        let mainSysLinks = galaxy[system]["Linked Systems"];
-        let linkedArr = strToArray(mainSysLinks);
-        let updatedSystemnames = [system]; //hold the names that got updated, starting with the main system
-        for (let i in linkedArr) {
-            let linkedSysname = linkedArr[i];
-            let linkedSysInfo = galaxy[linkedSysname]["Linked Systems"];
-            let linkedSysArr = strToArray(linkedSysInfo);
-            let hasLink = linkedSysArr.indexOf(system);
-            if(hasLink >= 0) {
-                let pathKey = makePathKey(system, linkedSysname);
-                removePathAndRefresh(pathKey);
-                linkedSysArr.splice(hasLink, 1);
-                galaxy[linkedSysname]["Linked Systems"] = arrToStr(linkedSysArr); //update the linked system string
-                updatedSystemnames.push(linkedSysname);
-            }
-        }
-        galaxy[system]["Linked Systems"] = ''; //remove all entries from main system
-        saveLinkedSystemsToDb(updatedSystemnames);
-    };
-    let bringNearSystem = function() {
-        let move = $('#move-this-system').val();
-        let near = $('#near-this-system').val();
-        if(move === '' || near === '') return false;
-        if(move === near) return false;
-        //get near coords
-        let nearCoords = galaxy[near].yx;
-        let x = nearCoords.lng + Math.floor(Math.random() * 51) - 25;
-        let y = nearCoords.lat + Math.floor(Math.random() * 51) - 25;
-        let newCoords = xy(x, y);
-        console.log("move", move, "near", near);
-        console.log("x", y, "y", y, "new", newCoords);
-        console.log("nearCoords", nearCoords);
-
-        systemNodes[move].setLatLng(newCoords);
-        galaxy[move].yx = newCoords;
-        flyToSystem(move);
-    };*/
 
     return { // public interface
         init: function(map) {

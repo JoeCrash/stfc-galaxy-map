@@ -9,31 +9,24 @@
     <meta property="og:title" content="Star Trek Fleet Command - Galaxy Map" />
     <meta property="og:url" content="https://stfcpro.com" />
     <meta property="og:description" content="Star Trek Fleet Command Interactive Map. A map made for Star Trek Fleet Command by Scopely." />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/fontawesome.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/solid.min.css" />
-    <link rel="stylesheet" href="./assets/css/style.css" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
     <link rel="manifest" href="assets/favicon/site.webmanifest">
+    <!-- leaflet.min.css kept separate to avoid layers.png 404 error when combining -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" defer/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.css" defer/>
+    <link rel="stylesheet" href="./assets/css/style.css" defer/>
 </head>
 <body class="custom-popup">
-<div id="map"></div>
-<!-- map requires -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-groupedlayercontrol/0.6.1/leaflet.groupedlayercontrol.min.js"></script> <!-- provides the controls -->
-<script src="assets/js/stfc-map.js" type="text/javascript"></script>
-<!-- ui requires -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/js/fontawesome.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js"></script>
-<script src="assets/js/stfc-ui.js" type="text/javascript"></script>
-<script>
-    STFCMap.init();
-</script>
-<!--<script src="assets/js/custom.js" type="text/javascript"></script>-->
+    <div id="map"></div>
+    <script src="https://cdn.jsdelivr.net/combine/npm/leaflet@1.7.1/dist/leaflet.min.js,npm/jquery@3.5.1/dist/jquery.min.js,npm/leaflet-rotatedmarker@0.2.0/leaflet.rotatedMarker.min.js,npm/leaflet-groupedlayercontrol@0.6.1/dist/leaflet.groupedlayercontrol.min.js,npm/corejs-typeahead@1.3.1/dist/typeahead.bundle.min.js,npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script src="assets/js/stfc-map.js" type="text/javascript" defer></script>
+    <script src="assets/js/stfc-ui.js" type="text/javascript" defer></script>
+    <script>
+        $(function() {
+            STFCMap.init();
+        });
+    </script>
 </body>
 </html>
