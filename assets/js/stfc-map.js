@@ -873,7 +873,7 @@ STFCMap = (function() {
         let close = "</a>";
         let serverInfo = '[16] Baryon'; //info.serverInfo
         let mapName = 'Star Trek Fleet Command Galaxy Map'; //info.mapName
-        let version = '2.2'; //info.version
+        let version = '2.21'; //info.version
         let author = 'JoeCrash'; //info.author
         return mapLink + mapName + close + " v" + version + "<br>" + "By: <strong>" + author + "</strong> - Server: <strong>" + serverInfo + "</strong><br>" + discLinkA + "STFCPro Bot/Map Discord" + close;
     };
