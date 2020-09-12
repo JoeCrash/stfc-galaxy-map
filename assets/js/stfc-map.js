@@ -1,11 +1,10 @@
-let env = (window.location.hostname === "stfcpro.com") ? 'live' : 'dev';
 let editOverride = typeof isEditor !== 'undefined';
 if(!editOverride) {
     isEditor = false;
 }
 let STFCMap;
 STFCMap = (function() {
-    //helpers
+    /** helper functions */
     const
         /**
          * takes a comma separated string and converts to array
@@ -118,6 +117,21 @@ STFCMap = (function() {
             return theta2;
         };
 
+    /** parameters to adjust */
+    const xMin = -6357;
+    const xWidth = 4400;
+    const xMax = xMin + xWidth;
+    const yMin = 1764;
+    const yHeight = 3700;
+    const yMax = yMin - yHeight;
+    const bounds = [xy(xMin, yMin), xy(xMax, yMax)];
+    const startingZoom = -0.25;
+    const minZoom = -1;
+    const maxZoom = 4;
+    const myRenderer = L.canvas({padding: 0.5});
+    //let startingCoords = xy(-4979, -1853); //rator, upper center
+    let startingCoords = xy(-4679, -426); //kepler-018, lower center
+
     //TODO update/restore popup for systems
     /*L.Map = L.Map.extend({
         openPopup: function(popup) {
@@ -152,21 +166,6 @@ STFCMap = (function() {
         return new L.Control.GalaxyBtn(opts);
     };*/
 
-    //parameters to adjust
-    const xMin = -6357;
-    const xWidth = 4400;
-    const xMax = xMin + xWidth;
-    const yMin = 1764;
-    const yHeight = 3700;
-    const yMax = yMin - yHeight;
-    const bounds = [xy(xMin, yMin), xy(xMax, yMax)];
-    const startingZoom = 1.5;
-    const minZoom = -1;
-    const maxZoom = 4;
-    const myRenderer = L.canvas({padding: 0.5});
-    //let startingCoords = xy(-4979, -1853); //rator, upper center
-    let startingCoords = xy(-4679, -426); //kepler-018, lower center
-
     //containers
     let galaxy = {}; //contains all systems information.
     let territories = {}; //holds the territory geojson objects for the editor
@@ -186,16 +185,18 @@ STFCMap = (function() {
     let minesGroup = {}; //temp array to hold the system nodes for layerControl (layers.mines)
     let eventsGroup = {}; //temp array to hold the system nodes for layerControl (layers.events)
     let icons; //all the icons from the json file
+
     let iconsLoaded = false;//will flag true once loaded
     let pathsLoaded = false;//will flag true once loaded
     let draggableSystems = false; //defaults to false, sets true for editor mode (unavailable on github)
     let activeSystem; //the current system selected
+    //params
     let startOnSystem = undefined; //the systemID or name to focus on (grabbed from URL)
     let snapMode = false; //picture mode
     let rasterMap = false; //old raster map
-    let showDetail = false; //i forgot.
-    let canvasMode = false; //draws entire map in canvas for ss
-    let drawControl = false; //used in private editor mode, enables leaflet draw controls
+    let showDetail = false; //lazy mode audit of systems loading via console.log
+    let canvasMode = false; //draws entire map in canvas for ss (will revisit, might not be needed anymore)
+    let drawControl = false; //used in my private editor, enables leaflet draw controls
     let map; //the galaxy map
     let sysmap; //the system map
     let sysmapGroup; //holds the system markers
@@ -622,7 +623,8 @@ STFCMap = (function() {
         let sysName = properties.name;
         let cleaned = cleanName(sysName);
         let sysLabel = sysName + ' (' + properties.systemLevel + ')';
-        let popupTemplate = isEditor ? null : makeSystemPopup(properties);
+        let popupTemplate = .
+            ? null : makeSystemPopup(properties);
         let radius = properties.radius !== undefined && properties.radius !== '' ? parseInt(properties.radius) : 1;
         let iconType = properties.icon;
         let node;
