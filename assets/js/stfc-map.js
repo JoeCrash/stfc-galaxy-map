@@ -3,7 +3,7 @@ if(!editOverride) {
     isEditor = false;
 }
 let STFCMap;
-STFCMap = (function() {
+STFCMap = (function(baseUrl = '') {
     /** helper functions */
     const
         /**
@@ -259,10 +259,10 @@ STFCMap = (function() {
         map.createPane('custommarker').style.zIndex = 650;
 
         //hash = new L.Hash(map); //todo - generate hash urls
-        let systemsJson = "assets/json/systems.geojson"; //the galaxy data is here.
-        let iconsJson = "assets/json/icons.json"; //the icon information is here
-        let travelPathsJson = "assets/json/travel-paths.geojson";
-        let territoriesJson = "assets/json/territories.geojson";
+        let systemsJson = baseUrl+"/assets/json/systems.geojson"; //the galaxy data is here.
+        let iconsJson = baseUrl+"/assets/json/icons.json"; //the icon information is here
+        let travelPathsJson = baseUrl+"/assets/json/travel-paths.geojson";
+        let territoriesJson = baseUrl+"/assets/json/territories.geojson";
 
         loadFile(iconsJson, initIcons); //load the icons
         let swarmCloudUrl = 'assets/img/swarm-clouds.png';
@@ -623,8 +623,7 @@ STFCMap = (function() {
         let sysName = properties.name;
         let cleaned = cleanName(sysName);
         let sysLabel = sysName + ' (' + properties.systemLevel + ')';
-        let popupTemplate = .
-            ? null : makeSystemPopup(properties);
+        let popupTemplate = isEditor ? null : makeSystemPopup(properties);
         let radius = properties.radius !== undefined && properties.radius !== '' ? parseInt(properties.radius) : 1;
         let iconType = properties.icon;
         let node;
