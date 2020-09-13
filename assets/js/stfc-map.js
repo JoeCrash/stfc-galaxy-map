@@ -321,6 +321,16 @@ STFCMap = (function() {
                 const coords = feature.geometry.coordinates;
                 const yx = [xy(coords[0]), xy(coords[1])];
                 feature.properties.className = className;
+                switch(className){
+                    case 'transwarp':
+                    case 'borgtranswarp':
+                    case 'roguetranswarp':
+                    case 'arena':
+                        feature.properties.dashArray = '20, 10';
+                        feature.properties.dashOffset = '20';
+                        break;
+                }
+
                 feature.properties.pane = 'overlayPane';
                 feature.properties.renderer = myRenderer;
                 const path = L.polyline(yx, feature.properties);
