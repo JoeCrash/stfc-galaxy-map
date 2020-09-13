@@ -7,6 +7,9 @@ This map is provided as is, free of charge for you to use and alter as you see f
 I do not own any of the icons used in this project.
 My only request is that you provide an attribution with a link to this project. This is entirely optional, but very appreciated.
 
+version 2.3 - Sept 2020
+- added assetUrl to allow remote loading of assets from CDN or other source
+
 version 2.2 - Sept 2020
 - Changed to vector based map
 - Updated libraries used on map to latest versions available
