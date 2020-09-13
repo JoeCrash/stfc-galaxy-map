@@ -118,6 +118,7 @@ STFCMap = (function() {
         };
 
     /** parameters to adjust */
+    const versionNumber = '2.3.0'; //info.version
     const xMin = -6357;
     const xWidth = 4400;
     const xMax = xMin + xWidth;
@@ -129,9 +130,9 @@ STFCMap = (function() {
     const minZoom = -1;
     const maxZoom = 4;
     const myRenderer = L.canvas({padding: 0.5});
-    //let startingCoords = xy(-4979, -1853); //rator, upper center
     let startingCoords = xy(-4679, -426); //kepler-018, lower center
-    let baseUrl = './assets';
+    let assetsUrl = './assets';
+
     //TODO update/restore popup for systems
     /*L.Map = L.Map.extend({
         openPopup: function(popup) {
@@ -142,6 +143,7 @@ STFCMap = (function() {
             });
         }
     });*/
+
     /*Galaxy button for system view*/
     /*L.Control.GalaxyBtn = L.Control.extend({
         onAdd: function(map) {
@@ -202,9 +204,9 @@ STFCMap = (function() {
     let sysmapGroup; //holds the system markers
     let tacticalMode = false; //upcoming strategic map
 
-    let init = function(_baseUrl = '') {
-        if(_baseUrl !== '') baseUrl = _baseUrl;
-        console.warn("baseUrl", baseUrl);
+    let init = function(_assetsUrl = '') {
+        if(_assetsUrl !== '') assetsUrl = _assetsUrl;
+        console.info('STFC Galaxy Map v', versionNumber, 'assetsUrl', assetsUrl);
         //use custom crs if needed, for now we skip
         let canvas = false;
         /** Forces snapshot view for screenshots: crops width, removes ui **/
@@ -261,16 +263,16 @@ STFCMap = (function() {
         map.createPane('custommarker').style.zIndex = 650;
 
         //hash = new L.Hash(map); //todo - generate hash urls
-        let systemsJson = baseUrl+"/json/systems.geojson"; //the galaxy data is here.
-        let iconsJson = baseUrl+"/json/icons.json"; //the icon information is here
-        let travelPathsJson = baseUrl+"/json/travel-paths.geojson";
-        let territoriesJson = baseUrl+"/json/territories.geojson";
+        let systemsJson = assetsUrl+"/json/systems.geojson"; //the galaxy data is here.
+        let iconsJson = assetsUrl+"/json/icons.json"; //the icon information is here
+        let travelPathsJson = assetsUrl+"/json/travel-paths.geojson";
+        let territoriesJson = assetsUrl+"/json/territories.geojson";
 
         loadFile(iconsJson, initIcons); //load the icons
-        let swarmCloudUrl = baseUrl+'/img/swarm-clouds.png';
+        let swarmCloudUrl = assetsUrl+'/img/swarm-clouds.png';
         let swarmCloudBounds = [xy(-5185, -592), xy(-4135, -112)];
         L.imageOverlay(swarmCloudUrl, swarmCloudBounds, {opacity: 0.5, renderer:myRenderer, pane:'tilePane'}).addTo(map).bringToFront(); //add the swarm clouds to the map
-        let borgCubeUrl = baseUrl+'/img/borg-cube.gif';
+        let borgCubeUrl = assetsUrl+'/img/borg-cube.gif';
         const borgXMin = -5904;
         const borgYMin = -360;
         const borgXMax = borgXMin + 90;
@@ -676,7 +678,7 @@ STFCMap = (function() {
                         for (let rank in armadaGroup) {
                             if(icons[category][eventType] === undefined) icons[category][eventType] = {};
                             if(armadaGroup.hasOwnProperty(rank)) {
-                                armadaGroup[rank].iconUrl = baseUrl + '/icon'+ armadaGroup[rank].iconUrl;
+                                armadaGroup[rank].iconUrl = assetsUrl + '/icon'+ armadaGroup[rank].iconUrl;
                                 icons[category][eventType][rank] = new L.Icon(armadaGroup[rank]);
                             }
                         }
@@ -684,7 +686,7 @@ STFCMap = (function() {
                 }else{
                     for (let objKey in iconsData[category]) {
                         if(iconsData[category].hasOwnProperty(objKey)) {
-                            iconsData[category][objKey].iconUrl = baseUrl + '/icon'+ iconsData[category][objKey].iconUrl;
+                            iconsData[category][objKey].iconUrl = assetsUrl + '/icon'+ iconsData[category][objKey].iconUrl;
                             icons[category][objKey] = new L.Icon(iconsData[category][objKey]);
                         }
                     }
@@ -885,18 +887,14 @@ STFCMap = (function() {
     let setAttributions = function(info) {
         let mapLink = "<a href='https://stfcpro.com' title='Star Trek Fleet Command Galaxy Map'>";
         let discLinkA = "<a href='https://discord.com/invite/fKThyH2' title='STFC Pro Discord'>";
-        let discLinkB = "<a href='https://discord.com/invite/fjFYQhM' title='Star Trek Fleet Command Official Discord'>";
         let close = "</a>";
         let serverInfo = '[16] Baryon'; //info.serverInfo
         let mapName = 'Star Trek Fleet Command Galaxy Map'; //info.mapName
-        let version = '2.21'; //info.version
         let author = 'JoeCrash'; //info.author
-        return mapLink + mapName + close + " v" + version + "<br>" + "By: <strong>" + author + "</strong> - Server: <strong>" + serverInfo + "</strong><br>" + discLinkA + "STFCPro Bot/Map Discord" + close;
+        return mapLink + mapName + close + " v" + versionNumber + "<br>" + "By: <strong>" + author + "</strong> - Server: <strong>" + serverInfo + "</strong><br>" + discLinkA + "STFCPro Bot/Map Discord" + close;
     };
     return { //public interface
-        init: function() {
-            init();
-        },
+        init,
         systemCount,
         startingZoom: function() {
             return startingZoom
