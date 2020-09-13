@@ -130,9 +130,15 @@ STFCMap = (function() {
     const minZoom = -1;
     const maxZoom = 4;
     const myRenderer = L.canvas({padding: 0.5});
+    const systemsRenderer = L.canvas({padding: 0.5, pane:'systems'});
+    const myRenderer3 = L.canvas({padding: 0.5, pane:'tooltipPane'});
+    const territoryRenderer = L.canvas({padding: 0.5, pane:'shadowPane'});
     let startingCoords = xy(-4679, -426); //kepler-018, lower center
     let assetsUrl = './assets';
-
+    let systemsJson; //the galaxy data is here.
+    let iconsJson; //the icon information is here
+    let travelPathsJson;
+    let territoriesJson;
     //TODO update/restore popup for systems
     /*L.Map = L.Map.extend({
         openPopup: function(popup) {
@@ -197,7 +203,7 @@ STFCMap = (function() {
     let snapMode = false; //picture mode
     let rasterMap = false; //old raster map
     let showDetail = false; //lazy mode audit of systems loading via console.log
-    let canvasMode = false; //draws entire map in canvas for ss (will revisit, might not be needed anymore)
+    let canvasMode = true; //draws entire map in canvas for ss (will revisit, might not be needed anymore)
     let drawControl = false; //used in my private editor, enables leaflet draw controls
     let map; //the galaxy map
     let sysmap; //the system map
@@ -254,51 +260,53 @@ STFCMap = (function() {
         map.on("click", function(e){
             console.log("XY check map", e.latlng);
         });
-        map.createPane('hubsystem').style.zIndex = 475;
-        map.createPane('hublabel').style.zIndex = 475;
-        map.createPane('pathmarker').style.zIndex = 450;
-        map.createPane('systems').style.zIndex = 475;
-        map.createPane('highlight').style.zIndex = 500;
-        map.createPane('events').style.zIndex = 525;
-        map.createPane('custommarker').style.zIndex = 650;
+        map.createPane('hubsystem').style.zIndex = 550;
+        map.createPane('hublabel').style.zIndex = 575;
+        map.createPane('pathmarker').style.zIndex = 550;
+        map.createPane('systems').style.zIndex = 575;
+        map.createPane('highlight').style.zIndex = 600;
+        map.createPane('events').style.zIndex = 625;
+        map.createPane('custommarker').style.zIndex = 750;
 
         //hash = new L.Hash(map); //todo - generate hash urls
-        let systemsJson = assetsUrl+"/json/systems.geojson"; //the galaxy data is here.
-        let iconsJson = assetsUrl+"/json/icons.json"; //the icon information is here
-        let travelPathsJson = assetsUrl+"/json/travel-paths.geojson";
-        let territoriesJson = assetsUrl+"/json/territories.geojson";
+        systemsJson = assetsUrl+"/json/systems.geojson"; //the galaxy data is here.
+        iconsJson = assetsUrl+"/json/icons.json"; //the icon information is here
+        travelPathsJson = assetsUrl+"/json/travel-paths.geojson";
+        territoriesJson = assetsUrl+"/json/territories.geojson";
 
         loadFile(iconsJson, initIcons); //load the icons
-        let swarmCloudUrl = assetsUrl+'/img/swarm-clouds.png';
-        let swarmCloudBounds = [xy(-5185, -592), xy(-4135, -112)];
-        L.imageOverlay(swarmCloudUrl, swarmCloudBounds, {opacity: 0.5, renderer:myRenderer, pane:'tilePane'}).addTo(map).bringToFront(); //add the swarm clouds to the map
-        let borgCubeUrl = assetsUrl+'/img/borg-cube.gif';
-        const borgXMin = -5904;
-        const borgYMin = -360;
-        const borgXMax = borgXMin + 90;
-        const borgYMax = borgYMin + 90;
-        let borgCubeBounds = [xy(borgXMin, borgYMin), xy(borgXMax, borgYMax)];
-        L.imageOverlay(borgCubeUrl, borgCubeBounds, {opacity: 0.7, renderer:myRenderer, pane:'tilePane'}).addTo(map).bringToFront(); //add the swarm clouds to the map
+
         if(!isEditor) {
             loadFile(territoriesJson, initTerritory);
-            loadFile(travelPathsJson, initTravelPaths);
-            loadFile(systemsJson, initSystems); //load the systems
         }
 
     };
-    let initTerritory = function(geoJson) {
+    let initTerritory = async function(geoJson) {
         console.log("initTerritory");
-        return L.geoJson(geoJson, {
+        await L.geoJson(geoJson, {
             onEachFeature: function(feature, layer) {
                 let properties = feature.properties; //bring in the colors and other properties
                 //console.log("pt", properties.popupContent);
                 properties.className = 'territory'; //give the polygon the className for future use
                 properties.pane = 'shadowPane';
+                properties.renderer = territoryRenderer;
                 L.geoJSON(feature, properties).addTo(map); //add the territory to the map
             }
         });
+        let swarmCloudUrl = assetsUrl+'/img/swarm-clouds.png';
+        let borgCubeUrl = assetsUrl+'/img/borg-cube.gif';
+        let swarmCloudBounds = [xy(-5185, -592), xy(-4135, -112)];
+        L.imageOverlay(swarmCloudUrl, swarmCloudBounds, {opacity: 0.5, renderer:territoryRenderer, pane:'tilePane'}).addTo(map).bringToFront(); //add the swarm clouds to the map
+        const borgXMin = -5904;
+        const borgYMin = -360;
+        const borgXMax = borgXMin + 90;
+        const borgYMax = borgYMin + 90;
+        let borgCubeBounds = [xy(borgXMin, borgYMin), xy(borgXMax, borgYMax)];
+        L.imageOverlay(borgCubeUrl, borgCubeBounds, {opacity: 0.7, renderer:territoryRenderer, pane:'tilePane'}).addTo(map).bringToFront(); //add the swarm clouds to the map
+        loadFile(travelPathsJson, initTravelPaths);
+
     };
-    let initTravelPaths = function(geoJson) {
+    let initTravelPaths = async function(geoJson) {
         console.log("initTravelPaths");
         if(iconsLoaded === false) {
             setTimeout(function() {
@@ -307,19 +315,20 @@ STFCMap = (function() {
             return false;
         }
 
-        L.geoJSON(geoJson, {
+        await L.geoJSON(geoJson, {
             onEachFeature: function(feature, layer) {
                 const className = feature.properties.className === '' ? 'path' : feature.properties.className;
                 const coords = feature.geometry.coordinates;
                 const yx = [xy(coords[0]), xy(coords[1])];
                 feature.properties.className = className;
                 feature.properties.pane = 'overlayPane';
-                //feature.properties.renderer = myRenderer;
+                feature.properties.renderer = myRenderer;
                 const path = L.polyline(yx, feature.properties);
                 pathsGroup.push(path);
                 makePathMarker(path);
             }
         });
+        loadFile(systemsJson, initSystems); //load the systems
         pathsLoaded = true;
     };
     let makePathMarker = function(path) {
@@ -643,24 +652,26 @@ STFCMap = (function() {
                 fillOpacity: 1,
                 stroke: true,
                 draggable: draggableSystems,
-                pane:"systems"
+                pane: "systems",
+                renderer: systemsRenderer
             });
-
         } else {
             let icon = makeDivIcon({
                 className: `${iconType} ${iconType}-${Math.round(startingZoom)}`,
                 id: sysName,
                 iconSize: null/*, radius: radius, color: '#fcf8e5', fillOpacity: 1, stroke: true*/
             });
-            node = makeMarker(coords, {icon: icon, className: iconType + ' system ' + cleanName(sysName), draggable: draggableSystems, pane:"hubsystem", id: sysName});
+            node = makeMarker(coords, {icon: icon, className: iconType + ' system ' + cleanName(sysName), draggable: draggableSystems, pane:"systems", id: sysName});
             labelOptions.pane = 'hublabel';
         }
 
         node.bindTooltip(sysLabel, labelOptions);
         L.DomEvent.addListener(node, 'click', function(e) {
+
             flyToSystem(cleaned, true); //allow flyto on clicked system
             const sysName = e.target.options.id;
             const sysId = systemNameToID(sysName);
+            console.log("sys clicked", sysName, sysId);
         }, this);
         systemNodes[cleaned] = node; //cache the node for events
         return node;

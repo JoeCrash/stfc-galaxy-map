@@ -11,6 +11,14 @@ body {
     margin: 0;
     background: #000;
 }
+.fixed-size {
+    width: 1000px;
+    height: 1000px;
+    position: absolute;
+    top: 0 !important;
+    left: 0;
+    background: #000;
+}
 .display-hide {
     display:none !important;
 }
@@ -26,6 +34,10 @@ body > #map-wrapper {
     height: 100%;
     width: 100%;
     float: left;
+}
+.fixed-size #map, .fixed-size #system-map {
+    width: 1000px;
+    height: 1000px;
 }
 #info-panel{
     width: 100%;
