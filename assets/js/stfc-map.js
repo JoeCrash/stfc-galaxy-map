@@ -204,6 +204,7 @@ STFCMap = (function() {
 
     let init = function(_baseUrl = '') {
         if(_baseUrl !== '') baseUrl = _baseUrl;
+        console.warn("baseUrl", baseUrl);
         //use custom crs if needed, for now we skip
         let canvas = false;
         /** Forces snapshot view for screenshots: crops width, removes ui **/
