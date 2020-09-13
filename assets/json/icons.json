@@ -2,216 +2,216 @@
     "misc": {
         "Station Hub": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/base-icon.png",
+            "iconUrl": "/base-icon.png",
             "className": "station-hub"
         },
         "pathArrow": {
             "iconSize": [43, 25],
-            "iconUrl": "./assets/icon/path/path-arrow.png",
+            "iconUrl": "/path/path-arrow.png",
             "className": "path-arrow"
         },
         "missions": {
             "iconSize": [20, 24],
-            "iconUrl": "./assets/icon/ui/missions-available.png",
+            "iconUrl": "/ui/missions-available.png",
             "className": "missions"
         }
     },
     "mines": {
         "Parsteel": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/parsteel.png",
+            "iconUrl": "/resource/parsteel.png",
             "className": "parsteel"
         },
         "Tritanium": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/tritanium.png",
+            "iconUrl": "/resource/tritanium.png",
             "className": "tritanium"
         },
         "Dilithium": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/dilithium.png",
+            "iconUrl": "/resource/dilithium.png",
             "className": "dilithium"
         },
         "Raw Latinum": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/raw-latinum.png",
+            "iconUrl": "/resource/raw-latinum.png",
             "className": "latinum"
         },
         "2* Raw Crystal": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/raw-crystal-2.png",
+            "iconUrl": "/resource/raw-crystal-2.png",
             "className": "crystal2"
         },
         "3* Raw Crystal": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/raw-crystal-3.png",
+            "iconUrl": "/resource/raw-crystal-3.png",
             "className": "crystal3"
         },
         "4* Raw Crystal": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/raw-crystal-4.png",
+            "iconUrl": "/resource/raw-crystal-4.png",
             "className": "crystal4"
         },
         "2* Raw Gas": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/raw-gas-2.png",
+            "iconUrl": "/resource/raw-gas-2.png",
             "className": "gas2"
         },
         "3* Raw Gas": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/raw-gas-3.png",
+            "iconUrl": "/resource/raw-gas-3.png",
             "className": "gas3"
         },
         "4* Raw Gas": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/raw-gas-4.png",
+            "iconUrl": "/resource/raw-gas-4.png",
             "className": "gas4"
         },
         "2* Raw Ore": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/raw-ore-2.png",
+            "iconUrl": "/resource/raw-ore-2.png",
             "className": "ore2"
         },
         "3* Raw Ore": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/raw-ore-3.png",
+            "iconUrl": "/resource/raw-ore-3.png",
             "className": "ore3"
         },
         "4* Raw Ore": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/raw-ore-4.png",
+            "iconUrl": "/resource/raw-ore-4.png",
             "className": "ore4"
         },
         "Corrupted Data": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/corrupted-data.png",
+            "iconUrl": "/resource/corrupted-data.png",
             "className": "corrupted-data"
         },
         "Decoded Data": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/decoded-data.png",
+            "iconUrl": "/resource/decoded-data.png",
             "className": "decoded-data"
         },
         "Tribble": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/tribble.png",
+            "iconUrl": "/resource/tribble.png",
             "className": "tribble"
         },
         "Raw Mycelium": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/raw-mycelium.png",
+            "iconUrl": "/resource/raw-mycelium.png",
             "className": "mycelium"
         }
     },
     "other_rss": {
         "2* Refined Crystal": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/refined-crystal-2.png",
+            "iconUrl": "/resource/refined-crystal-2.png",
             "className": "ref-crystal2"
         },
         "3* Refined Crystal": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/refined-crystal-3.png",
+            "iconUrl": "/resource/refined-crystal-3.png",
             "className": "ref-crystal3"
         },
         "4* Refined Crystal": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/refined-crystal-4.png",
+            "iconUrl": "/resource/refined-crystal-4.png",
             "className": "ref-crystal4"
         },
         "2* Refined Gas": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/refined-gas-2.png",
+            "iconUrl": "/resource/refined-gas-2.png",
             "className": "ref-gas2"
         },
         "3* Refined Gas": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/refined-gas-3.png",
+            "iconUrl": "/resource/refined-gas-3.png",
             "className": "ref-gas3"
         },
         "4* Refined Gas": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/refined-gas-4.png",
+            "iconUrl": "/resource/refined-gas-4.png",
             "className": "ref-gas4"
         },
         "2* Refined Ore": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/refined-ore-2.png",
+            "iconUrl": "/resource/refined-ore-2.png",
             "className": "ref-ore2"
         },
         "3* Refined Ore": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/refined-ore-3.png",
+            "iconUrl": "/resource/refined-ore-3.png",
             "className": "ref-ore3"
         },
         "4* Refined Ore": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/refined-ore-4.png",
+            "iconUrl": "/resource/refined-ore-4.png",
             "className": "ref-ore4"
         },
         "Common Plutonium": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/common-plutonium.png",
+            "iconUrl": "/resource/common-plutonium.png",
             "className": "com-plutonium"
         },
         "Uncommon Plutonium": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/uncommon-plutonium.png",
+            "iconUrl": "/resource/uncommon-plutonium.png",
             "className": "unc-plutonium"
         },
         "Rare Plutonium": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/rare-plutonium.png",
+            "iconUrl": "/resource/rare-plutonium.png",
             "className": "rare-plutonium"
         },
         "Swarm": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/swarm-biominerals.png",
+            "iconUrl": "/resource/swarm-biominerals.png",
             "className": "swarm"
         },
         "Separatists": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/faction/separatists-fake.png",
+            "iconUrl": "/faction/separatists-fake.png",
             "className": "swarm"
         },
         "Frequency Modulator": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/frequency-modulator.png",
+            "iconUrl": "/resource/frequency-modulator.png",
             "className": "freq-modulator"
         },
         "Inert Nanoprobe": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/borg/inert-nanoprobe.png",
+            "iconUrl": "/borg/inert-nanoprobe.png",
             "className": "inert-nanoprobe"
         },
         "Active Nanoprobe": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/borg/active-nanoprobe.png",
+            "iconUrl": "/borg/active-nanoprobe.png",
             "className": "active-nanoprobe"
         },
         "Charged Nanoprobe": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/borg/charged-nanoprobe.png",
+            "iconUrl": "/borg/charged-nanoprobe.png",
             "className": "charged-nanoprobe"
         },
         "Uncommon Armada": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/credit/uncommon-armada-credit.png",
+            "iconUrl": "/credit/uncommon-armada-credit.png",
             "className": "u-armada-credit"
         },
         "Rare Armada": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/credit/rare-armada-credit.png",
+            "iconUrl": "/credit/rare-armada-credit.png",
             "className": "r-armada-credit"
         },
         "Epic Armada": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/credit/epic-armada-credit.png",
+            "iconUrl": "/credit/epic-armada-credit.png",
             "className": "e-armada-credit"
         },
         "Refined Mycelium": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/resource/refined-mycelium.png",
+            "iconUrl": "/resource/refined-mycelium.png",
             "className": "ref-mycelium"
         }
     },
@@ -219,51 +219,51 @@
         "normal": {
             "Uncommon Armada": {
                 "iconSize": [40, 40],
-                "iconUrl": "./assets/icon/armada/u-directive.png",
+                "iconUrl": "/armada/u-directive.png",
                 "className": "u-directive"
             },
             "Rare Armada": {
                 "iconSize": [40, 40],
-                "iconUrl": "./assets/icon/armada/r-directive.png",
+                "iconUrl": "/armada/r-directive.png",
                 "className": "r-directive"
             },
             "Epic Armada": {
                 "iconSize": [40, 40],
-                "iconUrl": "./assets/icon/armada/e-directive.png",
+                "iconUrl": "/armada/e-directive.png",
                 "className": "e-directive"
             }
         },
         "borg": {
             "Uncommon Armada": {
                 "iconSize": [40, 40],
-                "iconUrl": "./assets/icon/armada/u-borg-directive.png",
+                "iconUrl": "/armada/u-borg-directive.png",
                 "className": "u-borg-directive"
             },
             "Rare Armada": {
                 "iconSize": [40, 40],
-                "iconUrl": "./assets/icon/armada/r-borg-directive.png",
+                "iconUrl": "/armada/r-borg-directive.png",
                 "className": "r-borg-directive"
             },
             "Epic Armada": {
                 "iconSize": [40, 40],
-                "iconUrl": "./assets/icon/armada/e-borg-directive.png",
+                "iconUrl": "/armada/e-borg-directive.png",
                 "className": "e-borg-directive"
             }
         },
         "eclipse": {
             "Uncommon Armada": {
                 "iconSize": [40, 40],
-                "iconUrl": "./assets/icon/armada/u-outlaw-directive.png",
+                "iconUrl": "/armada/u-outlaw-directive.png",
                 "className": "u-outlaw-directive"
             },
             "Rare Armada": {
                 "iconSize": [40, 40],
-                "iconUrl": "./assets/icon/armada/r-outlaw-directive.png",
+                "iconUrl": "/armada/r-outlaw-directive.png",
                 "className": "r-outlaw-directive"
             },
             "Epic Armada": {
                 "iconSize": [40, 40],
-                "iconUrl": "./assets/icon/armada/e-outlaw-directive.png",
+                "iconUrl": "/armada/e-outlaw-directive.png",
                 "className": "e-outlaw-directive"
             }
         }
@@ -271,113 +271,113 @@
     "factions": {
         "Federation": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/faction/federation.png",
+            "iconUrl": "/faction/federation.png",
             "className": "federation"
         },
         "Klingon": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/faction/klingon.png",
+            "iconUrl": "/faction/klingon.png",
             "className": "klingon"
         },
         "Romulan": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/faction/romulan.png",
+            "iconUrl": "/faction/romulan.png",
             "className": "romulan"
         },
         "Independent": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/faction/independent.png",
+            "iconUrl": "/faction/independent.png",
             "className": "independent"
         },
         "Augment": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/faction/augment.png",
+            "iconUrl": "/faction/augment.png",
             "className": "augment"
         },
         "Rogue": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/faction/rogue.png",
+            "iconUrl": "/faction/rogue.png",
             "className": "rogue"
         }
     },
     "ship_types": {
         "Battleship": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/ship/battleship-icon.png",
+            "iconUrl": "/ship/battleship-icon.png",
             "className": "battleship"
         },
         "Explorer": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/ship/explorer-icon.png",
+            "iconUrl": "/ship/explorer-icon.png",
             "className": "explorer"
         },
         "Interceptor": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/ship/interceptor-icon.png",
+            "iconUrl": "/ship/interceptor-icon.png",
             "className": "interceptor"
         },
         "Survey": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/ship/survey-icon.png",
+            "iconUrl": "/ship/survey-icon.png",
             "className": "survey"
         }
     },
     "ship_parts": {
         "Battleship": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/ship/battleship-parts.png",
+            "iconUrl": "/ship/battleship-parts.png",
             "className": "battleship"
         },
         "Explorer": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/ship/explorer-parts.png",
+            "iconUrl": "/ship/explorer-parts.png",
             "className": "explorer"
         },
         "Interceptor": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/ship/interceptor-parts.png",
+            "iconUrl": "/ship/interceptor-parts.png",
             "className": "interceptor"
         },
         "Survey": {
             "iconSize": [40, 40],
-            "iconUrl": "./assets/icon/ship/survey-parts.png",
+            "iconUrl": "/ship/survey-parts.png",
             "className": "survey"
         }
     },
     "travel_paths": {
         "lock":{
             "iconSize": [18, 24],
-            "iconUrl": "./assets/icon/path/lock-path.png",
+            "iconUrl": "/path/lock-path.png",
             "className": "lock"
         },
         "toll":{
             "iconSize": [18, 18],
-            "iconUrl": "./assets/icon/path/toll-path.png",
+            "iconUrl": "/path/toll-path.png",
             "className": "toll"
         },
         "borg":{
             "iconSize": [18, 18],
-            "iconUrl": "./assets/icon/path/toll-path.png",
+            "iconUrl": "/path/toll-path.png",
             "className": "borg"
         },
         "transwarp":{
             "iconSize": [18, 18],
-            "iconUrl": "./assets/icon/path/toll-path.png",
+            "iconUrl": "/path/toll-path.png",
             "className": "transwarp"
         },
         "borgtranswarp":{
             "iconSize": [18, 18],
-            "iconUrl": "./assets/icon/path/toll-path.png",
+            "iconUrl": "/path/toll-path.png",
             "className": "borgtranswarp"
         },
         "roguetranswarp":{
             "iconSize": [18, 18],
-            "iconUrl": "./assets/icon/path/toll-path.png",
+            "iconUrl": "/path/toll-path.png",
             "className": "roguetranswarp"
         },
         "arena":{
             "iconSize": [18, 18],
-            "iconUrl": "./assets/icon/path/toll-path.png",
+            "iconUrl": "/path/toll-path.png",
             "className": "arena"
         }
     }

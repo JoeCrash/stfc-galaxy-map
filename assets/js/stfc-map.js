@@ -3,7 +3,7 @@ if(!editOverride) {
     isEditor = false;
 }
 let STFCMap;
-STFCMap = (function(baseUrl = '') {
+STFCMap = (function() {
     /** helper functions */
     const
         /**
@@ -131,7 +131,7 @@ STFCMap = (function(baseUrl = '') {
     const myRenderer = L.canvas({padding: 0.5});
     //let startingCoords = xy(-4979, -1853); //rator, upper center
     let startingCoords = xy(-4679, -426); //kepler-018, lower center
-
+    let baseUrl = './assets';
     //TODO update/restore popup for systems
     /*L.Map = L.Map.extend({
         openPopup: function(popup) {
@@ -202,7 +202,8 @@ STFCMap = (function(baseUrl = '') {
     let sysmapGroup; //holds the system markers
     let tacticalMode = false; //upcoming strategic map
 
-    let init = function() {
+    let init = function(_baseUrl = '') {
+        if(_baseUrl !== '') baseUrl = _baseUrl;
         //use custom crs if needed, for now we skip
         let canvas = false;
         /** Forces snapshot view for screenshots: crops width, removes ui **/
@@ -259,16 +260,16 @@ STFCMap = (function(baseUrl = '') {
         map.createPane('custommarker').style.zIndex = 650;
 
         //hash = new L.Hash(map); //todo - generate hash urls
-        let systemsJson = baseUrl+"/assets/json/systems.geojson"; //the galaxy data is here.
-        let iconsJson = baseUrl+"/assets/json/icons.json"; //the icon information is here
-        let travelPathsJson = baseUrl+"/assets/json/travel-paths.geojson";
-        let territoriesJson = baseUrl+"/assets/json/territories.geojson";
+        let systemsJson = baseUrl+"/json/systems.geojson"; //the galaxy data is here.
+        let iconsJson = baseUrl+"/json/icons.json"; //the icon information is here
+        let travelPathsJson = baseUrl+"/json/travel-paths.geojson";
+        let territoriesJson = baseUrl+"/json/territories.geojson";
 
         loadFile(iconsJson, initIcons); //load the icons
-        let swarmCloudUrl = 'assets/img/swarm-clouds.png';
+        let swarmCloudUrl = baseUrl+'/img/swarm-clouds.png';
         let swarmCloudBounds = [xy(-5185, -592), xy(-4135, -112)];
         L.imageOverlay(swarmCloudUrl, swarmCloudBounds, {opacity: 0.5, renderer:myRenderer, pane:'tilePane'}).addTo(map).bringToFront(); //add the swarm clouds to the map
-        let borgCubeUrl = 'assets/img/borg-cube.gif';
+        let borgCubeUrl = baseUrl+'/img/borg-cube.gif';
         const borgXMin = -5904;
         const borgYMin = -360;
         const borgXMax = borgXMin + 90;
@@ -674,6 +675,7 @@ STFCMap = (function(baseUrl = '') {
                         for (let rank in armadaGroup) {
                             if(icons[category][eventType] === undefined) icons[category][eventType] = {};
                             if(armadaGroup.hasOwnProperty(rank)) {
+                                armadaGroup[rank].iconUrl = baseUrl + '/icon'+ armadaGroup[rank].iconUrl;
                                 icons[category][eventType][rank] = new L.Icon(armadaGroup[rank]);
                             }
                         }
@@ -681,6 +683,7 @@ STFCMap = (function(baseUrl = '') {
                 }else{
                     for (let objKey in iconsData[category]) {
                         if(iconsData[category].hasOwnProperty(objKey)) {
+                            iconsData[category][objKey].iconUrl = baseUrl + '/icon'+ iconsData[category][objKey].iconUrl;
                             icons[category][objKey] = new L.Icon(iconsData[category][objKey]);
                         }
                     }
