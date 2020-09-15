@@ -126,19 +126,22 @@ STFCMap = (function() {
     const yHeight = 3700;
     const yMax = yMin - yHeight;
     const bounds = [xy(xMin, yMin), xy(xMax, yMax)];
-    const startingZoom = -0.25;
-    const minZoom = -1;
+    const startingZoom = -1;
+    const minZoom = -2;
     const maxZoom = 4;
-    const myRenderer = L.canvas({padding: 0.5});
-    const systemsRenderer = L.canvas({padding: 0.5, pane:'systems'});
-    const myRenderer3 = L.canvas({padding: 0.5, pane:'tooltipPane'});
-    const territoryRenderer = L.canvas({padding: 0.5, pane:'shadowPane'});
-    let startingCoords = xy(-4679, -426); //kepler-018, lower center
-    let assetsUrl = './assets';
-    let systemsJson; //the galaxy data is here.
+    const myRenderer = L.canvas({padding: 0.5}); //default canvas renderer, paths saved here
+    const systemsRenderer = L.canvas({padding: 0.5, pane:'systems'}); //separate canvas to keep the systems above the paths
+    const myRenderer3 = L.canvas({padding: 0.5, pane:'tooltipPane'}); //unused atm. possibly for labels
+    const territoryRenderer = L.canvas({padding: 0.5, pane:'shadowPane'}); //territory renderer
+    let startingCoords = xy(-4679, -426); //the default starting location of the map
+
+    let assetsUrl = './assets'; //default assets folder, if defined will load assets from an external source
+    let systemClickEvent; //defaults to popup opener, if this is defined, will fire specified event instead
+    let systemsJson; //all the system data to populate the map
     let iconsJson; //the icon information is here
-    let travelPathsJson;
-    let territoriesJson;
+    let travelPathsJson; //travel paths json loaded
+    let territoriesJson; //terrritories json loaded
+
     //TODO update/restore popup for systems
     /*L.Map = L.Map.extend({
         openPopup: function(popup) {
@@ -208,17 +211,22 @@ STFCMap = (function() {
     let map; //the galaxy map
     let sysmap; //the system map
     let sysmapGroup; //holds the system markers
-    let tacticalMode = false; //upcoming strategic map
+    const body = document.body;
 
-    let init = function(_assetsUrl = '') {
-        if(_assetsUrl !== '') assetsUrl = _assetsUrl;
-        console.info('STFC Galaxy Map v', versionNumber, 'assetsUrl', assetsUrl);
+    let init = function(options) {
+
+        if(options){
+            if(options.assetsUrl) assetsUrl = options.assetsUrl;
+            if(options.onSystemClick) systemClickEvent = options.onSystemClick;
+        }
+
+        console.info('STFC Galaxy Map v', versionNumber);
+        console.info('Options', options);
         //use custom crs if needed, for now we skip
         let canvas = false;
         /** Forces snapshot view for screenshots: crops width, removes ui **/
         snapMode = getUrlParameter('snap') === '1';
         rasterMap = getUrlParameter('raster') === '1';
-        //tacticalMode = getUrlParameter('tact') === '1';
         canvasMode = getUrlParameter('canvas') === '1';
 
         if(snapMode || canvasMode) {
@@ -758,11 +766,22 @@ STFCMap = (function() {
         });
         activeSystem = sys;
         if(openPopup) {
-            map.once('moveend', function() {
-                if(systemPopups[sys] !== undefined) systemPopups[sys].openPopup();
-            })
+            if(systemClickEvent !== undefined){
+                const event = new CustomEvent(systemClickEvent, {bubbles: true, detail: galaxy[sys] });
+                body.dispatchEvent(event);
+                console.log("systemClickEvent fired: ", event);
+            }else{
+                map.once('moveend', function() {
+                    if(systemPopups[sys] !== undefined) {
+                        systemPopups[sys].openPopup();
+                    }
+                })
+            }
         }
     };
+
+
+
     let makeSystemPopup = function(p) {
         let popupClass;
         let name = p.name[0].toUpperCase() + p.name.slice(1) || ''; //capitalize 1st letter
