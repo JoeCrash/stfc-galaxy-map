@@ -301,7 +301,7 @@ STFCMap = (function() {
                 L.geoJSON(feature, properties).addTo(map); //add the territory to the map
             }
         });
-        let swarmCloudUrl = assetsUrl+'/img/swarm-clouds.png';
+        let swarmCloudUrl = assetsUrl+'/img/swarm-clouds-sm.png';
         let borgCubeUrl = assetsUrl+'/img/borg-cube.gif';
         let swarmCloudBounds = [xy(-5185, -592), xy(-4135, -112)];
         L.imageOverlay(swarmCloudUrl, swarmCloudBounds, {opacity: 0.5, renderer:territoryRenderer, pane:'tilePane'}).addTo(map).bringToFront(); //add the swarm clouds to the map
@@ -331,7 +331,7 @@ STFCMap = (function() {
                 feature.properties.className = className;
                 switch(className){
                     case 'transwarp':
-                    case 'borgtranswarp':
+                    //case 'borgtranswarp':
                     case 'roguetranswarp':
                     case 'arena':
                         feature.properties.dashArray = '20, 10';
@@ -767,9 +767,8 @@ STFCMap = (function() {
         activeSystem = sys;
         if(openPopup) {
             if(systemClickEvent !== undefined){
-                const event = new CustomEvent(systemClickEvent, {bubbles: true, detail: galaxy[sys] });
+                const event = new CustomEvent(systemClickEvent, {bubbles: true, detail: galaxy[sys]});
                 body.dispatchEvent(event);
-                console.log("systemClickEvent fired: ", event);
             }else{
                 map.once('moveend', function() {
                     if(systemPopups[sys] !== undefined) {
