@@ -312,7 +312,6 @@ STFCMap = (function() {
         let borgCubeBounds = [xy(borgXMin, borgYMin), xy(borgXMax, borgYMax)];
         L.imageOverlay(borgCubeUrl, borgCubeBounds, {opacity: 0.7, renderer:territoryRenderer, pane:'tilePane'}).addTo(map).bringToFront(); //add the swarm clouds to the map
         loadFile(travelPathsJson, initTravelPaths);
-
     };
     let initTravelPaths = async function(geoJson) {
         console.log("initTravelPaths");
@@ -331,14 +330,12 @@ STFCMap = (function() {
                 feature.properties.className = className;
                 switch(className){
                     case 'transwarp':
-                    //case 'borgtranswarp':
                     case 'roguetranswarp':
                     case 'arena':
                         feature.properties.dashArray = '20, 10';
                         feature.properties.dashOffset = '20';
                         break;
                 }
-
                 feature.properties.pane = 'overlayPane';
                 feature.properties.renderer = myRenderer;
                 const path = L.polyline(yx, feature.properties);
@@ -525,7 +522,6 @@ STFCMap = (function() {
                 let armadaType = resource.replace("Armada", "").toLowerCase().trim();
                 armadaType = armadaType === '' ? 'normal' : armadaType;
                 if(resource.includes('Armada') || resource.includes('Megacube')) {
-
                     let uncData = eventData.uncommon;
                     let rarData = eventData.rare;
                     let epiData = eventData.epic;
@@ -560,7 +556,6 @@ STFCMap = (function() {
                         y = y - offset;
                     }
                 } else {
-                    console.log("CHECK SEP", resource);
                     let swapNames = resource.toLowerCase() === 'borg' ? 'Inert Nanoprobe' : resource;
                     let iconObj = icons.other_rss[swapNames];
                     let options = {icon: iconObj, interactive: false, pane:"events"};
