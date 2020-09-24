@@ -266,12 +266,11 @@ button.btn-search, button.btn-reset {
     background-color: #fff !important;
     border: 1px solid #ccc;
     font-size: 16px;
-    height: 30px;
     padding: 4px 8px;
     font-weight: 600;
     border-right: none;
     transition: all .3s ease-in;
-    width: 100px;
+    height: 20px;
 }
 #search-tool button#search-reset {
     opacity: 0;

@@ -97,9 +97,9 @@
             "iconUrl": "/resource/tribble.png",
             "className": "tribble"
         },
-        "Raw Mycelium": {
+        "Mycelium Spore": {
             "iconSize": [40, 40],
-            "iconUrl": "/resource/raw-mycelium.png",
+            "iconUrl": "/resource/mycelium-spore.png",
             "className": "mycelium"
         }
     },
@@ -169,7 +169,7 @@
             "iconUrl": "/resource/swarm-biominerals.png",
             "className": "swarm"
         },
-        "Separatists": {
+        "Separatist": {
             "iconSize": [40, 40],
             "iconUrl": "/faction/separatists-fake.png",
             "className": "swarm"
@@ -248,6 +248,11 @@
                 "iconSize": [40, 40],
                 "iconUrl": "/armada/e-borg-directive.png",
                 "className": "e-borg-directive"
+            },
+            "Borg Megacube": {
+                "iconSize": [40, 40],
+                "iconUrl": "/armada/mc-borg-directive.png",
+                "className": "mc-borg-directive"
             }
         },
         "eclipse": {

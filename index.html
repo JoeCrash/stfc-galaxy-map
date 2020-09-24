@@ -14,8 +14,6 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
     <link rel="manifest" href="assets/favicon/site.webmanifest">
-    <!-- leaflet.min.css kept separate to avoid layers.png 404 error when combining -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.css"/>
     <link rel="stylesheet" href="./assets/css/style.css"/>
 </head>
@@ -23,7 +21,7 @@
     <div id="map"></div>
     <script src="https://cdn.jsdelivr.net/combine/npm/leaflet@1.7.1/dist/leaflet.min.js,npm/jquery@3.5.1/dist/jquery.min.js,npm/leaflet-rotatedmarker@0.2.0/leaflet.rotatedMarker.min.js,npm/leaflet-groupedlayercontrol@0.6.1/dist/leaflet.groupedlayercontrol.min.js,npm/corejs-typeahead@1.3.1/dist/typeahead.bundle.min.js,npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script src="assets/js/stfc-map.js" type="text/javascript" defer></script>
-    <!--<script src="assets/js/stfc-ui.js" type="text/javascript" defer></script>-->
+    <script src="assets/js/stfc-ui.js" type="text/javascript" defer></script>
     <script>
         $(function() {
             STFCMap.init();

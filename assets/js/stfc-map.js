@@ -118,7 +118,7 @@ STFCMap = (function() {
         };
 
     /** parameters to adjust */
-    const versionNumber = '2.3.0'; //info.version
+    const versionNumber = '2.4.0'; //info.version
     const xMin = -6357;
     const xWidth = 4400;
     const xMax = xMin + xWidth;
@@ -433,8 +433,9 @@ STFCMap = (function() {
             setMines(yx, mines, minesGroup, properties);
             //setup the event markers
             let eventData = {
-                swarm: properties.swarm,
-                armadas: properties.armadas,
+                swarm: event === 'Swarm' ? 1 : 0,
+                separatist: event === 'Separatist' ? 1 : 0,
+                borg: event === 'Borg' ? 1 : 0,
                 uncommon: properties.uncommonArmadaRange,
                 rare: properties.rareArmadaRange,
                 epic: properties.epicArmadaRange,
@@ -517,24 +518,37 @@ STFCMap = (function() {
             console.warn("setEvents expects the group to be defined, but empty. Make sure you are passing in a container object");
         }
         events = strToArray(events);
+
         for (let resourceKey in events) {
             if(events.hasOwnProperty(resourceKey)) {
                 let resource = events[resourceKey];
                 let armadaType = resource.replace("Armada", "").toLowerCase().trim();
                 armadaType = armadaType === '' ? 'normal' : armadaType;
-                if(resource.includes('Armada')) {
-                    let str = strToArray(eventData.armadas);
-                    let count = str.length;
+                if(resource.includes('Armada') || resource.includes('Megacube')) {
+
+                    let uncData = eventData.uncommon;
+                    let rarData = eventData.rare;
+                    let epiData = eventData.epic;
+                    let rankArr = [];
+                    if(uncData !== '') rankArr.push('Uncommon');
+                    if(rarData !== '') rankArr.push('Rare');
+                    if(epiData !== '') rankArr.push('Epic');
+                    let count = rankArr.length;
                     //check if uncommon, rare, epic
                     let offset = count > 1 ? 4 : 0;
                     let x = yx[1] - (offset / 2);
                     let y = yx[0] + (offset / 2);
-                    for (let rank in str) {
-                        rank = str[rank];
-                        let iconObj = icons.armada[armadaType][rank + ' Armada'];
-                        let options = {icon: iconObj, interactive: false, pane:"events"};
-                        let title = eventData[rank.toLowerCase()];
-                        let color = rank === 'Uncommon' ? '#39D239' : rank === 'Rare' ? '#72DCEF' : rank === 'Epic' ? '#C475EC' : 'white';
+                    for (let i in rankArr) {
+                        const rank = rankArr[i];
+                        let armadaTitle = rank + ' Armada';
+                        if(resource === 'Borg Megacube') {
+                            armadaType = 'borg';
+                            armadaTitle = resource;
+                        }
+                        const iconObj = icons.armada[armadaType][armadaTitle];
+                        const options = {icon: iconObj, interactive: false, pane:"events"};
+                        const title = eventData[rank.toLowerCase()];
+                        const color = rank === 'Uncommon' ? '#39D239' : rank === 'Rare' ? '#72DCEF' : rank === 'Epic' ? '#C475EC' : 'white';
                         if(!group.hasOwnProperty(resource)) group[resource] = []; //init the resource group if its not an array
                         let marker = makeMarker(xy(x, y), options);
                         let circle = makeCircle(xy(x, y), {className: 'armada-circle ', radius: 3, color: color, fillOpacity: 1, stroke: true, pane:"highlight"});
@@ -546,6 +560,7 @@ STFCMap = (function() {
                         y = y - offset;
                     }
                 } else {
+                    console.log("CHECK SEP", resource);
                     let swapNames = resource.toLowerCase() === 'borg' ? 'Inert Nanoprobe' : resource;
                     let iconObj = icons.other_rss[swapNames];
                     let options = {icon: iconObj, interactive: false, pane:"events"};
@@ -626,7 +641,7 @@ STFCMap = (function() {
         }
 
         if(zoom < 0) {
-            $(".leaflet-marker-pane").addClass("dim");
+            //$(".leaflet-marker-pane").addClass("dim");
             if(!isEditor) {
                 $(".leaflet-overlay-pane").addClass("fade");
             }
@@ -634,10 +649,10 @@ STFCMap = (function() {
             if(!isEditor) {
                 $(".leaflet-overlay-pane").addClass("fade");
             }
-            $(".leaflet-marker-pane").addClass("dim");
+            //$(".leaflet-marker-pane").addClass("dim");
         } else {
             $(".leaflet-overlay-pane").removeClass("fade");
-            $(".leaflet-marker-pane").removeClass("dim");
+            //$(".leaflet-marker-pane").removeClass("dim");
         }
 
         if(zoom < 0.9) {
@@ -778,8 +793,6 @@ STFCMap = (function() {
             }
         }
     };
-
-
 
     let makeSystemPopup = function(p) {
         let popupClass;
