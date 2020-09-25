@@ -129,7 +129,7 @@ STFCMap = (function() {
     const startingZoom = -1;
     const minZoom = -2;
     const maxZoom = 4;
-    const myRenderer = L.canvas({padding: 0.5}); //default canvas renderer, paths saved here
+    const pathRenderer = L.canvas({padding: 0.5}); //default canvas renderer, paths saved here
     const systemsRenderer = L.canvas({padding: 0.5, pane:'systems'}); //separate canvas to keep the systems above the paths
     const myRenderer3 = L.canvas({padding: 0.5, pane:'tooltipPane'}); //unused atm. possibly for labels
     const territoryRenderer = L.canvas({padding: 0.5, pane:'shadowPane'}); //territory renderer
@@ -337,7 +337,7 @@ STFCMap = (function() {
                         break;
                 }
                 feature.properties.pane = 'overlayPane';
-                feature.properties.renderer = myRenderer;
+                feature.properties.renderer = pathRenderer;
                 const path = L.polyline(yx, feature.properties);
                 pathsGroup.push(path);
                 makePathMarker(path);
@@ -365,8 +365,7 @@ STFCMap = (function() {
         }
         if(showDirection) {
             const _angle = angle(aX, aY, bX, bY) * -1;
-            //console.log("center", centerOfLine, "angle", _angle);
-            let arrowIcon = L.divIcon({className: 'path-arrow'});
+            let arrowIcon = icons.misc.pathArrow;
             makeMarker(centerOfLine, {icon: arrowIcon, rotationAngle: _angle, rotationOrigin: 'center center', pane:'pathmarker'}).addTo(map);
         }
         if(pathIcon) makeMarker(centerOfLine, {icon: pathIcon, pane:'pathmarker'}).addTo(map);
@@ -499,7 +498,7 @@ STFCMap = (function() {
                 let title = undefined;
                 let warpReq = parseInt(system.warpRequired) || 1;
                 let color = 'green';
-                let options = {icon: iconObj, interactive: interactive, renderer:myRenderer};
+                let options = {icon: iconObj, interactive: interactive, renderer:pathRenderer};
                 let x = yx[1] + offset;
                 let y = yx[0];
                 if(!group.hasOwnProperty(resource)) group[resource] = []; //init the resource group if its not an array
@@ -718,7 +717,7 @@ STFCMap = (function() {
                             if(icons[category][eventType] === undefined) icons[category][eventType] = {};
                             if(armadaGroup.hasOwnProperty(rank)) {
                                 armadaGroup[rank].iconUrl = assetsUrl + '/icon'+ armadaGroup[rank].iconUrl;
-                                icons[category][eventType][rank] = new L.Icon(armadaGroup[rank]);
+                                icons[category][eventType][rank] = L.icon(armadaGroup[rank]);
                             }
                         }
                     }
@@ -726,7 +725,7 @@ STFCMap = (function() {
                     for (let objKey in iconsData[category]) {
                         if(iconsData[category].hasOwnProperty(objKey)) {
                             iconsData[category][objKey].iconUrl = assetsUrl + '/icon'+ iconsData[category][objKey].iconUrl;
-                            icons[category][objKey] = new L.Icon(iconsData[category][objKey]);
+                            icons[category][objKey] = L.icon(iconsData[category][objKey]);
                         }
                     }
                 }
@@ -751,6 +750,9 @@ STFCMap = (function() {
     };
     let makeMarker = function(yx, options) {
         return L.marker(yx, options);
+    };
+    let makeIcon = function(yx, options) {
+        return L.icon(yx, options);
     };
     let makeDivIcon = function(yx, options) {
         return L.divIcon(yx, options);
