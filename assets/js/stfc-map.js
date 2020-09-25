@@ -143,7 +143,7 @@ STFCMap = (function() {
     let territoriesJson; //terrritories json loaded
 
     //TODO update/restore popup for systems
-    /*L.Map = L.Map.extend({
+    L.Map = L.Map.extend({
         openPopup: function(popup) {
             console.log("open popup", popup);
             this._popup = popup;
@@ -151,7 +151,7 @@ STFCMap = (function() {
                 popup: this._popup
             });
         }
-    });*/
+    });
 
     /*Galaxy button for system view*/
     /*L.Control.GalaxyBtn = L.Control.extend({
@@ -214,14 +214,13 @@ STFCMap = (function() {
     const body = document.body;
 
     let init = function(options) {
-
+        console.info('STFC Galaxy Map v', versionNumber);
         if(options){
             if(options.assetsUrl) assetsUrl = options.assetsUrl;
             if(options.onSystemClick) systemClickEvent = options.onSystemClick;
+            console.info('Options', options);
         }
 
-        console.info('STFC Galaxy Map v', versionNumber);
-        console.info('Options', options);
         //use custom crs if needed, for now we skip
         let canvas = false;
         /** Forces snapshot view for screenshots: crops width, removes ui **/
@@ -250,7 +249,7 @@ STFCMap = (function() {
         }).on('load', function() {
             //if you need to know when the map is finished loading, check window status.
             window.status = 'maploaded';
-        }).on('popupopen', function() {
+        })/*.on('popupopen', function() {
             $('#system-id').click(function(e) {
                 let sysName = `${this.dataset.systemName} System`;
                 if (sysName.length > 25) {  //game limit on bookmark names
@@ -260,7 +259,7 @@ STFCMap = (function() {
                 copyToClipboard(str);
                 alert(`Copied "${str}" to the clipboard. Paste it in your game!`);
             });
-        });;
+        });*/
         map.setView(startingCoords, startingZoom);
         map.on("zoomend", function() {
             zoomUIUpdate();
@@ -268,13 +267,37 @@ STFCMap = (function() {
         map.on("click", function(e){
             console.log("XY check map", e.latlng);
         });
-        map.createPane('hubsystem').style.zIndex = 550;
-        map.createPane('hublabel').style.zIndex = 575;
-        map.createPane('pathmarker').style.zIndex = 550;
-        map.createPane('systems').style.zIndex = 575;
-        map.createPane('highlight').style.zIndex = 600;
-        map.createPane('events').style.zIndex = 625;
-        map.createPane('custommarker').style.zIndex = 750;
+
+        /**
+         * @ = leaflet panes, + = custom panes
+         * @ tilePane : 200
+         * @ shadowPane : 225
+         * @ overlayPane : 250
+         * + pathMarkerPane : 275
+         * + systemsPane : 300
+         * + hubsystemsPane : 325
+         * + hublabelPane : 350
+         * @ markerPane : 375
+         * + highlightPane : 400
+         * @ tooltipPane : 425
+         * + eventsPane : 450
+         * + custommarkerPane : 500
+         * @ popupPane : 700
+         */
+
+        map.getPane('tilePane').style.zIndex = 200; //bg images
+        map.getPane('shadowPane').style.zIndex = 225; //territories
+        map.getPane('overlayPane').style.zIndex = 250; //travel paths
+        map.createPane('pathmarker').style.zIndex = 275; //path icons
+        map.createPane('systems').style.zIndex = 300; //basic systems
+        map.createPane('hubsystem').style.zIndex = 325; //hub/capital systems
+        map.createPane('hublabel').style.zIndex = 350; //hub/capital system labels
+        map.getPane('markerPane').style.zIndex = 375; //rss icons, hostile icons
+        map.createPane('highlight').style.zIndex = 400; //armada highlight circles, other misc gb highlights
+        map.getPane('tooltipPane').style.zIndex = 425; //basic system labels, armada strength labels
+        map.createPane('events').style.zIndex = 450; //event tagged icons, armada icons
+        map.createPane('custommarker').style.zIndex = 500; //user custom markers
+        map.getPane('popupPane').style.zIndex = 700; //popup marker (system info panel)
 
         //hash = new L.Hash(map); //todo - generate hash urls
         systemsJson = assetsUrl+"/json/systems.geojson"; //the galaxy data is here.
@@ -470,7 +493,7 @@ STFCMap = (function() {
             }
         }
 
-        if(flyTo) flyToSystem(startOnSystem, true);
+        if(flyTo) panToSystem(startOnSystem, true);
         initMap(); //start the map!
     };
     let setBases = function(yx, group, system) {
@@ -683,23 +706,24 @@ STFCMap = (function() {
                 renderer: systemsRenderer
             });
         } else {
-            let icon = makeDivIcon({
+            let icon = new L.DivIcon({
                 className: `${iconType} ${iconType}-${Math.round(startingZoom)}`,
                 id: sysName,
-                iconSize: null/*, radius: radius, color: '#fcf8e5', fillOpacity: 1, stroke: true*/
+                iconSize: null /*, radius: radius, color: '#fcf8e5', fillOpacity: 1, stroke: true*/
             });
-            node = makeMarker(coords, {icon: icon, className: iconType + ' system ' + cleanName(sysName), draggable: draggableSystems, pane:"systems", id: sysName});
+            node = makeMarker(coords, {icon: icon, className: iconType + ' system ' + cleanName(sysName), draggable: draggableSystems, pane:"hubsystem", id: sysName});
             labelOptions.pane = 'hublabel';
         }
 
         node.bindTooltip(sysLabel, labelOptions);
-        L.DomEvent.addListener(node, 'click', function(e) {
 
-            flyToSystem(cleaned, true); //allow flyto on clicked system
+        L.DomEvent.addListener(node, 'click', function(e) {
+            panToSystem(cleaned, true); //allow flyto on clicked system
             const sysName = e.target.options.id;
             const sysId = systemNameToID(sysName);
             console.log("sys clicked", sysName, sysId);
         }, this);
+
         systemNodes[cleaned] = node; //cache the node for events
         return node;
     };
@@ -757,32 +781,31 @@ STFCMap = (function() {
     let makeDivIcon = function(yx, options) {
         return L.divIcon(yx, options);
     };
-    let flyToSystem = function(system, openPopup) {
+    let panToSystem = function(system, openPopup) {
+        console.log("panTo", system, openPopup)
         if(system === activeSystem) {
             return false;
         }
-        let sys;
-        if(system === undefined) {
-            sys = $("#fly-to").val();
-        } else {
-            sys = system;
-        }
-        sys = cleanName(sys);
+        let sys = cleanName(system);
         if(galaxy[sys] === undefined) return false;
 
         let yx = galaxy[sys].yx;
         let systemID = galaxy[sys].systemId;
-        map.flyTo(yx, 2.5, {
+        map.panTo(yx, 2.5, {
             animate: false,
-            duration: 0.1
+            duration: 0
         });
         activeSystem = sys;
         if(openPopup) {
+            console.log("openPopup");
             if(systemClickEvent !== undefined){
+                console.log("systemClickEvent");
                 const event = new CustomEvent(systemClickEvent, {bubbles: true, detail: galaxy[sys]});
                 body.dispatchEvent(event);
             }else{
+                console.log("systemClickEvent is undef", systemClickEvent);
                 map.once('moveend', function() {
+                    console.log("moveend", systemPopups[sys]);
                     if(systemPopups[sys] !== undefined) {
                         systemPopups[sys].openPopup();
                     }
@@ -976,7 +999,7 @@ STFCMap = (function() {
             return galaxy;
         },
         flyToSystem: function(system, openPopup) {
-            flyToSystem(system, openPopup);
+            panToSystem(system, openPopup);
         },
         loadFile: async function(file, callback) {
             return await loadFile(file, callback);
