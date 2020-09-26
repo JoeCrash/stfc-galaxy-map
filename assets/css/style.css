@@ -255,8 +255,9 @@ button.btn-search, button.btn-reset {
 #search-tool {
     float: left;
     height: 50px;
-    margin: 0 8%;
-    position: relative;
+    position: absolute;
+    top: -73px;
+    left: 40px;
 }
 #search-tool.focus {
     margin: 0;
@@ -265,7 +266,6 @@ button.btn-search, button.btn-reset {
     text-transform: capitalize;
     background-color: #fff !important;
     border: 1px solid #ccc;
-    font-size: 16px;
     padding: 4px 8px;
     font-weight: 600;
     border-right: none;
@@ -275,23 +275,23 @@ button.btn-search, button.btn-reset {
 #search-tool button#search-reset {
     opacity: 0;
 }
-#search-tool.focus input {
+/*#search-tool.focus input {
     width: 220px;
-}
+}*/
 #search-tool.focus button#search-submit {
     background: #297dfa;
     border-radius: 0 50% 50% 0;
     color: #fff;
-    left: 220px;
+    left: 100%;
 }
 #search-tool.focus button#search-reset {
     opacity: 1;
     animation: bounceRight .5s;
-    animation-delay: .2s;
+    animation-delay: .3s;
     animation-timing-function: cubic-bezier(0.3, 0.2, 1, 0.8);
     border-radius: 50%;
     color: #fff;
-    left: 254px;
+    left: 118%;
 }
 #search-tool button#search-submit {
     background: #ccc;
@@ -536,7 +536,7 @@ button.btn-search, button.btn-reset {
     border-radius: 8px;
 }
 
-.custom-popup .leaflet-popup-content-wrapper {
+/*.custom-popup .leaflet-popup-content-wrapper {
     position: absolute;
     top: -110px;
     left: 75px;
@@ -561,7 +561,7 @@ button.btn-search, button.btn-reset {
 }
 .custom-popup .leaflet-popup-tip {
     display: none;
-}
+}*/
 
 .twitter-typeahead .tt-query,
 .twitter-typeahead .tt-hint {

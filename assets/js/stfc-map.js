@@ -131,10 +131,9 @@ STFCMap = (function() {
     const maxZoom = 4;
     const pathRenderer = L.canvas({padding: 0.5}); //default canvas renderer, paths saved here
     const systemsRenderer = L.canvas({padding: 0.5, pane:'systems'}); //separate canvas to keep the systems above the paths
-    const myRenderer3 = L.canvas({padding: 0.5, pane:'tooltipPane'}); //unused atm. possibly for labels
+    //const myRenderer3 = L.canvas({padding: 0.5, pane:'tooltipPane'}); //unused atm. possibly for labels
     const territoryRenderer = L.canvas({padding: 0.5, pane:'shadowPane'}); //territory renderer
     let startingCoords = xy(-4679, -426); //the default starting location of the map
-
     let assetsUrl = './assets'; //default assets folder, if defined will load assets from an external source
     let systemClickEvent; //defaults to popup opener, if this is defined, will fire specified event instead
     let systemsJson; //all the system data to populate the map
@@ -143,7 +142,7 @@ STFCMap = (function() {
     let territoriesJson; //terrritories json loaded
 
     //TODO update/restore popup for systems
-    L.Map = L.Map.extend({
+    /*L.Map = L.Map.extend({
         openPopup: function(popup) {
             console.log("open popup", popup);
             this._popup = popup;
@@ -151,8 +150,7 @@ STFCMap = (function() {
                 popup: this._popup
             });
         }
-    });
-
+    });*/
     /*Galaxy button for system view*/
     /*L.Control.GalaxyBtn = L.Control.extend({
         onAdd: function(map) {
@@ -249,7 +247,7 @@ STFCMap = (function() {
         }).on('load', function() {
             //if you need to know when the map is finished loading, check window status.
             window.status = 'maploaded';
-        })/*.on('popupopen', function() {
+        }).on('popupopen', function() {
             $('#system-id').click(function(e) {
                 let sysName = `${this.dataset.systemName} System`;
                 if (sysName.length > 25) {  //game limit on bookmark names
@@ -259,7 +257,7 @@ STFCMap = (function() {
                 copyToClipboard(str);
                 alert(`Copied "${str}" to the clipboard. Paste it in your game!`);
             });
-        });*/
+        });
         map.setView(startingCoords, startingZoom);
         map.on("zoomend", function() {
             zoomUIUpdate();
@@ -716,6 +714,8 @@ STFCMap = (function() {
         }
 
         node.bindTooltip(sysLabel, labelOptions);
+        node.bindPopup(popupTemplate);
+
 
         L.DomEvent.addListener(node, 'click', function(e) {
             panToSystem(cleaned, true); //allow flyto on clicked system
