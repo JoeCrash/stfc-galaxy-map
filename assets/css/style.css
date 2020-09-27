@@ -501,10 +501,10 @@ button.btn-search, button.btn-reset {
 }
 
 /*Custom Popup,  System Popups */
-.custom-popup .leaflet-popup-content {
+/*.custom-popup .leaflet-popup-content {
     margin: 2px;
     width: 100%;
-}
+}*/
 .popup-ind {
     background: url("../img/ui/ind-sys-menu.jpg");
     height: 100%;
@@ -536,7 +536,7 @@ button.btn-search, button.btn-reset {
     border-radius: 8px;
 }
 
-/*.custom-popup .leaflet-popup-content-wrapper {
+.custom-popup .leaflet-popup-content-wrapper {
     position: absolute;
     top: -110px;
     left: 75px;
@@ -561,7 +561,7 @@ button.btn-search, button.btn-reset {
 }
 .custom-popup .leaflet-popup-tip {
     display: none;
-}*/
+}
 
 .twitter-typeahead .tt-query,
 .twitter-typeahead .tt-hint {

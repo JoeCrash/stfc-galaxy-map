@@ -23,7 +23,8 @@ STFCMap = (function() {
         xy = function(x, y) {
             let n = L.latLng;
             return L.Util.isArray(x) ? n(x[1], x[0]) : n(y, x)
-        }, /**
+        },
+        /**
          * takes an array and turns it into a string representation
          * @param a
          * @returns {s}
@@ -186,7 +187,7 @@ STFCMap = (function() {
     let systemNames = []; //holds all the system names for typeahead
     let cleanedNames = []; //holds all the cleaned system names for quick validation of search input
     let systemNodes = {}; //holds the system nodes all events get bound to. (events on nodes)
-    let systemPopups = {}; //holds the system popups
+    //let systemPopups = {}; //holds the system popups
     let systemCount = 0; //holds the current count of systems added to the map
     let systemsGroup = []; //temp array to hold the system nodes for layerControl (layers.systems)
     let pathsGroup = []; //temp array to hold the path lines for layerControl (layers.paths)
@@ -207,8 +208,8 @@ STFCMap = (function() {
     let canvasMode = true; //draws entire map in canvas for ss (will revisit, might not be needed anymore)
     let drawControl = false; //used in my private editor, enables leaflet draw controls
     let map; //the galaxy map
-    let sysmap; //the system map
-    let sysmapGroup; //holds the system markers
+    //let sysmap; //the system map
+    //let sysmapGroup; //holds the system markers
     const body = document.body;
 
     let init = function(options) {
@@ -247,7 +248,7 @@ STFCMap = (function() {
         }).on('load', function() {
             //if you need to know when the map is finished loading, check window status.
             window.status = 'maploaded';
-        }).on('popupopen', function() {
+        })/*.on('popupopen', function() {
             $('#system-id').click(function(e) {
                 let sysName = `${this.dataset.systemName} System`;
                 if (sysName.length > 25) {  //game limit on bookmark names
@@ -257,14 +258,14 @@ STFCMap = (function() {
                 copyToClipboard(str);
                 alert(`Copied "${str}" to the clipboard. Paste it in your game!`);
             });
-        });
+        });*/
         map.setView(startingCoords, startingZoom);
         map.on("zoomend", function() {
             zoomUIUpdate();
         });
-        map.on("click", function(e){
-            console.log("XY check map", e.latlng);
-        });
+        /*map.on("click", function(e){
+            console.log("XY check map", e);
+        });*/
 
         /**
          * @ = leaflet panes, + = custom panes
@@ -684,7 +685,6 @@ STFCMap = (function() {
         let sysName = properties.name;
         let cleaned = cleanName(sysName);
         let sysLabel = sysName + ' (' + properties.systemLevel + ')';
-        let popupTemplate = isEditor ? null : makeSystemPopup(properties);
         let radius = properties.radius !== undefined && properties.radius !== '' ? parseInt(properties.radius) : 1;
         let iconType = properties.icon;
         let node;
@@ -714,14 +714,29 @@ STFCMap = (function() {
         }
 
         node.bindTooltip(sysLabel, labelOptions);
-        node.bindPopup(popupTemplate);
-
+        if(!systemClickEvent) {
+            //console.log(":bind popup", sysLabel);
+            let popupTemplate = isEditor ? null : makeSystemPopup(properties);
+            node.bindPopup(popupTemplate, {maxWidth:450});
+        }
 
         L.DomEvent.addListener(node, 'click', function(e) {
-            panToSystem(cleaned, true); //allow flyto on clicked system
             const sysName = e.target.options.id;
             const sysId = systemNameToID(sysName);
-            console.log("sys clicked", sysName, sysId);
+            //console.log("sys clicked", sysName, sysId, e);
+            const cleaned = cleanName(sysName);
+            const moveTo = async () => {
+                await panToSystem(cleaned).then((sys)=>{
+                    //console.log(":panToSystem done", sys);
+                    if(systemClickEvent){
+                        console.log("custom systemClickEvent:", systemClickEvent);
+                        const event = new CustomEvent(systemClickEvent, {bubbles: true, detail: galaxy[sys]});
+                        body.dispatchEvent(event);
+                    }
+                    activeSystem = sys;
+                });
+            };
+            moveTo();
         }, this);
 
         systemNodes[cleaned] = node; //cache the node for events
@@ -781,37 +796,23 @@ STFCMap = (function() {
     let makeDivIcon = function(yx, options) {
         return L.divIcon(yx, options);
     };
-    let panToSystem = function(system, openPopup) {
-        console.log("panTo", system, openPopup)
-        if(system === activeSystem) {
-            return false;
-        }
-        let sys = cleanName(system);
-        if(galaxy[sys] === undefined) return false;
-
-        let yx = galaxy[sys].yx;
-        let systemID = galaxy[sys].systemId;
-        map.panTo(yx, 2.5, {
-            animate: false,
-            duration: 0
+    let panToSystem = async function(system) {
+        //console.log("panTo", system);
+        return new Promise(resolve => {
+            const sys = cleanName(system);
+            const systemID = galaxy[sys].systemId;
+            const offset = 25; // move marker slightly to the left
+            if(galaxy[sys] === undefined) resolve(false);
+            let yx = []; //create a new yx to avoid saving offset to original yx from galaxy object
+            yx[0] = galaxy[sys].yx[0];
+            yx[1] = galaxy[sys].yx[1];
+            yx[1] = yx[1] + offset;
+            const markerBounds = L.latLngBounds([yx]);
+            let zoom = map.getZoom();
+            if(zoom < 2.25) zoom = 2.25;
+            map.fitBounds(markerBounds, {maxZoom:zoom});
+            resolve(sys);
         });
-        activeSystem = sys;
-        if(openPopup) {
-            console.log("openPopup");
-            if(systemClickEvent !== undefined){
-                console.log("systemClickEvent");
-                const event = new CustomEvent(systemClickEvent, {bubbles: true, detail: galaxy[sys]});
-                body.dispatchEvent(event);
-            }else{
-                console.log("systemClickEvent is undef", systemClickEvent);
-                map.once('moveend', function() {
-                    console.log("moveend", systemPopups[sys]);
-                    if(systemPopups[sys] !== undefined) {
-                        systemPopups[sys].openPopup();
-                    }
-                })
-            }
-        }
     };
 
     let makeSystemPopup = function(p) {
@@ -821,7 +822,7 @@ STFCMap = (function() {
         let id = p.systemID || '';
         let warpRequired = p.warpRequired || 'N/A';
         //zone setup
-        let zone = p.zone || '';
+        let zone = p.territory || '';
         zone = zone.toUpperCase();
         let event = p.event.trim() || '';
         event = event.toUpperCase();
