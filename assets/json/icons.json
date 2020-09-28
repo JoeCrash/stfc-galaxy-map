@@ -307,24 +307,29 @@
     },
     "ship_types": {
         "Battleship": {
-            "iconSize": [40, 40],
+            "iconSize": [30, 30],
             "iconUrl": "/ship/battleship-icon.png",
             "className": "battleship"
         },
         "Explorer": {
-            "iconSize": [40, 40],
+            "iconSize": [30, 30],
             "iconUrl": "/ship/explorer-icon.png",
             "className": "explorer"
         },
         "Interceptor": {
-            "iconSize": [40, 40],
+            "iconSize": [30, 30],
             "iconUrl": "/ship/interceptor-icon.png",
             "className": "interceptor"
         },
         "Survey": {
-            "iconSize": [40, 40],
+            "iconSize": [30, 30],
             "iconUrl": "/ship/survey-icon.png",
             "className": "survey"
+        },
+        "Scout": {
+            "iconSize": [30, 30],
+            "iconUrl": "/ship/scout-icon.png",
+            "className": "scout"
         }
     },
     "ship_parts": {

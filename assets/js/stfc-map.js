@@ -142,7 +142,6 @@ STFCMap = (function() {
     let travelPathsJson; //travel paths json loaded
     let territoriesJson; //terrritories json loaded
 
-    //TODO update/restore popup for systems
     /*L.Map = L.Map.extend({
         openPopup: function(popup) {
             console.log("open popup", popup);
@@ -187,13 +186,13 @@ STFCMap = (function() {
     let systemNames = []; //holds all the system names for typeahead
     let cleanedNames = []; //holds all the cleaned system names for quick validation of search input
     let systemNodes = {}; //holds the system nodes all events get bound to. (events on nodes)
-    //let systemPopups = {}; //holds the system popups
     let systemCount = 0; //holds the current count of systems added to the map
     let systemsGroup = []; //temp array to hold the system nodes for layerControl (layers.systems)
-    let pathsGroup = []; //temp array to hold the path lines for layerControl (layers.paths)
-    let basesGroup = []; //temp array to hold the base nodes for layerControl (layers.bases)
-    let minesGroup = {}; //temp array to hold the system nodes for layerControl (layers.mines)
-    let eventsGroup = {}; //temp array to hold the system nodes for layerControl (layers.events)
+    let pathsGroup = []; //temp array (layers.paths)
+    let basesGroup = []; //temp array (layers.bases)
+    let minesGroup = {}; //temp array (layers.mines)
+    let hostilesGroup = {}; //temp array (layers.hostiles)
+    let eventsGroup = {}; //temp array (layers.events)
     let icons; //all the icons from the json file
 
     let iconsLoaded = false;//will flag true once loaded
@@ -260,30 +259,10 @@ STFCMap = (function() {
             });
         });*/
         map.setView(startingCoords, startingZoom);
+
         map.on("zoomend", function() {
             zoomUIUpdate();
         });
-        /*map.on("click", function(e){
-            console.log("XY check map", e);
-        });*/
-
-        /**
-         * @ = leaflet panes, + = custom panes
-         * @ tilePane : 200
-         * @ shadowPane : 225
-         * @ overlayPane : 250
-         * + pathMarkerPane : 275
-         * + systemsPane : 300
-         * + hubsystemsPane : 325
-         * + hublabelPane : 350
-         * @ markerPane : 375
-         * + highlightPane : 400
-         * @ tooltipPane : 425
-         * + eventsPane : 450
-         * + custommarkerPane : 500
-         * @ popupPane : 700
-         */
-
         map.getPane('tilePane').style.zIndex = 200; //bg images
         map.getPane('shadowPane').style.zIndex = 225; //territories
         map.getPane('overlayPane').style.zIndex = 250; //travel paths
@@ -433,6 +412,7 @@ STFCMap = (function() {
         systemsGroup = [];
         basesGroup = [];
         minesGroup = {};
+        hostilesGroup = {};
         eventsGroup = {};
         let systems = _galaxy.features;
         let count = systems.length;
@@ -447,6 +427,8 @@ STFCMap = (function() {
             let yx = system.geometry.coordinates;
             systemsGroup.push(sysNode);
             //setup the mine markers
+            let hostiles = properties.hostiles;
+            setHostiles(yx, hostiles, hostilesGroup, properties);
             let mines = properties.mines;
             setMines(yx, mines, minesGroup, properties);
             //setup the event markers
@@ -504,6 +486,31 @@ STFCMap = (function() {
         let marker = makeMarker(yx, options);
         group.push(marker);
     };
+    let setHostiles = function(yx, hostiles, group, system) {
+        if(hostiles === "") return false;
+        if(group === undefined || group.length > 1) {
+            console.warn("setHostiles expects the group to be defined, but empty. Make sure you are passing in a container object");
+        }
+        // console.log("setHostiles", hostiles, system);
+        hostiles = strToArray(hostiles);
+        let offset = 0;
+        for (let resourceKey in hostiles) {
+            if(hostiles.hasOwnProperty(resourceKey)) {
+                let resource = hostiles[resourceKey];
+                let iconObj = icons.ship_types[resource];
+                let interactive = false;
+                //let title = undefined;
+                //let warpReq = parseInt(system.warpRequired) || 1;
+                //let color = 'green';
+                let options = {icon: iconObj, interactive: interactive, renderer:pathRenderer};
+                let x = yx[1] + offset;
+                let y = yx[0];
+                if(!group.hasOwnProperty(resource)) group[resource] = []; //init the resource group if its not an array
+                let marker = makeMarker(xy(x, y), options);
+                group[resource].push(marker);
+            }
+        }
+    };
     let setMines = function(yx, mines, group, system) {
         if(mines === "None") return false;
         if(group === undefined || group.length > 1) {
@@ -511,7 +518,6 @@ STFCMap = (function() {
         }
         mines = strToArray(mines);
         let offset = 0;
-
         for (let resourceKey in mines) {
             if(mines.hasOwnProperty(resourceKey)) {
                 let resource = mines[resourceKey];
@@ -591,39 +597,43 @@ STFCMap = (function() {
         map.attributionControl.setPrefix(setAttributions()); //developer credits
         toggleUIElements(map.getZoom()); //set text visibility
         layers.events = {};
+        layers.hostiles = {}; //start this empty to add in the groups later
+        layers.mines = {}; //start this empty to add in the groups later
+
         layers.Paths = L.layerGroup(pathsGroup).addTo(map);
         layers.System = L.layerGroup(systemsGroup).addTo(map);
         layers.Bases = L.layerGroup(basesGroup);
-        map.removeLayer(layers.Paths);
+        map.removeLayer(layers.Paths); //clear any old paths (only on a refresh)
         map.addLayer(layers.Paths);
-        layers.mines = {}; //start this empty to add in the groups later
+
+        //convert each hostile type into its own layerGroup
+        for (let resource in hostilesGroup) {
+            if(hostilesGroup.hasOwnProperty(resource)) layers.hostiles[resource] = L.layerGroup(hostilesGroup[resource]); //group the mines by key
+        }
         //convert each mine type into its own layerGroup
         for (let resource in minesGroup) {
             //console.log("resource", minesGroup[resource]);
             if(minesGroup.hasOwnProperty(resource)) layers.mines[resource] = L.layerGroup(minesGroup[resource]); //group the mines by key
-        }//convert each event type into its own layerGroup
+        }
+        //convert each event type into its own layerGroup
         for (let resource in eventsGroup) {
-            if(eventsGroup.hasOwnProperty(resource)) layers.events[resource] = L.layerGroup(eventsGroup[resource]); //group the mines by key
+            if(eventsGroup.hasOwnProperty(resource)) layers.events[resource] = L.layerGroup(eventsGroup[resource]); //group the events by key
         }
 
         if(layerControl) layerControl.remove();
 
         controlLayers = {
             "": {"Station Hubs": layers.Bases},
+            "Hostiles": setGroups(layers.hostiles),
             "Mines": setGroups(layers.mines),
             "Events": setGroups(layers.events),
         };
-
         layerControl = L.control.groupedLayers(null, controlLayers, {groupCheckboxes: true, /*exclusiveGroups: ["Mines"]*/});
         layerControl.addTo(map);
 
-        //console.log("check", typeof STFCUI, typeof STFCUI === undefined, typeof STFCUI === 'undefined');
-        if(typeof STFCUI !== 'undefined') {
-            STFCUI.init(map);
-        }
-        if(typeof STFCMapEditor !== 'undefined') {
-            STFCMapEditor.init();
-        }
+        if(typeof STFCUI !== 'undefined') {STFCUI.init(map);} //init the search input
+        if(typeof STFCMapEditor !== 'undefined') {STFCMapEditor.init();}
+
         zoomUIUpdate();
         $(".hub-label").css("visibility", "visible"); //set capital system labels visible
 
@@ -815,20 +825,91 @@ STFCMap = (function() {
         });
     };
 
-    let makeSystemPopup = function(p) {
+    let makeSystemPopup = function(d) {
         let popupClass;
-        let name = p.name[0].toUpperCase() + p.name.slice(1) || ''; //capitalize 1st letter
-        let systemLevel = p.systemLevel || '';
-        let id = p.systemID || '';
-        let warpRequired = p.warpRequired || 'N/A';
-        //zone setup
-        let zone = p.territory || '';
-        zone = zone.toUpperCase();
-        let event = p.event.trim() || '';
-        event = event.toUpperCase();
-        switch (zone) {
+        //popup base info
+        let name = d.name[0].toUpperCase() + d.name.slice(1) || ''; //capitalize 1st letter
+        let systemLevel = d.systemLevel || ''; //system level
+        let id = d.systemID || ''; //system Id
+        let warpRequired = d.warpRequired || 'N/A'; //warp Req
+        //bases
+        let bases = d.stationHub || '';
+        let basesHTML = '';
+        if(bases === 1){
+            let iconUrl = icons.misc["Station Hub"].options.iconUrl;
+            basesHTML = `<div class="tooltip"><img class="icon" src="${iconUrl}" />Yes<span class="tooltiptext">Station Hubs</span></div>`;
+        }else{
+            basesHTML = 'No';
+        }
+        //hostiles/scouts
+        let hostiles = d.hostiles;
+        let hostilesHTML = '';
+        let scoutsHTML = 'No';
+        if(hostiles){
+            let hostilesArr = hostiles.split(", ");
+            for (let index in hostilesArr) {
+                if(hostilesArr.hasOwnProperty(index)) {
+                    let nodeType = hostilesArr[index].trim();
+                    //console.log("nodeType", nodeType, icons.ship_types[nodeType]);
+                    let iconUrl = icons.ship_types[nodeType].options.iconUrl;
+                    let img = `<div class="tooltip"><img class="icon" src="${iconUrl}" /><span class="tooltiptext">${nodeType}</span></div>`;
+                    if(nodeType === 'Scout'){
+                        scoutsHTML = img+'Yes';
+                    }else{
+                        hostilesHTML += img;
+                    }
+                }
+            }
+        }
+        //mines
+        let mines = d.mines;
+        let minesHTML = '';
+        if(mines !== 'undefined' && mines !== 'None' && mines !== '') {
+            let minesArr = mines.split(", ");
+            for (let index in minesArr) {
+                if(minesArr.hasOwnProperty(index)) {
+                    let nodeType = minesArr[index].trim();
+                    let iconUrl = icons.mines[nodeType].options.iconUrl;
+                    let img = `
+                    <div class="tooltip">
+                        <img class="icon rss" src="${iconUrl}" />
+                      <span class="tooltiptext">${nodeType}</span>
+                    </div>
+                    `;
+                    minesHTML += img;
+                    if(!icons.mines[minesArr[index].trim()].options.iconUrl) {
+                        console.warn("need to check, why no options?", name, nodeType, icons.mines[nodeType]);
+                    }
+                }
+            }
+        }
+        //events/armadas
+        let event = d.event.trim().toUpperCase() || ''; //events
+        let armHTML = '';
+        if(event.includes('ARMADA') || event.includes('MEGACUBE')) {
+            const uncommon = d.uncommonArmadaRange || '';
+            const rare = d.rareArmadaRange || '';
+            const epic = d.epicArmadaRange || '';
+            const armArr = {Uncommon:uncommon, Rare:rare, Epic:epic};
+            for (let rarity in armArr) {
+                if(armArr.hasOwnProperty(rarity)) {
+                    if(armArr[rarity] === '') continue;
+                    let armadaType = event.includes("BORG") ? 'borg' : (event.includes("ECLIPSE") ? 'eclipse' : 'normal');
+                    let armadaKey = event.includes("MEGACUBE") ? 'Borg Megacube' : rarity+' Armada';
+                    let iconUrl = icons.armada[armadaType][armadaKey].options.iconUrl;
+                    rarity += armadaKey === 'Borg Megacube' ? ' - Borg Megacube' : '';
+                    let img = `<div class="tooltip"><img class="icon armada" src="${iconUrl}" /><span class="tooltiptext">${rarity}</span></div>`;
+                    armHTML += img;
+                }
+            }
+        }
+
+        //territory - set the image prefix for the correct popup bg
+        let territory = d.territory.toUpperCase() || ''; //territory
+        switch (territory) {
             case "INDEPENDENT":
             case "NEUTRAL":
+            case "":
                 popupClass = (event === 'SWARM') ? 'swa' : 'ind';
                 break;
             case "FEDERATION":
@@ -845,100 +926,25 @@ STFCMap = (function() {
                 break;
         }
 
-        //mines setup
-        let mines = p.mines;
-        let mineSize = p.mineSize > 0 ? ` <code>(${p.mineSize})</code>` : '';
-        let minesArr = p.mines.split(", ");
-        let minesHTML = '';
-        if(mines !== 'undefined' && mines !== 'None' && mines !== '') {
-            for (let index in minesArr) {
-                if(minesArr.hasOwnProperty(index)) {
-                    let nodeType = minesArr[index].trim();
-                    let iconUrl = icons.mines[nodeType].options.iconUrl;
-                    let img = `
-                    <div class="tooltip">
-                        <img class="node-icon" src="${iconUrl}" />
-                      <span class="tooltiptext">${nodeType}</span>
-                    </div>
-                    `;
-                    minesHTML += img;
-                    if(!icons.mines[minesArr[index].trim()].options.iconUrl) {
-                        console.warn("need to check, why no options?", name, nodeType, icons.mines[nodeType]);
-                    }
-                }
-            }
-        }
-        mines = minesHTML || '';
-
-        let shipTypes = p.shipTypes;
-        if(shipTypes !== '' && shipTypes !== undefined){
-            let shipTypesArr = p.shipTypes.split(", ");
-            let shipTypesHTML = '';
-            if(shipTypes !== 'undefined' && shipTypes !== 'None' && shipTypes !== '') {
-                for (let index in shipTypesArr) {
-                    if(shipTypesArr.hasOwnProperty(index)) {
-                        let nodeType = shipTypesArr[index].trim();
-                        let iconUrl = icons.ship_types[nodeType].options.iconUrl;
-                        let img = `
-                    <div class="tooltip">
-                        <img class="ship-icon" src="${iconUrl}" />
-                      <span class="tooltiptext">${nodeType}</span>
-                    </div>
-                    `;
-                        shipTypesHTML += img;
-                        if(!iconUrl) {
-                            console.warn("need to check, why no options? name:", name, "nodeType:", nodeType, "iconUrl:", iconUrl);
-                        }
-                    }
-                }
-            }
-            shipTypes = shipTypesHTML || '';
-        }
-        let eventHTML = '';
-        if(event === 'ARMADA') {
-            //TODO update this to accomodate all 3 armada types
-            let uncIconUrl = icons.other_rss['Uncommon Armada'].options.iconUrl;
-            let rareIconUrl = icons.other_rss['Rare Armada'].options.iconUrl;
-            let epicIconUrl = icons.other_rss['Epic Armada'].options.iconUrl;
-            let img = `
-                    <div class="tooltip">
-                        <img class="ship-icon" src="${uncIconUrl}" />
-                      <span class="tooltiptext">Uncommon Armada</span>
-                    </div>
-                    `;
-            eventHTML += img;
-        }
-
-        if(event !== '') event = '- ' + event;
-        let planets = p.planets;
-        let shipLevel = p.shipLevel;
-        //let warpRequired = p.warpRequired;
-        let hostiles = p.hostiles || '';
-        let stationHub = p.stationHub;
-        //<div>Station Hubs: ${stationHub}</div>
         let divOpen = `<div class='popup-${popupClass}' data-systemid='${id}'>`;
         let divClose = "</div>";
+        if(event !== '') event = '- ' + event; //append event type to territory on top
         let info =
-            `<div id="system-zone">${zone} <span id="system-event">${event}</span> </div>
+            `<div id="system-zone">${territory} <span id="system-event">${event}</span></div>
              <div id="system-name">${name} [${systemLevel}]</div>
-             <div id="system-id" class="clickable" data-system-id="${id}" data-system-name="${name}"><span>S:</span>${id}</div>
+             <div id="system-id" class="clickable" data-system-id="${id}" data-system-name="${name}"><span>S:</span> ${id}</div>
              <div class="system-detail-panel">
-                 <div><span>Hostiles:</span> <code>${hostiles}</code> </div>
-                 <div class="half-size">
-                     <div><span>Warp Required:</span></div>
-                     <div>${warpRequired}</div>
+                 <div>
+                    <div class="half-size"><span>Warp Required:</span> ${warpRequired}</div>
+                    <div class="half-size"><span>Stations:</span> ${basesHTML}</div>
                  </div>
-                 <div class="half-size">
-                     <div><span>Armadas:</span>${mineSize}</div>
-                     <div>${eventHTML}</div>
+                 <div>
+                    <div class="half-size"><span>Hostiles:</span> ${hostilesHTML}</div>
+                    <div class="half-size"><span>Scouts:</span> ${scoutsHTML}</div>
                  </div>
-                 <div class="half-size">
-                     <div><span>Hostile Types:</span></div>
-                     <div>${shipTypes}</div>
-                 </div>
-                 <div class="half-size">
-                     <div><span>Mines:</span>${mineSize}</div>
-                     <div>${mines}</div>
+                 <div>
+                    <div class="half-size"><span>Mines:</span> ${minesHTML}</div>
+                    <div class="half-size"><span>Armadas:</span> ${armHTML}</div>
                  </div>
              </div>`;
         return divOpen + info + divClose;

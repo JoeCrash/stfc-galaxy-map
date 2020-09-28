@@ -53,6 +53,9 @@ body > #map-wrapper {
     font: 12px/1.5 'liberation_sansregular', sans-serif;
     background-color: rgba(0, 0, 0, 0);
 }
+.leaflet-container.leaflet-retina {
+    font: 16px/1.8 'liberation_sansregular', sans-serif;
+}
 .leaflet-shadow-pane{
     z-index:400;
 }
@@ -444,13 +447,16 @@ button.btn-search, button.btn-reset {
     text-shadow: 2px 2px #000;
 	cursor: pointer;
 }
+#system-event {
+    font-size: 0.9rem;
+}
 .system-detail-panel {
-    width:96%;
-    margin: 5px 7px;
-    padding-left:3px;
-    height:140px;
+    margin-top: 15px;
+    padding:5px;
+    height: 132px;
     background: rgb(0,0,0);
-    background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 70%, rgba(255,255,255,0) 100%);
+    background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 75%, rgba(255,255,255,0) 100%);
+    line-height: 1.5;
 }
 .system-detail-panel div:not('.tooltip') {
     width:100%;
@@ -458,41 +464,44 @@ button.btn-search, button.btn-reset {
     float:left;
     vertical-align: top;
 }
-.system-detail-panel span {
+/*.system-detail-panel span {
     color: #bbb;
-}
+}*/
 .system-detail-panel div.half-size {
     width:48%;
     float:left;
 }
-.system-detail-panel img.node-icon {
-    width:48px;
-    height:48px;
-    margin:-5px;
+.system-detail-panel img.icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: -7px;
 }
-.system-detail-panel img.ship-icon {
-    width:48px;
-    height:48px;
-    margin:-5px;
+.system-detail-panel img.icon.rss {
+    margin: -8px -6px;
+    padding-left: 4px;
+    width: 26px;
+    height: 26px;
+}
+.system-detail-panel img.icon.armada {
+    margin: -8px 0;
+    width: 26px;
+    height: 26px;
 }
 /* Tooltip */
 .tooltip {
     position: relative;
     display: inline-block;
-    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+    /*border-bottom: 1px dotted black;  If you want dots under the hoverable text */
 }
+
 .tooltip .tooltiptext {
     visibility: hidden;
-    min-width:100px;
-    width: 100%;
+    min-width:90px;
     background-color: black;
-    opacity: 0.8;
     color: #fff;
     text-align: left;
-    padding: 5px 0;
+    padding-left: 5px;
     border-radius: 6px;
-
-    /* Position the tooltip text - see examples below! */
     position: absolute;
     z-index: 1;
 }
@@ -556,8 +565,8 @@ button.btn-search, button.btn-reset {
     height: 15px;
 }
 .leaflet-container a.leaflet-popup-close-button {
-    right: -478px;
-    top: -106px;
+    right: -456px;
+    top: -92px;
 }
 .custom-popup .leaflet-popup-tip {
     display: none;
