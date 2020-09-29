@@ -466,7 +466,6 @@ STFCMap = (function() {
             } else {
                 flyTo = true;
             }
-
             startingCoords = galaxy[startOnSystem].yx;
             showDetail = getUrlParameter('detail') === '1';
             if(showDetail) {
@@ -877,9 +876,6 @@ STFCMap = (function() {
                     </div>
                     `;
                     minesHTML += img;
-                    if(!icons.mines[minesArr[index].trim()].options.iconUrl) {
-                        console.warn("need to check, why no options?", name, nodeType, icons.mines[nodeType]);
-                    }
                 }
             }
         }
@@ -903,7 +899,6 @@ STFCMap = (function() {
                 }
             }
         }
-
         //territory - set the image prefix for the correct popup bg
         let territory = d.territory.toUpperCase() || ''; //territory
         switch (territory) {
@@ -912,25 +907,15 @@ STFCMap = (function() {
             case "":
                 popupClass = (event === 'SWARM') ? 'swa' : 'ind';
                 break;
-            case "FEDERATION":
-                popupClass = 'fed';
-                break;
-            case "KLINGON":
-                popupClass = 'kli';
-                break;
-            case "ROMULAN":
-                popupClass = 'rom';
-                break;
-            case "AUGMENT":
-                popupClass = 'aug';
-                break;
+            default:
+                popupClass = territory.substr(0,3).toLowerCase();
         }
-
-        let divOpen = `<div class='popup-${popupClass}' data-systemid='${id}'>`;
+        //construct the popup
+        let divOpen = `<div class='popup popup-${popupClass}' data-systemid='${id}'>`;
         let divClose = "</div>";
         if(event !== '') event = '- ' + event; //append event type to territory on top
         let info =
-            `<div id="system-zone">${territory} <span id="system-event">${event}</span></div>
+            `<div id="system-zone">${territory}&nbsp;<span id="system-event">${event}</span></div>
              <div id="system-name">${name} [${systemLevel}]</div>
              <div id="system-id" class="clickable" data-system-id="${id}" data-system-name="${name}"><span>S:</span> ${id}</div>
              <div class="system-detail-panel">
