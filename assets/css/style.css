@@ -273,7 +273,7 @@ button.btn-search, button.btn-reset {
     font-weight: 600;
     border-right: none;
     transition: all .3s ease-in;
-    height: 20px;
+    height: 30px;
 }
 #search-tool button#search-reset {
     opacity: 0;
