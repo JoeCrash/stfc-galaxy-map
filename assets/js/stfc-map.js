@@ -37,7 +37,7 @@ STFCMap = (function() {
          * @string c = the content you want to copy.
          */
         copyToClipboard = function(c) {
-            let e = JSON.stringify(c), n = $("<input>").val(e).appendTo("body").select();
+            let e = JSON.stringify(c).replace(/"/g,''), n = $("<input>").val(e).appendTo("body").select();
             document.execCommand("copy");
             n.remove();
         },
@@ -247,17 +247,21 @@ STFCMap = (function() {
         }).on('load', function() {
             //if you need to know when the map is finished loading, check window status.
             window.status = 'maploaded';
-        })/*.on('popupopen', function() {
-            $('#system-id').click(function(e) {
-                let sysName = `${this.dataset.systemName} System`;
-                if (sysName.length > 25) {  //game limit on bookmark names
-                    sysName = sysName.substring(0, sysName.length - 1) + '…';
-                }
-                let str = `[${sysName} S:${this.dataset.systemId}]`;
-                copyToClipboard(str);
-                alert(`Copied "${str}" to the clipboard. Paste it in your game!`);
-            });
-        });*/
+        }).on('popupopen', e => {
+            $('#system-id').on("click", e => setBookmarkClick(e));
+        })
+          .on("popupclose", function(e){
+              $('#system-id').off("click", e => setBookmarkClick(e));
+        });
+
+        function setBookmarkClick(e){
+            const sysId = $(e.currentTarget).data('system-id'); //grab the id from the data-attr
+            let sysName = systemIDToName(sysId); //get the name from sysId
+            let str = `[${sysName} S:${sysId}]`; //sysName can be anything, only the numbers are used
+            copyToClipboard(str); //copy to clipboard
+            alert(`Copied ${str} to the clipboard!`); //provide some feedback to the user
+        }
+
         map.setView(startingCoords, startingZoom);
 
         map.on("zoomend", function() {
