@@ -37,7 +37,7 @@ STFCMap = (function() {
          * @string c = the content you want to copy.
          */
         copyToClipboard = function(c) {
-            let e = JSON.stringify(c).replace(/"/g,''), n = $("<input>").val(e).appendTo("body").select();
+            let e = JSON.stringify(c).replace(/"/g, ''), n = $("<input>").val(e).appendTo("body").select();
             document.execCommand("copy");
             n.remove();
         },
@@ -131,9 +131,9 @@ STFCMap = (function() {
     const minZoom = -2;
     const maxZoom = 4;
     const pathRenderer = L.canvas({padding: 0.5}); //default canvas renderer, paths saved here
-    const systemsRenderer = L.canvas({padding: 0.5, pane:'systems'}); //separate canvas to keep the systems above the paths
+    const systemsRenderer = L.canvas({padding: 0.5, pane: 'systems'}); //separate canvas to keep the systems above the paths
     //const myRenderer3 = L.canvas({padding: 0.5, pane:'tooltipPane'}); //unused atm. possibly for labels
-    const territoryRenderer = L.canvas({padding: 0.5, pane:'shadowPane'}); //territory renderer
+    const territoryRenderer = L.canvas({padding: 0.5, pane: 'shadowPane'}); //territory renderer
     let startingCoords = xy(-4679, -426); //the default starting location of the map
     let assetsUrl = './assets'; //default assets folder, if defined will load assets from an external source
     let systemClickEvent; //defaults to popup opener, if this is defined, will fire specified event instead
@@ -213,7 +213,7 @@ STFCMap = (function() {
 
     let init = function(options) {
         console.info('STFC Galaxy Map v', versionNumber);
-        if(options){
+        if(options) {
             if(options.assetsUrl) assetsUrl = options.assetsUrl;
             if(options.onSystemClick) systemClickEvent = options.onSystemClick;
             console.info('Options', options);
@@ -244,17 +244,18 @@ STFCMap = (function() {
             maxBoundsViscosity: 0.5,
             preferCanvas: canvas,
             drawControl: drawControl,
-        }).on('load', function() {
-            //if you need to know when the map is finished loading, check window status.
-            window.status = 'maploaded';
-        }).on('popupopen', e => {
-            $('#system-id').on("click", e => setBookmarkClick(e));
         })
-          .on("popupclose", function(e){
-              $('#system-id').off("click", e => setBookmarkClick(e));
-        });
+            .on('load', function() {
+                window.status = 'maploaded'; //if you need to know when the map is finished loading, check window status.
+            })
+            .on('popupopen', e => {
+                $('#system-id').on("click", e => setBookmarkClick(e));
+            })
+            .on("popupclose", function(e) {
+                $('#system-id').off("click", e => setBookmarkClick(e));
+            });
 
-        function setBookmarkClick(e){
+        function setBookmarkClick(e) {
             const sysId = $(e.currentTarget).data('system-id'); //grab the id from the data-attr
             let sysName = systemIDToName(sysId); //get the name from sysId
             let str = `[${sysName} S:${sysId}]`; //sysName can be anything, only the numbers are used
@@ -282,10 +283,10 @@ STFCMap = (function() {
         map.getPane('popupPane').style.zIndex = 700; //popup marker (system info panel)
 
         //hash = new L.Hash(map); //todo - generate hash urls
-        systemsJson = assetsUrl+"/json/systems.geojson"; //the galaxy data is here.
-        iconsJson = assetsUrl+"/json/icons.json"; //the icon information is here
-        travelPathsJson = assetsUrl+"/json/travel-paths.geojson";
-        territoriesJson = assetsUrl+"/json/territories.geojson";
+        systemsJson = assetsUrl + "/json/systems.geojson"; //the galaxy data is here.
+        iconsJson = assetsUrl + "/json/icons.json"; //the icon information is here
+        travelPathsJson = assetsUrl + "/json/travel-paths.geojson";
+        territoriesJson = assetsUrl + "/json/territories.geojson";
 
         loadFile(iconsJson, initIcons); //load the icons
 
@@ -306,16 +307,16 @@ STFCMap = (function() {
                 L.geoJSON(feature, properties).addTo(map); //add the territory to the map
             }
         });
-        let swarmCloudUrl = assetsUrl+'/img/swarm-clouds-sm.png';
-        let borgCubeUrl = assetsUrl+'/img/borg-cube.gif';
+        let swarmCloudUrl = assetsUrl + '/img/swarm-clouds-sm.png';
+        let borgCubeUrl = assetsUrl + '/img/borg-cube.gif';
         let swarmCloudBounds = [xy(-5185, -592), xy(-4135, -112)];
-        L.imageOverlay(swarmCloudUrl, swarmCloudBounds, {opacity: 0.5, renderer:territoryRenderer, pane:'tilePane'}).addTo(map).bringToFront(); //add the swarm clouds to the map
+        L.imageOverlay(swarmCloudUrl, swarmCloudBounds, {opacity: 0.5, renderer: territoryRenderer, pane: 'tilePane'}).addTo(map).bringToFront(); //add the swarm clouds to the map
         const borgXMin = -5904;
         const borgYMin = -360;
         const borgXMax = borgXMin + 90;
         const borgYMax = borgYMin + 90;
         let borgCubeBounds = [xy(borgXMin, borgYMin), xy(borgXMax, borgYMax)];
-        L.imageOverlay(borgCubeUrl, borgCubeBounds, {opacity: 0.7, renderer:territoryRenderer, pane:'tilePane'}).addTo(map).bringToFront(); //add the swarm clouds to the map
+        L.imageOverlay(borgCubeUrl, borgCubeBounds, {opacity: 0.7, renderer: territoryRenderer, pane: 'tilePane'}).addTo(map).bringToFront(); //add the swarm clouds to the map
         loadFile(travelPathsJson, initTravelPaths);
     };
     let initTravelPaths = async function(geoJson) {
@@ -333,7 +334,7 @@ STFCMap = (function() {
                 const coords = feature.geometry.coordinates;
                 const yx = [xy(coords[0]), xy(coords[1])];
                 feature.properties.className = className;
-                switch(className){
+                switch (className) {
                     case 'transwarp':
                     case 'roguetranswarp':
                     case 'arena':
@@ -371,20 +372,22 @@ STFCMap = (function() {
         if(showDirection) {
             const _angle = angle(aX, aY, bX, bY) * -1;
             let arrowIcon = icons.misc.pathArrow;
-            makeMarker(centerOfLine, {icon: arrowIcon, rotationAngle: _angle, rotationOrigin: 'center center', pane:'pathmarker'}).addTo(map);
+            makeMarker(centerOfLine, {icon: arrowIcon, rotationAngle: _angle, rotationOrigin: 'center center', pane: 'pathmarker'}).addTo(map);
         }
-        if(pathIcon) makeMarker(centerOfLine, {icon: pathIcon, pane:'pathmarker'}).addTo(map);
+        if(pathIcon) makeMarker(centerOfLine, {icon: pathIcon, pane: 'pathmarker'}).addTo(map);
     };
     let getCoordsAlongPath = function(pathRef, pct) {
         const latLngs = pathRef._latlngs || pathRef;
         if(!latLngs) {
             console.warn("getCoordsAlongPath() - could not get the latLngs from the path", pathRef);
             return;
-        };
+        }
+        ;
         if(pct === undefined) {
             console.warn("getCoordsAlongPath()- must pass in a percentage integer", pct);
             return;
-        };
+        }
+        ;
         const _pct = pct * 0.01;
         const ax = latLngs[0].lng, ay = latLngs[0].lat, bx = latLngs[1].lng, by = latLngs[1].lat;
         const xDist = ax > bx ? ax - bx : bx - ax;
@@ -505,7 +508,7 @@ STFCMap = (function() {
                 //let title = undefined;
                 //let warpReq = parseInt(system.warpRequired) || 1;
                 //let color = 'green';
-                let options = {icon: iconObj, interactive: interactive, renderer:pathRenderer};
+                let options = {icon: iconObj, interactive: interactive, renderer: pathRenderer};
                 let x = yx[1] + offset;
                 let y = yx[0];
                 if(!group.hasOwnProperty(resource)) group[resource] = []; //init the resource group if its not an array
@@ -529,7 +532,7 @@ STFCMap = (function() {
                 let title = undefined;
                 let warpReq = parseInt(system.warpRequired) || 1;
                 let color = 'green';
-                let options = {icon: iconObj, interactive: interactive, renderer:pathRenderer};
+                let options = {icon: iconObj, interactive: interactive, renderer: pathRenderer};
                 let x = yx[1] + offset;
                 let y = yx[0];
                 if(!group.hasOwnProperty(resource)) group[resource] = []; //init the resource group if its not an array
@@ -572,12 +575,12 @@ STFCMap = (function() {
                             armadaTitle = resource;
                         }
                         const iconObj = icons.armada[armadaType][armadaTitle];
-                        const options = {icon: iconObj, interactive: false, pane:"events"};
+                        const options = {icon: iconObj, interactive: false, pane: "events"};
                         const title = eventData[rank.toLowerCase()];
                         const color = rank === 'Uncommon' ? '#39D239' : rank === 'Rare' ? '#72DCEF' : rank === 'Epic' ? '#C475EC' : 'white';
                         if(!group.hasOwnProperty(resource)) group[resource] = []; //init the resource group if its not an array
                         let marker = makeMarker(xy(x, y), options);
-                        let circle = makeCircle(xy(x, y), {className: 'armada-circle ', radius: 3, color: color, fillOpacity: 1, stroke: true, pane:"highlight"});
+                        let circle = makeCircle(xy(x, y), {className: 'armada-circle ', radius: 3, color: color, fillOpacity: 1, stroke: true, pane: "highlight"});
                         if(title !== '' && title.length > 0) {
                             marker.bindTooltip(title, {permanent: true, direction: 'right', offset: [10, 0], className: 'arm-label ' + rank.toLowerCase()});
                         }
@@ -588,7 +591,7 @@ STFCMap = (function() {
                 } else {
                     let swapNames = resource.toLowerCase() === 'borg' ? 'Inert Nanoprobe' : resource;
                     let iconObj = icons.other_rss[swapNames];
-                    let options = {icon: iconObj, interactive: false, pane:"events"};
+                    let options = {icon: iconObj, interactive: false, pane: "events"};
                     if(!group.hasOwnProperty(resource)) group[resource] = []; //init the resource group if its not an array
                     group[resource].push(makeMarker(yx, options));
                 }
@@ -634,8 +637,12 @@ STFCMap = (function() {
         layerControl = L.control.groupedLayers(null, controlLayers, {groupCheckboxes: true, /*exclusiveGroups: ["Mines"]*/});
         layerControl.addTo(map);
 
-        if(typeof STFCUI !== 'undefined') {STFCUI.init(map);} //init the search input
-        if(typeof STFCMapEditor !== 'undefined') {STFCMapEditor.init();}
+        if(typeof STFCUI !== 'undefined') {
+            STFCUI.init(map);
+        } //init the search input
+        if(typeof STFCMapEditor !== 'undefined') {
+            STFCMapEditor.init();
+        }
 
         zoomUIUpdate();
         $(".hub-label").css("visibility", "visible"); //set capital system labels visible
@@ -663,9 +670,9 @@ STFCMap = (function() {
     };
     let toggleUIElements = function(zoom) {
         //path markers
-        if(zoom < 1.1){
+        if(zoom < 1.1) {
             $(".leaflet-pathmarker-pane").addClass("fade");
-        }else{
+        } else {
             $(".leaflet-pathmarker-pane").removeClass("fade");
         }
 
@@ -722,7 +729,7 @@ STFCMap = (function() {
                 id: sysName,
                 iconSize: null /*, radius: radius, color: '#fcf8e5', fillOpacity: 1, stroke: true*/
             });
-            node = makeMarker(coords, {icon: icon, className: iconType + ' system ' + cleanName(sysName), draggable: draggableSystems, pane:"hubsystem", id: sysName});
+            node = makeMarker(coords, {icon: icon, className: iconType + ' system ' + cleanName(sysName), draggable: draggableSystems, pane: "hubsystem", id: sysName});
             labelOptions.pane = 'hublabel';
         }
 
@@ -730,7 +737,7 @@ STFCMap = (function() {
         if(!systemClickEvent) {
             //console.log(":bind popup", sysLabel);
             let popupTemplate = isEditor ? null : makeSystemPopup(properties);
-            node.bindPopup(popupTemplate, {maxWidth:450});
+            node.bindPopup(popupTemplate, {maxWidth: 450});
         }
 
         L.DomEvent.addListener(node, 'click', function(e) {
@@ -739,9 +746,9 @@ STFCMap = (function() {
             //console.log("sys clicked", sysName, sysId, e);
             const cleaned = cleanName(sysName);
             const moveTo = async () => {
-                await panToSystem(cleaned).then((sys)=>{
+                await panToSystem(cleaned).then((sys) => {
                     //console.log(":panToSystem done", sys);
-                    if(systemClickEvent){
+                    if(systemClickEvent) {
                         console.log("custom systemClickEvent:", systemClickEvent);
                         const event = new CustomEvent(systemClickEvent, {bubbles: true, detail: galaxy[sys]});
                         body.dispatchEvent(event);
@@ -762,21 +769,21 @@ STFCMap = (function() {
         for (let category in iconsData) {
             if(iconsData.hasOwnProperty(category)) {
                 if(icons[category] === undefined) icons[category] = {};
-                if(category === 'armada'){
+                if(category === 'armada') {
                     for (let eventType in iconsData[category]) {
                         let armadaGroup = iconsData[category][eventType];
                         for (let rank in armadaGroup) {
                             if(icons[category][eventType] === undefined) icons[category][eventType] = {};
                             if(armadaGroup.hasOwnProperty(rank)) {
-                                armadaGroup[rank].iconUrl = assetsUrl + '/icon'+ armadaGroup[rank].iconUrl;
+                                armadaGroup[rank].iconUrl = assetsUrl + '/icon' + armadaGroup[rank].iconUrl;
                                 icons[category][eventType][rank] = L.icon(armadaGroup[rank]);
                             }
                         }
                     }
-                }else{
+                } else {
                     for (let objKey in iconsData[category]) {
                         if(iconsData[category].hasOwnProperty(objKey)) {
-                            iconsData[category][objKey].iconUrl = assetsUrl + '/icon'+ iconsData[category][objKey].iconUrl;
+                            iconsData[category][objKey].iconUrl = assetsUrl + '/icon' + iconsData[category][objKey].iconUrl;
                             icons[category][objKey] = L.icon(iconsData[category][objKey]);
                         }
                     }
@@ -823,7 +830,7 @@ STFCMap = (function() {
             const markerBounds = L.latLngBounds([yx]);
             let zoom = map.getZoom();
             if(zoom < 2.25) zoom = 2.25;
-            map.fitBounds(markerBounds, {maxZoom:zoom});
+            map.fitBounds(markerBounds, {maxZoom: zoom});
             resolve(sys);
         });
     };
@@ -838,17 +845,17 @@ STFCMap = (function() {
         //bases
         let bases = d.stationHub || '';
         let basesHTML = '';
-        if(bases === 1){
+        if(bases === 1) {
             let iconUrl = icons.misc["Station Hub"].options.iconUrl;
             basesHTML = `<div class="tooltip"><img class="icon" src="${iconUrl}" />Yes<span class="tooltiptext">Station Hubs</span></div>`;
-        }else{
+        } else {
             basesHTML = 'No';
         }
         //hostiles/scouts
         let hostiles = d.hostiles;
         let hostilesHTML = '';
         let scoutsHTML = 'No';
-        if(hostiles){
+        if(hostiles) {
             let hostilesArr = hostiles.split(", ");
             for (let index in hostilesArr) {
                 if(hostilesArr.hasOwnProperty(index)) {
@@ -856,9 +863,9 @@ STFCMap = (function() {
                     //console.log("nodeType", nodeType, icons.ship_types[nodeType]);
                     let iconUrl = icons.ship_types[nodeType].options.iconUrl;
                     let img = `<div class="tooltip"><img class="icon" src="${iconUrl}" /><span class="tooltiptext">${nodeType}</span></div>`;
-                    if(nodeType === 'Scout'){
-                        scoutsHTML = img+'Yes';
-                    }else{
+                    if(nodeType === 'Scout') {
+                        scoutsHTML = img + 'Yes';
+                    } else {
                         hostilesHTML += img;
                     }
                 }
@@ -890,12 +897,12 @@ STFCMap = (function() {
             const uncommon = d.uncommonArmadaRange || '';
             const rare = d.rareArmadaRange || '';
             const epic = d.epicArmadaRange || '';
-            const armArr = {Uncommon:uncommon, Rare:rare, Epic:epic};
+            const armArr = {Uncommon: uncommon, Rare: rare, Epic: epic};
             for (let rarity in armArr) {
                 if(armArr.hasOwnProperty(rarity)) {
                     if(armArr[rarity] === '') continue;
                     let armadaType = event.includes("BORG") ? 'borg' : (event.includes("ECLIPSE") ? 'eclipse' : 'normal');
-                    let armadaKey = event.includes("MEGACUBE") ? 'Borg Megacube' : rarity+' Armada';
+                    let armadaKey = event.includes("MEGACUBE") ? 'Borg Megacube' : rarity + ' Armada';
                     let iconUrl = icons.armada[armadaType][armadaKey].options.iconUrl;
                     rarity += armadaKey === 'Borg Megacube' ? ' - Borg Megacube' : '';
                     let img = `<div class="tooltip"><img class="icon armada" src="${iconUrl}" /><span class="tooltiptext">${rarity}</span></div>`;
@@ -912,7 +919,7 @@ STFCMap = (function() {
                 popupClass = (event === 'SWARM') ? 'swa' : 'ind';
                 break;
             default:
-                popupClass = territory.substr(0,3).toLowerCase();
+                popupClass = territory.substr(0, 3).toLowerCase();
         }
         //construct the popup
         let divOpen = `<div class='popup popup-${popupClass}' data-systemid='${id}'>`;
